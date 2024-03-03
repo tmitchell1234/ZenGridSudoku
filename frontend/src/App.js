@@ -15,6 +15,7 @@ function App()
 		<Routes>
 			<Route path="/" index element={<LoginPage />} />
 			<Route path="/cards" index element={<CardPage />} />
+			<Route path="/LandingPage" index element={<LandingPage />} />
 		</Routes>
 		</BrowserRouter>
 	);
