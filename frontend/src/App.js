@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React from 'react';
 import LoginPage from './pages/LoginPage';
 import CardPage from './pages/CardPage';
+import LandingPage from './pages/LandingPage';
 
 
 function App()
