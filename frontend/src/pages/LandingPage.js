@@ -1,5 +1,5 @@
-import React from React
-import HelloWorld from '../components/HelloWorld'
+import React from React;
+import HelloWorld from '../components/HelloWorld';
 
 const LandingPage = () => 
 {
