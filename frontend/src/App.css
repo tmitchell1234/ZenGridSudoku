@@ -41,6 +41,11 @@
   font-size: 24px;
 }
 
+.Landing-button:hover {
+  cursor: pointer;
+  background-color: #abe1888a;
+}
+
 .Background {
   width: 100%;
   height: 100%;
@@ -51,7 +56,7 @@
 
 .Sidebar {
   height: 100vh;
-  background: #378A19;
+  background-color: rgba(55, 138, 25, 0.9);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,10 +75,13 @@
   width: calc(90% - 20px);
   height: 100px;
   margin: 10px;
-  background: #378A19;
+  background: rgb(55, 138, 25);
   border: 1px solid #000000;
   border-radius: 10px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   color: white;
   font-family: 'Montserrat';
