@@ -8,7 +8,7 @@ function MiddlePane()
             <div className="Landing-title">
                 Sudokoo
             </div>
-            <div style={{width: '864px', height: '864px', backgroundColor: 'white'}}>
+            <div style={{width: '864px', height: '864px', backgroundColor: 'white', border: '1px solid #000000'}}>
                 
             </div>
         </div>

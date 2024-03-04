@@ -56,7 +56,8 @@
   background: #378A19;
   display: flex;
   flex-direction: column;
-  align-items: middle;
+  align-content: center;
+  justify-content: center;
 }
 
 .Middle-pane {
@@ -64,7 +65,8 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: middle;
+  align-content: center;
+  justify-content: center;
 }
 
 .Landing-title {
@@ -74,6 +76,8 @@
   background: #378A19;
   border: 1px solid #000000;
   border-radius: 10px;
+  align-content: center;
+  justify-content: center;
 
   color: white;
   font-family: 'Montserrat';
@@ -87,7 +91,7 @@
   height: 100%;
   display: flex;
   flex-direction: row;
-  align-items: row;
+  align-content: center;
 }
 
 
