@@ -99,14 +99,14 @@
 }
 
 .LeftPaneToggle {
-  width: 3vh;
-  height: 10vh;
+  width: 1.5vw;
+  height: 6vh;
   position: absolute;
   background-color: rgba(55, 138, 25, 0.9);
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: 1vh;
+  border-bottom-right-radius: 1vh;
   border: 0.1vh solid black;
-  top: calc(50vh - 5vh);
+  top: calc(50vh - 3vh);
   left: 15%;
   align-items: center;
   justify-content: center;
