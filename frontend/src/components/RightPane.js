@@ -5,7 +5,7 @@ import LandingButton from './LandingButton';
 function RightPane()
 {
 	return(
-        <div className="Sidebar" style={{width: '25%'}}>
+        <div className="Sidebar" style={{width: '20%', borderLeft: '1px solid black'}}>
             <LandingButton text="🧩 Solve Puzzle" />
             <LandingButton text="📅 Daily Puzzle" />
             <LandingButton text="🤝 Head to Head" />
