@@ -5,7 +5,7 @@ function LeftPaneToggle()
 {
 	return(
             <button className="LeftPaneToggle">
-                <img src={arrow} alt='Close' style={{width: '90%', height: '50%', rotate: '180deg'}}/>
+                <img src={arrow} alt='Close' style={{width: '2.5vh', height: '4vh', rotate: '180deg',}}/>
             </button>
     )
 };
