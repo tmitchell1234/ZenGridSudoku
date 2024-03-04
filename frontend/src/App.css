@@ -56,6 +56,7 @@
   display: flex;
   flex-direction: column;
   align-content: center;
+  justify-content: center;
 }
 
 .Middle-pane {
@@ -64,6 +65,7 @@
   display: flex;
   flex-direction: column;
   align-content: center;
+  justify-content: center;
 }
 
 .Landing-title {
@@ -87,7 +89,7 @@
   height: 100%;
   display: flex;
   flex-direction: row;
-  align-content: center;
+  justify-content: center;
 }
 
 
