@@ -29,7 +29,7 @@
 }
 
 .Landing-button {
-  width: 364px;
+  width: calc(100% - 20px);
   height: 100px;
   padding: 10px;
   background: #ABE188;
@@ -56,11 +56,10 @@
   display: flex;
   flex-direction: column;
   align-content: center;
-  justify-content: center;
 }
 
 .Middle-pane {
-  width: 50vw;
+  width: 960px;
   height: 100vh;
   display: flex;
   flex-direction: column;
