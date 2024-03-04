@@ -1,11 +1,11 @@
 import React from 'react';
-import HelloWorld from '../components/HelloWorld';
+import LandingButton from '../components/LandingButton';
 
 const LandingPage = () => 
 {
     return (
         <div>
-            <HelloWorld text='Sample text!'/>
+            <LandingButton text='Sample text!'/>
         </div>
     );
     
