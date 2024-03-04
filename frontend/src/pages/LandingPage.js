@@ -1,5 +1,5 @@
 import React from 'react';
-import LandingUI from '../components/LandingPage/LandingUI';
+import LandingUI from '../components/LandingUI';
 
 const LandingPage = () => 
 {

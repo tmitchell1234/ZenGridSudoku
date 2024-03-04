@@ -1,11 +1,12 @@
 import React from 'react';
-import LandingUI from '../components/LandingPage/LandingUI';
 
 const CardPage = () =>
 {
     return(
         <div>
-            <LandingUI />
+            <PageTitle />
+            <LoggedInName />
+            <CardUI />
         </div>
     );
 }
