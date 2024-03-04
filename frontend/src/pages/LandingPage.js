@@ -1,11 +1,11 @@
 import React from 'react';
-import LandingButton from '../components/LandingPage/LandingButton';
+import LandingUI from '../components/LandingPage/LandingUI';
 
 const LandingPage = () => 
 {
     return (
         <div>
-            <LandingButton text='Sample text!'/>
+            <LandingUI />
         </div>
     );
     
