@@ -5,7 +5,7 @@ const LandingPage = () =>
 {
     return (
         <div>
-            <HelloWorld />
+            <HelloWorld text='Sample text!'/>
         </div>
     );
     

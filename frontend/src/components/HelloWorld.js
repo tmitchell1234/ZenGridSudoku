@@ -1,8 +1,8 @@
 import React from 'react';
 
-function HelloWorld()
+function HelloWorld({text})
 {
-	return(<h1 id="title">Hello World!</h1>);
+	return(<h1 id="title">{text}</h1>);
 };
 
 export default HelloWorld;
