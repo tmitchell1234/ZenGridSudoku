@@ -30,24 +30,23 @@
 
 .Landing-button {
   width: calc(100% - 20px);
-  height: 100px;
-  padding: 10px;
+  height: auto;
+  margin: 5px;
   background: #ABE188;
   border: 1px solid #000000;
   border-radius: 10px;
 
   font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 44px;
+  font-weight: 700;
+  font-size: 24px;
 }
 
 .Background {
   width: 100%;
   height: 100%;
-  background: #F9F3B4;
-  position: fixed;
   z-index: -1;
+  background-color: #F9F3B4;
+  position: fixed;
 }
 
 .Sidebar {
@@ -55,22 +54,22 @@
   background: #378A19;
   display: flex;
   flex-direction: column;
-  align-content: center;
+  align-items: center;
 }
 
 .Middle-pane {
-  width: 960px;
+  width: 70%;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  align-content: center;
+  align-items: center;
   justify-content: center;
 }
 
 .Landing-title {
-  width: 90%;
+  width: calc(90% - 20px);
   height: 100px;
-  padding: 10px;
+  margin: 10px;
   background: #378A19;
   border: 1px solid #000000;
   border-radius: 10px;
