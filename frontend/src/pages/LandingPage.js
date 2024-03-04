@@ -1,10 +1,11 @@
 import React from React
+import HelloWorld from '../components/HelloWorld'
 
 const LandingPage = () => 
 {
     return (
         <div>
-            <helloWorld />
+            <HelloWorld />
         </div>
     );
     
