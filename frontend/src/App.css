@@ -38,7 +38,7 @@
 
   font-family: 'Montserrat';
   font-weight: 700;
-  font-size: 24px;
+  font-size: 2em;
 }
 
 .Landing-button:hover {
@@ -87,7 +87,7 @@
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 800;
-  font-size: 56px;
+  font-size: 4em;
 }
 
 .Landing-UI {
@@ -116,6 +116,17 @@
 .LeftPaneToggle:hover {
   cursor: pointer;
   background-color: #31751c;
+}
+
+.SudokuBoard {
+  width: calc(65% - 20px);
+  height: 0px;
+  position: relative;
+  padding-bottom: calc(65% - 20px);
+  background-color: white;
+  border: 1px solid #000000;
+  margin: 10px;
+  opacity: 0.3;
 }
 
 
