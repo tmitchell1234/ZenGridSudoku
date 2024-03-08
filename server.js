@@ -29,9 +29,9 @@ app.post('/api/createuser', async(req, res, next) =>
 {
     var error = '';
 
-    const { login, password, firstname, lastname } = req.body;
+    const { login, password, firstname, lastname, email } = req.body;
     
-    const newUser = { Login:login, Password:password, FirstName:firstname, LastName:lastname};
+    const newUser = { Login:login, Password:password, FirstName:firstname, LastName:lastname, Email:email};
 
     // try to push newuser to Users collection
     try
