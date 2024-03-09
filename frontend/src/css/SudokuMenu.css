@@ -1,0 +1,44 @@
+.Menu {
+    border: 4px solid #000;
+    background-color: #fff;
+    border-collapse: collapse;
+
+    width: 5em;
+    
+
+    /* forcing this dumb shit to be on the right side of the page
+        since relative layout refuses to work with the sudoku grid
+    */
+    position: absolute;
+    right: 40em;
+    top: 15em;
+
+    /*
+    position: relative;
+    */
+}
+
+
+.MenuTable {
+    display: grid;
+    grid-template-rows: 50px 50px 50px 50px 50px 50px 50px 50px 50px ;
+    grid-template-columns: 50px;
+    grid-gap: 0.5em;
+
+
+    border: 4px solid #000;
+    background-color: #fff;
+    margin: 0.2em;
+}
+
+.number {
+    background-color: #aaa;
+    color: #fff;
+    border-radius: 30px;
+    font-size: 150%;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
