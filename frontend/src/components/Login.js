@@ -6,16 +6,31 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login()
+{
   let navigate = useNavigate();
 
   const routeChange = () => {
     navigate("/signuppage");
   };
 
+  const goHome = () => {
+    navigate("/");
+  };
+
   return (
     <>
       <div className="login-section">
+
+      <Button
+            className="btn-primary"
+            id="sign-up-btn"
+            variant="primary"
+            type="submit"
+            onClick={goHome}
+          >
+            Go Home
+          </Button>
       <div className="login-title">Login</div>
 
         <Form className="form">
@@ -68,6 +83,7 @@ export default function Login() {
       </div>
     </>
   );
+  
 }
 // const app_name = 'sudokuapp-f0e20225784a';
 // function buildPath(route)

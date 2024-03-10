@@ -8,78 +8,83 @@ import Overlay from "react-bootstrap/Overlay";
 import Popover from "react-bootstrap/Popover";
 import Alert from "react-bootstrap/Alert";
 
-export default function SignUp() {
-  let navigate = useNavigate();
+export default function SignUp()
+{
+    
+    let navigate = useNavigate();
 
-  const routeChange = () => {
-    navigate("/loginpage");
-  };
-
-  const inputRef = useRef(null);
-
-  const [popOver, setPopOver] = useState(false);
-  const [show, setShow] = useState(false);
-
-  const [validPassword, setValidPassword] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
-
-  const [inputs, setInputs] = useState({
-    name: "",
-    email: "",
-    password: "",
-    passwordCheck: "",
-  });
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickListener);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickListener);
+    const routeChange = () => {
+        navigate("/loginpage");
     };
-  }, []);
 
-  //   Checks if the password is valid
-  useEffect(() => {
-    if (
-      inputs.password.length >= 8 &&
-      inputs.password !== inputs.password.toLowerCase() &&
-      inputs.password.match(/[|()\\/~^:,;#?!&%$@*+]/) !== null
-    ) {
-      setValidPassword(true);
-    } else {
-      setValidPassword(false);
-    }
-  }, [inputs.password]);
+    const inputRef = useRef(null);
 
-  const handleClickListener = (event) => {
-    let clickedInside = inputRef && inputRef.current.contains(event.target);
-    setPopOver(clickedInside);
-  };
+    const [popOver, setPopOver] = useState(false);
+    const [show, setShow] = useState(false);
 
-  const handleEmail = (e) => {
-    setInputs({ ...inputs, email: e.target.value });
-  };
-  const handleName = (e) => {
-    setInputs({ ...inputs, name: e.target.value });
-  };
-  const handlePassword = (e) => {
-    setInputs({ ...inputs, password: e.target.value });
-  };
-  const handlePasswordChecker = (e) => {
-    setInputs({ ...inputs, passwordCheck: e.target.value });
-  };
+    const [validPassword, setValidPassword] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
 
-  const handleSubmitBtnClick = (e) => {
-    e.preventDefault();
+    const [inputs, setInputs] = useState({
+        name: "",
+        email: "",
+        password: "",
+        passwordCheck: "",
+    });
 
-    if (!validPassword) {
-      setAlertMessage("Password does not meet security requirements.");
-      setShow(true);
-    } else if (inputs.password !== inputs.passwordCheck) {
-      setAlertMessage("Passwords do not match.");
-      setShow(true);
-    }
-  };
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickListener);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickListener);
+        };
+    }, []);
+
+    //   Checks if the password is valid
+    useEffect(() => {
+        if (
+            inputs.password.length >= 8 &&
+            inputs.password !== inputs.password.toLowerCase() &&
+            inputs.password.match(/[|()\\/~^:,;#?!&%$@*+]/) !== null
+        )
+            setValidPassword(true);
+
+        else
+            setValidPassword(false);
+    }, [inputs.password]);
+
+    const handleClickListener = (event) => {
+        let clickedInside = inputRef && inputRef.current.contains(event.target);
+        setPopOver(clickedInside);
+    };
+
+    const handleEmail = (e) => {
+        setInputs({ ...inputs, email: e.target.value });
+    };
+    const handleName = (e) => {
+        setInputs({ ...inputs, name: e.target.value });
+    };
+    const handlePassword = (e) => {
+        setInputs({ ...inputs, password: e.target.value });
+    };
+    const handlePasswordChecker = (e) => {
+        setInputs({ ...inputs, passwordCheck: e.target.value });
+    };
+
+    const handleSubmitBtnClick = (e) => {
+        e.preventDefault();
+
+        if (!validPassword)
+        {
+            setAlertMessage("Password does not meet security requirements.");
+            setShow(true);
+        }
+        else if (inputs.password !== inputs.passwordCheck)
+        {
+          setAlertMessage("Passwords do not match.");
+          setShow(true);
+        }
+    };
 
   return (
     <>
