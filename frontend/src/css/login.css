@@ -15,7 +15,7 @@
 
     background-color: rgba(255,255,255,0.3);
     width: min(600px, 100%);
-    height:625px;
+    min-height:625px;
     margin-top: 25px;
     /* border: 2px solid purple; */
 
@@ -29,9 +29,7 @@
     align-items: center;
     /* border: 2px solid pink; */
     
-    
 }
-
 
 
 .Login-UI{
@@ -43,12 +41,18 @@
 }
 
 
-
+.home-btn{
+    margin-top:25px;
+    margin-bottom:25px;
+}
 
 .login-page-btn{
     width: min(400px, 100%);
 }
 
+.login-header{
+    margin:10px;
+}
 .mb-3{
 
     display:flex;
@@ -117,4 +121,19 @@ h1{
     text-align: center;
     height:60px;
     
+}
+
+.btn:hover{
+    background-color: #2E7912;
+    border-color: #2E7912;
+    width: min(400px, 100%);
+    height:40px;
+
+}
+
+.btn:first-child:active{
+    background-color: #2E7912;
+    border-color: #2E7912;
+    width: min(400px, 100%);
+
 }

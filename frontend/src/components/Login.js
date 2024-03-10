@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/login.css";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 
-export default function Login()
-{
+export default function Login() {
   let navigate = useNavigate();
+  const [show, setShow] = useState(false);
+
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleEmail = (e) => {
+    setInputs({ ...inputs, email: e.target.value });
+  };
+  const handlePassword = (e) => {
+    setInputs({ ...inputs, password: e.target.value });
+  };
 
   const routeChange = () => {
     navigate("/signuppage");
@@ -18,40 +30,83 @@ export default function Login()
     navigate("/");
   };
 
+  const app_name = "sudokuapp-f0e20225784a";
+
+  let request = { login: inputs.email, password: inputs.password };
+
+  const doLogin = async (event) => {
+    try {
+      const response = await fetch(
+        "http://sudokuapp-f0e20225784a.herokuapp.com/api/login",
+        {
+          method: "POST",
+          body: JSON.stringify(request),
+
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      let res = JSON.parse(await response.text());
+      if(res.message && res.message === "Error: Invalid username/password"){
+        setShow(true);
+      }
+      else{
+      let user = {
+        firstName: res.firstName,
+        lastName: res.lastName,
+        id: res.id,
+      };
+    
+      localStorage.setItem("user_data", JSON.stringify(user));
+    }
+      // navigate("/");
+    } catch (e) {
+      setShow(true);
+      alert(e);
+    }
+  };
+
   return (
     <>
       <div className="login-section">
-
-      <Button
-            className="btn-primary"
-            id="sign-up-btn"
-            variant="primary"
-            type="submit"
-            onClick={goHome}
-          >
-            Go Home
-          </Button>
-      <div className="login-title">Login</div>
+        <Button
+          className="btn-primary home-btn"
+          variant="primary"
+          onClick={goHome}
+        >
+          Go Home
+        </Button>
+        <div className="login-title">Login</div>
 
         <Form className="form">
-          <Form.Group className="mb-3" controlId="formBasicName">
-            <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Name" />
-          </Form.Group>
-
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Email" />
+            <Form.Control
+              type="text"
+              placeholder="Email"
+              onChange={handleEmail}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={handlePassword}
+            />
           </Form.Group>
 
           <Link className="forgot-pass-link">Forgot password?</Link>
+
+          {show && (
+            <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+              <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+              <p>Error: Invalid username/password</p>
+            </Alert>
+          )}
           <div className="login-page-btn" id="submit-btn">
-            <Button variant="primary" type="submit">
+            <Button variant="primary" onClick={doLogin}>
               Submit
             </Button>
           </div>
@@ -83,20 +138,8 @@ export default function Login()
       </div>
     </>
   );
-  
 }
-// const app_name = 'sudokuapp-f0e20225784a';
-// function buildPath(route)
-// {
-// 	if (process.env.NODE_ENV === 'production')
-// 	{
-// 		return 'https://' + app_name + '.herokuapp.com/' + route;
-// 	}
-// 	else
-// 	{
-// 		return 'http://localhost:5000/' + route;
-// 	}
-// }
+
 // var loginName;
 // var loginPassword;
 
@@ -109,32 +152,21 @@ export default function Login()
 // 	var obj = {login:loginName.value,password:loginPassword.value};
 // 	var js = JSON.stringify(obj);
 
-// 	try
-// 	{
-// 		const response = await fetch(buildPath('api/login'), {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-// 		var res = JSON.parse(await response.text());
-
-// 		if( res.id <= 0 )
-// 		{
-// 			setMessage('User/Password combination incorrect');
-// 		}
-
-// 		else
-// 		{
-// 			var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
-// 					localStorage.setItem('user_data', JSON.stringify(user));
-
-// 			setMessage('');
-// 			window.location.href = '/cards';
-// 		}
-// 	}
-// 	catch(e)
-// 	{
-// 		alert(e.toString());
-// 		return;
-// 	}
 // };
+
+// fetch("http://sudokuapp-f0e20225784a.herokuapp.com/api/login", {
+//   method: "POST"
+//   mode: "cors"
+
+//   headers: {
+//     "Content-Type": "application/json",
+
+//   },
+//   body: JSON.stringify({
+//     "login": inputs.email,
+//     "password": inputs.password
+//   }), // body data type must match "Content-Type" header
+// });
 
 // return(
 // 	<div id="loginDiv">

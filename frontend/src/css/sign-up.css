@@ -42,10 +42,23 @@
     
 }
 
-.btn{
-    width: min(400px, 100%);
+.sign-up-header{
+    margin:10px;
 }
 
+.btn{
+    width: min(400px, 100%);
+    
+}
+.sign-up-btn, .login-btn{
+    width: min(400px, 80%);
+    height:40px;
+}
+
+.login-btn{
+    margin-bottom: 25px;
+}
+  
 .form-label{
     font-family: "Oswald", sans-serif;
     font-weight: 600;
