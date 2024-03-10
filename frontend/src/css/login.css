@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap');
+.login-section{
+    height: 100%;
+    display: flex; 
+    flex-direction: column;
+    width:100%;
+    align-items: center;
+
+
+
+}
+
+.login-section{
+
+    background-color: rgba(255,255,255,0.3);
+    width: min(600px, 100%);
+    height:625px;
+    margin-top: 25px;
+    /* border: 2px solid purple; */
+
+}
+
+.form{
+
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* border: 2px solid pink; */
+    
+    
+}
+
+
+
+.Login-UI{
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    min-height: 1100px;
+    /* border:2px solid yellow; */
+}
+
+
+
+
+.login-page-btn{
+    width: min(400px, 100%);
+}
+
+.mb-3{
+
+    display:flex;
+    flex-direction: column;
+    margin-left:20px;
+    margin-right:20px;
+
+    width:min(400px, 80%);
+    flex: 0 0 100px;
+
+}
+
+.forgot-pass-link{
+    color: #573115;
+    font-weight: 700;
+    margin-bottom: 10px;
+    /* border: 2px red solid; */
+    width:min(400px, 80%);
+}
+#submit-btn{
+    margin-bottom: 10px; 
+}
+h1{
+
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #000; 
+    line-height: 0.3em;
+    margin: 10px 0 20px  !important;
+    
+ } 
+ 
+
+.or-border{
+    display:flex;
+    width: 90%;
+
+    margin:0 auto;
+
+}
+
+.or h2{
+    margin: 0;
+    padding:0;
+    font-size:.9rem;
+    padding-bottom:8px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+
+
+.login-page-btn button{
+    background-color:#185800;
+    border-color:#185800;
+}
+#sign-up-btn{
+    margin-bottom: 10px;
+}
+
+.login-title{
+    font-size: 2em;
+    /* border: 2px solid green; */
+    width:100%;
+    text-align: center;
+    height:60px;
+    
+}
