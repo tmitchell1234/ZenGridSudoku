@@ -45,7 +45,8 @@ function MiddlePane()
             body: JSON.stringify(data)
         };
 
-        let url = 'http://localhost:5000/api/getpuzzle_devtest';
+        // let url = 'http://localhost:5000/api/getpuzzle_devtest';
+        let url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_easy';
 
         var puzzleString;
 
