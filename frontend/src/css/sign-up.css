@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap');
+.sign-up-section{
+    height: 100%;
+    display: flex; 
+    flex-direction: column;
+    width:100%;
+    align-items: center;
+
+
+
+}
+
+.sign-up-section{
+
+    background-color: rgba(255,255,255,0.3);
+    width: min(600px, 100%);
+    height: max(725px, auto);
+    margin-top: 25px;
+
+   
+
+
+}
+
+.Sign-Up-UI{
+
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    min-height: 1100px;
+
+}
+
+
+.sign-up-title{
+    font-size: 2.5em;
+
+    text-align: center;
+    font-family: "Open Sans",  sans-serif;
+   
+    
+}
+
+.sign-up-header{
+    margin:10px;
+}
+
+.btn{
+    width: min(400px, 100%);
+    
+}
+.sign-up-btn, .login-btn{
+    width: min(400px, 80%);
+    height:40px;
+}
+
+.login-btn{
+    margin-bottom: 25px;
+}
+  
+.form-label{
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+}
+
+#submit-btn{
+    margin-top: 25px;
+}
+
+
+.btn-primary{
+    background-color:#185800;
+    border-color:#185800;
+}

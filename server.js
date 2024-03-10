@@ -94,6 +94,46 @@ app.post('/api/login', async (req, res, next) =>
 
 
 // gets specific number puzzle from the easy set
+app.post('/api/getpuzzle_devtest', async (req, res, next) => 
+{
+    var error = '';
+    const { puzzlenumber } = req.body;
+
+    // check if string is empty. if it is, send error in return.
+    if (puzzlenumber.length === 0)
+    {
+        var ret = { message: "Error, no puzzle number given in getpuzzle_devtest." };
+        res.status(500).json(ret);
+    }
+    else
+    {
+        try
+        {
+            const db = client.db('Sudoku');
+            const results = await db.collection('devtestpuzzle').find({ puzzle_number : puzzlenumber }).toArray();
+
+            // check if results is empty, throw error for user not found with code 501
+            if (results.length == 0)
+                throw new Error('Devtest puzzle not found');
+
+            // otherwise if we find the designated puzzle, return it's puzzle string
+            var puzzlestring = results[0].puzzle_string;
+            
+            var ret = { puzzlestring : puzzlestring };
+            res.status(200).json(ret);
+        }
+        catch(e)
+        {
+            // return the error with code 500
+            error = e.toString()
+            var ret = { message: error };
+            res.status(500).json(ret);
+        }
+    }
+});
+
+
+// gets specific number puzzle from the easy set
 app.post('/api/getpuzzle_easy', async (req, res, next) => 
 {
     var error = '';
