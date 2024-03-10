@@ -17,9 +17,10 @@ function SudokuMenu( {onButtonClick} )
                 <div class="number 7" onClick={() => onButtonClick(7)}>7</div>
                 <div class="number 8" onClick={() => onButtonClick(8)}>8</div>
                 <div class="number 9" onClick={() => onButtonClick(9)}>9</div>
+                <div class="number 10" onClick={() => onButtonClick(10)}>X</div>
             </div>
         </div>
-    );
+    ); // the last number 10 button will be the clear cell button
 };
 
 export default SudokuMenu;

@@ -10,7 +10,7 @@
         since relative layout refuses to work with the sudoku grid
     */
     position: absolute;
-    right: 40em;
+    right: 20em;
     top: 15em;
 
     /*

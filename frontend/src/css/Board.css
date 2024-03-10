@@ -14,7 +14,15 @@
 .uneditable
 {
     background-color: #aaa;
+    /*
     pointer-events: none;
+    */
+}
+
+/* used to give border to currently selected cell */
+.current
+{
+    border: "2px solid red";
 }
 
 
@@ -37,6 +45,8 @@ td
 
     font-size: 1.7em;
     line-height: 0.4;
+
+    border-collapse: collapse;
 }
 
 td:nth-child(3n)
@@ -54,5 +64,7 @@ tr:nth-child(3n)
     /*padding: 1em;*/
     width: 1.7em;
     height: 1.7em;
+
+    border-collapse: collapse;
     
 }
