@@ -119,6 +119,7 @@
   background-color: #31751c;
 }
 
+/*
 .SudokuBoard {
   width: calc(65% - 20px);
   height: 0px;
@@ -129,6 +130,7 @@
   margin: 10px;
   opacity: 0.3;
 }
+*/
 
 
 @keyframes App-logo-spin {
