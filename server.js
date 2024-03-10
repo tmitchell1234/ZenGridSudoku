@@ -29,9 +29,9 @@ app.post('/api/createuser', async(req, res, next) =>
 {
     var error = '';
 
-    const { login, password, firstname, lastname, email } = req.body;
+    const { username, email, password } = req.body;
     
-    const newUser = { Login:login, Password:password, FirstName:firstname, LastName:lastname, Email:email};
+    const newUser = { Username: username, Email:email, Password:password, };
 
     // try to push newuser to Users collection
     try
@@ -59,28 +59,27 @@ app.post('/api/login', async (req, res, next) =>
     // incoming: login, password
     // outgoing: id, firstName, lastName, error
     var error = '';
-    const { login, password } = req.body;
+    const { email, password } = req.body;
     var code;
 
     try
     {
         const db = client.db('Sudoku');
-        const results = await db.collection('Users').find({Login:login, Password:password}).toArray();
+        const results = await db.collection('Users').find({Email:email, Password:password}).toArray();
 
         // check if results is empty, throw error for user not found with code 501
         if (results.length == 0)
         {
             code = 501;
-            throw new Error('Invalid username/password');
+            throw new Error('Invalid email/password');
         }
 
-        // if login succeeds and user with login/passwrord is found, return the _id, firstname, and lastname of user
+        // if login succeeds and user with login/passwrord is found, return the _id, username of user
         var id = results[0]._id;
-        var firstname = results[0].FirstName;
-        var lastname = results[0].LastName;
+        var username = results[0].Username;
 
         // return id, firstname, and lastname if successful
-        var ret = { id:id, firstName:firstname, lastName:lastname };
+        var ret = { id:id, Username:username,};
         res.status(200).json(ret);
     }
     catch(e)
