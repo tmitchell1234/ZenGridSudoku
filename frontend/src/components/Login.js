@@ -47,21 +47,26 @@ export default function Login() {
       );
 
       let res = JSON.parse(await response.text());
-      if(res.message && res.message === "Error: Invalid username/password"){
+      if (res.message && res.message === "Error: Invalid email/password")
         setShow(true);
-      }
-      else{
-      let user = {
-        username: res.Username,
-        id: res.id
-      };
-    
-      localStorage.setItem("user_data", JSON.stringify(user));
 
-      alert("Login succeeded! " + user.username + " " + user.id);
-    }
+      else
+      {
+        let user = {
+          username: res.Username,
+          id: res.id
+        };
+
+        console.log("Inside Login.js: user.username = " + user.username + ", user.id = " + user.id);
+    
+        localStorage.setItem("user_data", JSON.stringify(user));
+
+        alert("Login succeeded! " + user.username + " " + user.id);
+      }
       // navigate("/");
-    } catch (e) {
+    }
+    catch (e)
+    {
       setShow(true);
       alert(e);
     }

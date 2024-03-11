@@ -111,7 +111,7 @@ export default function SignUp() {
       );
 
       let res = JSON.parse(await response.text());
-      if (res.message) alert(res.id);
+      if (res.message) alert(res.message);
 
       alert("Account create successful!");
     }
