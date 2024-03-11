@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, cloneElement } from 'react';
 import '../App.css';
-import logo from '../images/logo.png';
 import SudokuBoard from './SudokuBoard.js';
 import SudokuMenu from './SudokuMenu.js';
+import LandingTitle from './LandingTitle.js';
 
 function MiddlePane()
 {
@@ -271,11 +271,7 @@ function MiddlePane()
 
 	return(
         <div className="Middle-pane">
-            <div className="Landing-title">
-            <img src={logo} alt="Sudoku Logo" style={{width: 'auto', height: 'calc(100% - 20px)', margin: '20px'}}/>
-            Sudoku
-            </div>
-
+            <LandingTitle />
             <div className = "SudokuBoard">
                 <SudokuBoard handleCellClick={selectCell} />
                 <SudokuMenu onButtonClick={insertNumber} />

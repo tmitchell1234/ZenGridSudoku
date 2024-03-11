@@ -76,7 +76,7 @@
   height: 100px;
   margin-bottom: 10px;
   background: rgb(55, 138, 25);
-  border-bottom: 1px solid #000000;
+  border: 1px solid #000000;
   border-radius: 0px;
   text-align: center;
   display: flex;
@@ -88,6 +88,25 @@
   font-style: normal;
   font-weight: 600;
   font-size: 4em;
+}
+
+.Landing-title button {
+  width: auto;
+  height: 100px;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  color: white;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.Landing-title button:hover {
+  cursor: pointer;
 }
 
 .Landing-UI {

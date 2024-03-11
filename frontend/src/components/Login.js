@@ -69,13 +69,17 @@ export default function Login() {
   return (
     <>
       <div className="login-section">
-        <Button
+        {/*
+          Header now redirects to homepage so I removed the button for returning to landing page, leaving it here incase we need it
+          <Button
           className="btn-primary home-btn"
           variant="primary"
           onClick={goHome}
-        >
+          >
           Go Home
         </Button>
+        */}
+        
         <div className="login-title">Login</div>
 
         <Form className="form">

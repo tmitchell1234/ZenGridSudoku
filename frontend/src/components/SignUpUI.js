@@ -1,19 +1,13 @@
 import Background from "./Background";
 import SignUp from "./SignUp";
-import logo from "../images/logo.png";
+import LandingTitle from './LandingTitle.js';
 
 
 export default function SignUpUI() {
   return (
     <div className="Sign-Up-UI">
       <Background />
-      <div className="Landing-title sign-up-header">
-        <img
-          src={logo}
-          style={{ width: "auto", height: "calc(100% - 20px", margin: "20px" }}
-        />
-        Sudoku
-      </div>
+      <LandingTitle />
       <SignUp/>
     </div>
   );
