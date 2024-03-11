@@ -30,6 +30,10 @@ export default function SignUp() {
     passwordCheck: "",
   });
 
+  // empty class-level request to store and submit new account info
+  var request;
+
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickListener);
 
@@ -70,19 +74,53 @@ export default function SignUp() {
   const handleSubmitBtnClick = (e) => {
     e.preventDefault();
 
-    if (!validPassword) {
+    if (!validPassword)
+    {
       setAlertMessage("Password does not meet security requirements.");
       setShow(true);
-    } else if (inputs.password !== inputs.passwordCheck) {
+    }
+    else if (inputs.password !== inputs.passwordCheck) {
       setAlertMessage("Passwords do not match.");
       setShow(true);
-    }else if(inputs.email === "" || inputs.userName === ""){
-
-    }else{
+    }
+    else if(inputs.email === "" || inputs.userName === "")
+    {
+      setAlertMessage("Input fields required!");
+      setShow(true);
+    }
+    else
+    {
       //Fetch API
+      request = { username: inputs.userName, email: inputs.email, password: inputs.password };
+    
+      doCreateAccount();
+    }
+  };
+
+  const doCreateAccount = async () => {
+    try
+    {
+      const response = await fetch(
+        "http://sudokuapp-f0e20225784a.herokuapp.com/api/createuser",
+        {
+          method: "POST",
+          body: JSON.stringify(request),
+
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      let res = JSON.parse(await response.text());
+      if (res.message) alert(res.id);
+
+      alert("Account create successful!");
+    }
+    catch (e)
+    {
+      alert("Account create failed! Check console log");
+      console.log(e);
     }
   }
-  ;
 
   return (
     <>

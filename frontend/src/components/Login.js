@@ -32,7 +32,7 @@ export default function Login() {
 
   const app_name = "sudokuapp-f0e20225784a";
 
-  let request = { login: inputs.email, password: inputs.password };
+  let request = { email: inputs.email, password: inputs.password };
 
   const doLogin = async (event) => {
     try {
@@ -52,12 +52,13 @@ export default function Login() {
       }
       else{
       let user = {
-        firstName: res.firstName,
-        lastName: res.lastName,
-        id: res.id,
+        username: res.Username,
+        id: res.id
       };
     
       localStorage.setItem("user_data", JSON.stringify(user));
+
+      alert("Login succeeded! " + user.username + " " + user.id);
     }
       // navigate("/");
     } catch (e) {
