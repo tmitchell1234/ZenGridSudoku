@@ -6,7 +6,7 @@ function SudokuMenu( {onButtonClick} )
 {
     return(
         <div class="Menu">
-            <div class="Title">Select number to input:</div>
+            <div class="Title">Select #:</div>
             <div class="MenuTable">
                 <div class="number 1" onClick={() => onButtonClick(1)}>1</div>
                 <div class="number 2" onClick={() => onButtonClick(2)}>2</div>
