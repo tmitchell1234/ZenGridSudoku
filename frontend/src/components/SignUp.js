@@ -119,9 +119,10 @@ export default function SignUp() {
       if (res.message) alert(res.message);
 
       let user = {
-        username: res.Username,
+        username: res.username,
         id: res.id
       };
+      
       console.log("Inside Signup.js: user.username = " + user.username + ", user.id = " + user.id);
       localStorage.setItem("user_data", JSON.stringify(user));
       {goHome()}

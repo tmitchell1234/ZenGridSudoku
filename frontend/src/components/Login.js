@@ -58,7 +58,7 @@ export default function Login() {
         };
 
         console.log("Inside Login.js: user.username = " + user.username + ", user.id = " + user.id);
-    
+
         localStorage.setItem("user_data", JSON.stringify(user));
         {goHome()}
         window.location.reload();
