@@ -3,8 +3,7 @@ import '../App.css';
 import LandingButton from './LandingButton';
 
 let user_data;
-let firstName;
-let lastName;
+let userName;
 let id;
 
 if(localStorage && localStorage.getItem("user_data")) {
@@ -21,8 +20,7 @@ function clearData() {
 
 function setData() {
     let user = {
-        firstName: "Test Name",
-        lastName: "Test last name",
+        userName: "Test UName",
         id: "Test userID",
       };
     localStorage.setItem("user_data", JSON.stringify(user));
@@ -30,10 +28,9 @@ function setData() {
 }
 function getData() {
     if(user_data) {
-        firstName = user_data.firstName;
-        lastName = user_data.lastName;
+        userName = user_data.userName;
         id = user_data.id;
-        console.log("F: " + firstName + ",L: " + lastName + ",id: " + id);
+        console.log("U: " + userName + ",id: " + id);
     }
 }
 
@@ -56,7 +53,7 @@ function LeftPane()
                 <button className="Landing-button" onClick={setData}>TEST SET DATA</button>
                 <button className="Landing-button" onClick={getData}>TEST GET DATA</button>
                 <div className="Landing-Name-Display">
-                    Welcome back, {firstName}!
+                    Welcome back, {userName}!
                 </div>
             </div>
         )
