@@ -10,8 +10,8 @@
         since relative layout refuses to work with the sudoku grid
     */
     position: absolute;
-    right: 20em;
-    top: 15em;
+    right: calc(20%);
+    top: calc(25%);
 
     /*
     position: relative;
