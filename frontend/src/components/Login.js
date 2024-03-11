@@ -32,7 +32,7 @@ export default function Login() {
 
   const app_name = "sudokuapp-f0e20225784a";
 
-  let request = { login: inputs.email, password: inputs.password };
+  let request = { email: inputs.email, password: inputs.password };
 
   const doLogin = async (event) => {
     try {
