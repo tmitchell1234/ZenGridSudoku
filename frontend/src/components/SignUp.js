@@ -9,10 +9,15 @@ import Popover from "react-bootstrap/Popover";
 import Alert from "react-bootstrap/Alert";
 
 export default function SignUp() {
+  
   let navigate = useNavigate();
 
   const routeChange = () => {
     navigate("/loginpage");
+  };
+
+  const goHome = () => {
+    navigate("/");
   };
 
   const inputRef = useRef(null);
@@ -114,6 +119,14 @@ export default function SignUp() {
       if (res.message) alert(res.message);
 
       alert("Account create successful!");
+
+      let user = {
+        username: res.Username,
+        id: res.id
+      };
+      localStorage.setItem("user_data", JSON.stringify(user));
+      {goHome()}
+
     }
     catch (e)
     {

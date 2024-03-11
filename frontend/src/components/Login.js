@@ -52,6 +52,7 @@ export default function Login() {
 
       else
       {
+        alert("Login succeeded! " + user.username + " " + user.id);
         let user = {
           username: res.Username,
           id: res.id
@@ -60,8 +61,7 @@ export default function Login() {
         console.log("Inside Login.js: user.username = " + user.username + ", user.id = " + user.id);
     
         localStorage.setItem("user_data", JSON.stringify(user));
-
-        alert("Login succeeded! " + user.username + " " + user.id);
+        {goHome()}
       }
       // navigate("/");
     }
