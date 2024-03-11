@@ -124,6 +124,7 @@ export default function SignUp() {
       };
       localStorage.setItem("user_data", JSON.stringify(user));
       {goHome()}
+      window.location.reload();
 
     }
     catch (e)

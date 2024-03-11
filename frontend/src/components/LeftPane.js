@@ -12,7 +12,6 @@ if(localStorage && localStorage.getItem("user_data")) {
     console.log("Data Initialized");
 }
 
-
 function clearData() {
     localStorage.clear();
     window.location.reload();

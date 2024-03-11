@@ -61,6 +61,7 @@ export default function Login() {
     
         localStorage.setItem("user_data", JSON.stringify(user));
         {goHome()}
+        window.location.reload();
       }
       // navigate("/");
     }
