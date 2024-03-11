@@ -40,7 +40,9 @@ app.post('/api/createuser', async(req, res, next) =>
         const result = await db.collection('Users').insertOne(newUser);
 
         // return insertedId (or _id) from DB and code 200 if successful
-        var ret = { message: result };
+        var ret = { username: username,
+            id: result.insertedId };
+
         res.status(200).json(ret);
     }
     catch(e)
