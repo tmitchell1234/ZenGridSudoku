@@ -117,6 +117,23 @@
   justify-content: center;
 }
 
+.Landing-Name-Display {
+  width: calc(100% - 20px);
+  height: auto;
+  margin: 5px;
+  background: #ABE188;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 2em;
+  text-align: center;
+  color: black;
+
+  margin-bottom: 10%;
+  margin-top: auto;
+  
+}
+
 .LeftPaneToggle {
   width: 1.5vw;
   height: 6vh;
