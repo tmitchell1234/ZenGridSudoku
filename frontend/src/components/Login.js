@@ -56,7 +56,6 @@ export default function Login() {
           username: res.Username,
           id: res.id
         };
-        alert("Login succeeded! " + user.username + " " + user.id);
 
         console.log("Inside Login.js: user.username = " + user.username + ", user.id = " + user.id);
     

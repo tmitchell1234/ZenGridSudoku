@@ -118,8 +118,6 @@ export default function SignUp() {
       let res = JSON.parse(await response.text());
       if (res.message) alert(res.message);
 
-      alert("Account create successful!");
-
       let user = {
         username: res.Username,
         id: res.id
