@@ -37,7 +37,7 @@ export default function Login() {
   const doLogin = async (event) => {
     try {
       const response = await fetch(
-        "http://sudokuapp-f0e20225784a.herokuapp.com/api/login",
+        "https://sudokuapp-f0e20225784a.herokuapp.com/api/login",
         {
           method: "POST",
           body: JSON.stringify(request),

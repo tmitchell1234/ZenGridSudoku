@@ -101,7 +101,7 @@ export default function SignUp() {
     try
     {
       const response = await fetch(
-        "http://sudokuapp-f0e20225784a.herokuapp.com/api/createuser",
+        "https://sudokuapp-f0e20225784a.herokuapp.com/api/createuser",
         {
           method: "POST",
           body: JSON.stringify(request),
