@@ -47,19 +47,20 @@ export default function Login() {
       );
 
       let res = JSON.parse(await response.text());
-      if(res.message && res.message === "Error: Invalid username/password"){
+
+      //  Checks to see if the message in the response object is valid
+      if (res.message === "Error: Invalid email/password") {
         setShow(true);
+      } else {
+
+        let user = {
+          id: res.id,
+          user: res.Username,
+        };
+
+        localStorage.setItem("user_data", JSON.stringify(user));
       }
-      else{
-      let user = {
-        firstName: res.firstName,
-        lastName: res.lastName,
-        id: res.id,
-      };
-    
-      localStorage.setItem("user_data", JSON.stringify(user));
-    }
-      // navigate("/");
+      navigate("/");
     } catch (e) {
       setShow(true);
       alert(e);
@@ -79,7 +80,7 @@ export default function Login() {
           Go Home
         </Button>
         */}
-        
+
         <div className="login-title">Login</div>
 
         <Form className="form">
@@ -103,10 +104,11 @@ export default function Login() {
 
           <Link className="forgot-pass-link">Forgot password?</Link>
 
+          {/* Shows and errror when there's and invalid username or password  */}
           {show && (
             <Alert variant="danger" onClose={() => setShow(false)} dismissible>
               <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-              <p>Error: Invalid username/password</p>
+              <p>Error: Invalid email/password</p>
             </Alert>
           )}
           <div className="login-page-btn" id="submit-btn">
@@ -127,7 +129,7 @@ export default function Login() {
             <span></span>
           </h1>
         </div>
-
+        {/* The sign up page button */}
         <div className="login-page-btn">
           <Button
             className="btn-primary"

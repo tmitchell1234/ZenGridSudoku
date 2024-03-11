@@ -120,13 +120,13 @@ export default function SignUp() {
       </Overlay>
       <div className="sign-up-section">
         <div className="sign-up-title">Sign Up</div>
-
+     {/* the form that contains and email, password, and username  */}
         <Form className="form">
           <Form.Group className="mb-3" controlId="formBasicName">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Name"
+              placeholder="Username"
               onChange={handleName}
             />
           </Form.Group>
@@ -156,6 +156,8 @@ export default function SignUp() {
               onChange={handlePasswordChecker}
             />
           </Form.Group>
+
+          {/* shows when there's an error message  */}
 
           {show && (
             <Alert variant="danger" onClose={() => setShow(false)} dismissible>
