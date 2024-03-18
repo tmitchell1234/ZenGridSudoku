@@ -6,6 +6,13 @@ import LandingTitle from './LandingTitle.js';
 
 function MiddlePane()
 {
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
     // EXPERIMENTAL - getting puzzle data and populating table.
     // Put this somewhere else when we refine this functionality.
 
@@ -34,7 +41,7 @@ function MiddlePane()
 
         // send request to API to get easy puzzle 1:
         const data = {
-            puzzlenumber: 1
+            puzzlenumber: getRandomInt(1, 50)
         };
 
         let request = {
@@ -45,7 +52,7 @@ function MiddlePane()
             body: JSON.stringify(data)
         };
 
-        // let url = 'http://localhost:5000/api/getpuzzle_devtest';
+        // let url = 'http://localhost:5000/api/getpuzzle_easy';
         let url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_easy';
 
         var puzzleString;
