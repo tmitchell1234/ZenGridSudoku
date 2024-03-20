@@ -252,11 +252,12 @@ app.post("/api/getusertime_easy", async (req, res, next) => {
 });
 
 // sets user time of the specific puzzle from the easy set
+// update the leaderboard after the setting is done
 app.post("/api/setusertime_easy", async (req, res, next) => {
     var error = "";
     const { username, puzzle_number, time_easy } = req.body;
 
-    if (puzzle_number < 1 || puzzle_number > 50) {
+    if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
       var ret = { message: "Error, invalid easy puzzle number." };
       res.status(500).json(ret);
     } else {
@@ -285,6 +286,37 @@ app.post("/api/setusertime_easy", async (req, res, next) => {
           } else {
             var ret = { message: "No need to update." };
             res.status(200).json(ret);
+          }
+          
+          // getting the top 5 and update the leaderboard
+          // Perform an aggregation to get the top times per puzzle number
+          const leaderboard = await db.collection("user_times_easy")
+          .aggregate([
+            { $match: { Puzzle_number: puzzle_number } },
+            { $sort: { Time_easy: 1 } },
+            { $limit: 5 },
+            {
+              $group: {
+                _id: "$Puzzle_number", // Group by puzzle number
+                users: {
+                  $push: {
+                    username: "$Username",
+                    time_easy: "$Time_easy"
+                  }
+                }
+              }
+            }
+          ]).toArray();
+
+          // The above will give us a document per puzzle_number with a users array
+
+          // Now we need to update the leaderboards_easy collection with this data
+          if (leaderboard.length > 0) {
+            await db.collection("leaderboards_easy").updateOne(
+              { Puzzle_number: puzzle_number },
+              { $set: { Users: leaderboard[0].users } },
+              { upsert: true } // This creates a new document if one doesn't exist
+            );
           }
       } catch (e) {
           // return the error with code 500
@@ -328,11 +360,12 @@ app.post("/api/getusertime_medium", async (req, res, next) => {
 });
 
 // sets user time of the specific puzzle from the medium set
+// update the leaderboard after the setting is done
 app.post("/api/setusertime_medium", async (req, res, next) => {
     var error = "";
     const { username, puzzle_number, time_medium } = req.body;
 
-    if (puzzle_number < 1 || puzzle_number > 50) {
+    if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
       var ret = { message: "Error, invalid medium puzzle number." };
       res.status(500).json(ret);
     } else {
@@ -361,6 +394,37 @@ app.post("/api/setusertime_medium", async (req, res, next) => {
           } else {
             var ret = { message: "No need to update." };
             res.status(200).json(ret);
+          }
+    
+          // getting the top 5 and update the leaderboard
+          // Perform an aggregation to get the top times per puzzle number
+          const leaderboard = await db.collection("user_times_medium")
+          .aggregate([
+            { $match: { Puzzle_number: puzzle_number } },
+            { $sort: { Time_medium: 1 } },
+            { $limit: 5 },
+            {
+              $group: {
+                _id: "$Puzzle_number", // Group by puzzle number
+                users: {
+                  $push: {
+                    username: "$Username",
+                    time_medium: "$Time_medium"
+                  }
+                }
+              }
+            }
+          ]).toArray();
+
+          // The above will give us a document per puzzle_number with a users array
+
+          // Now we need to update the leaderboards_medium collection with this data
+          if (leaderboard.length > 0) {
+            await db.collection("leaderboards_medium").updateOne(
+              { Puzzle_number: puzzle_number },
+              { $set: { Users: leaderboard[0].users } },
+              { upsert: true } // This creates a new document if one doesn't exist
+            );
           }
       } catch (e) {
           // return the error with code 500
@@ -404,11 +468,12 @@ app.post("/api/getusertime_hard", async (req, res, next) => {
 });
 
 // sets user time of the specific puzzle from the hard set
+// update the leaderboard after the setting is done
 app.post("/api/setusertime_hard", async (req, res, next) => {
   var error = "";
   const { username, puzzle_number, time_hard } = req.body;
 
-  if (puzzle_number < 1 || puzzle_number > 50) {
+  if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
     var ret = { message: "Error, invalid hard puzzle number." };
     res.status(500).json(ret);
   } else {
@@ -438,6 +503,37 @@ app.post("/api/setusertime_hard", async (req, res, next) => {
           var ret = { message: "No need to update." };
           res.status(200).json(ret);
         }
+        
+        // getting the top 5 and update the leaderboard
+        // Perform an aggregation to get the top times per puzzle number
+        const leaderboard = await db.collection("user_times_hard")
+        .aggregate([
+          { $match: { Puzzle_number: puzzle_number } },
+          { $sort: { Time_hard: 1 } },
+          { $limit: 5 },
+          {
+            $group: {
+              _id: "$Puzzle_number", // Group by puzzle number
+              users: {
+                $push: {
+                  username: "$Username",
+                  time_hard: "$Time_hard"
+                }
+              }
+            }
+          }
+        ]).toArray();
+
+        // The above will give us a document per puzzle_number with a users array
+
+        // Now we need to update the leaderboards_hard collection with this data
+        if (leaderboard.length > 0) {
+          await db.collection("leaderboards_hard").updateOne(
+            { Puzzle_number: puzzle_number },
+            { $set: { Users: leaderboard[0].users } },
+            { upsert: true } // This creates a new document if one doesn't exist
+          );
+        }
     } catch (e) {
         // return the error with code 500
         error = e.toString();
@@ -447,48 +543,85 @@ app.post("/api/setusertime_hard", async (req, res, next) => {
   }
 });
 
-app.post("/api/leaderboard", async (req, res, next) => {
+// get easy leaderboard for a specified puzzle number
+app.post("/api/getleaderboard_easy", async (req, res, next) => {
   var error = "";
+  const { puzzle_number } = req.body;
 
-  const { level } = req.body;
-
-  let result, query, options;
-  result = null;
-  query = null;
-  options = null;
-
-  //Seperates the category based on levels
-  //Selects time greater than 0  in ascending order
   try {
     const db = client.db("Sudoku");
 
-    if (level == "easy") {
-      query = { Time_Easy: { $gt: 0 } };
-      options = {
-        projection: { _id: 0, Time_Easy: 1, Login: 1 },
-        sort: { Time_Easy: 1 },
-      };
-
-    } else if (level == "medium") {
-        query = { Time_Medium: { $gt: 0 } };
-        options = {
-          projection: { _id: 0, Time_Medium: 1, Login: 1 },
-          sort: { Time_Medium: 1 },
-        };
-    } else {
-        query = { Time_Hard: { $gt: 0 } };
-        options = {
-          projection: { _id: 0, Time_Hard: 1, Login: 1 },
-          sort: { Time_Hard: 1 },
-        };
+    if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
+        var ret = { message: "Error, invalid easy puzzle number." };
+        return res.status(500).json(ret);
     }
-    
-    result = await db.collection("Users").find(query, options).toArray();
 
-    JSON.stringify(result);
-    var ret = { leaderboard: result };
+    // Fetch the leaderboard for the given puzzle number
+    const leaderboard = await db.collection("leaderboards_easy")
+      .findOne({ Puzzle_number: puzzle_number });
 
-    res.status(200).json(ret);
+    if (!leaderboard) {
+      return res.status(404).send({ message: "No one has a record! Leaderboard not found." });
+    }
+    res.status(200).json(leaderboard);
+  } catch (e) {
+    // return error and code 500 if failed
+    error = e.toString();
+    var ret = { message: error };
+    res.status(500).json(ret);
+  }
+});
+
+// get medium leaderboard for a specified puzzle number
+app.post("/api/getleaderboard_medium", async (req, res, next) => {
+  var error = "";
+  const { puzzle_number } = req.body;
+
+  try {
+    const db = client.db("Sudoku");
+
+    if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
+        var ret = { message: "Error, invalid medium puzzle number." };
+        return res.status(500).json(ret);
+    }
+
+    // Fetch the leaderboard for the given puzzle number
+    const leaderboard = await db.collection("leaderboards_medium")
+      .findOne({ Puzzle_number: puzzle_number });
+
+    if (!leaderboard) {
+      return res.status(404).send({ message: "No one has a record! Leaderboard not found." });
+    }
+    res.status(200).json(leaderboard);
+  } catch (e) {
+    // return error and code 500 if failed
+    error = e.toString();
+    var ret = { message: error };
+    res.status(500).json(ret);
+  }
+});
+
+// get hard leaderboard for a specified puzzle number
+app.post("/api/getleaderboard_hard", async (req, res, next) => {
+  var error = "";
+  const { puzzle_number } = req.body;
+
+  try {
+    const db = client.db("Sudoku");
+
+    if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
+        var ret = { message: "Error, invalid hard puzzle number." };
+        return res.status(500).json(ret);
+    }
+
+    // Fetch the leaderboard for the given puzzle number
+    const leaderboard = await db.collection("leaderboards_hard")
+      .findOne({ Puzzle_number: puzzle_number });
+
+    if (!leaderboard) {
+      return res.status(404).send({ message: "No one has a record! Leaderboard not found." });
+    }
+    res.status(200).json(leaderboard);
   } catch (e) {
     // return error and code 500 if failed
     error = e.toString();
