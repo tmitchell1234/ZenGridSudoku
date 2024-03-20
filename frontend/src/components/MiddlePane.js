@@ -318,7 +318,8 @@ function MiddlePane({ puzzleData }) {
             return;
         }
         console.log("puzzleData updated");
-        console.log("createBoard(" + JSON.stringify(puzzleData.difficulty) + ", " + JSON.stringify(puzzleData.number) + ");")
+        console.log("createBoard(" + JSON.stringify(puzzleData.difficulty) + ", " + JSON.stringify(puzzleData.number) + ");");
+        resetBoard();
         createBoard(puzzleData.difficulty, parseInt(puzzleData.number));
         
     }, [puzzleData]);
