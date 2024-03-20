@@ -315,9 +315,6 @@ function MiddlePane({ puzzleData }) {
     return (
         <div className="Middle-pane">
             <LandingTitle />
-            <div>
-                <p>puzzleData: {JSON.stringify(puzzleData)}</p>
-            </div>
             <div className="SudokuBoard">
                 <SudokuBoard handleCellClick={selectCell} />
                 <SudokuMenu onButtonClick={insertNumber} />
