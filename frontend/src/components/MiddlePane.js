@@ -122,12 +122,14 @@ function MiddlePane({ puzzleData }) {
     
 
     // useEffect() instructs React to run this code after it has rendered all objects in the DOM
-    // isFirstRender stops it from running twice on page start
+
+    // isFirstRender stops it from running twice on page start but doesnt work right on live server??? idk
     useEffect(() => {
+        /*
         if(isFirstRender1.current) {
             isFirstRender1.current = false;
             return;
-        }
+        }*/
         console.log("printing from inside useEffect()");
         createBoard("easy", 0);
         
@@ -301,8 +303,18 @@ function MiddlePane({ puzzleData }) {
     }
 
     useEffect(() => {
+        /*renderCount is weird, seems like it renders once on page start but twice on local machine???*/
+        /*Leaving this here for testing*/
+
+        /*
         renderCount2 ++;
         if(renderCount2 <= 2) {
+            return;
+        }
+        */
+
+        renderCount2 ++;
+        if(renderCount2 <= 1) {
             return;
         }
         console.log("puzzleData updated");
