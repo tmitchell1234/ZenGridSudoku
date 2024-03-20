@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 import Background from './Background';
 import LeftPane from './LeftPane';
@@ -7,12 +7,18 @@ import RightPane from './RightPane';
 
 function LandingUI()
 {
+    const [puzzleData, setPuzzleData] = useState('');
+
+    const updatePuzzleData = (input) => {
+        setPuzzleData(input);
+    };
+
 	return(
         <div className = "Landing-UI">
             <Background />
             <LeftPane />
-            <MiddlePane />
-            <RightPane />
+            <MiddlePane puzzleData={puzzleData}/>
+            <RightPane updatePuzzleData={updatePuzzleData}/>
         </div>
     )
 };

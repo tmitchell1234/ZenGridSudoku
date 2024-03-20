@@ -12,7 +12,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function RightPane() {
+function RightPane({updatePuzzleData}) {
   let navigate = useNavigate();
   const routeChange = (path) => {
     navigate(path);
@@ -22,11 +22,9 @@ const [isSelectPuzzleClicked, setIsSelectPuzzleClicked] = useState(false);
 
 function selectPuzzle() {
   setIsSelectPuzzleClicked((prevValue) => !prevValue);
-  console.log("Select Puzzle Clicked");
 }
 
 function setDifficulty(difficulty) {
-  console.log("Difficulty: " + difficulty);
   if(difficulty == "easy") {
     puzzleDifficulty = "easy";
     document.getElementById("easyButton").style.background = '#80c452';
@@ -51,7 +49,6 @@ function setDifficulty(difficulty) {
 }
 
 function setPuzzleNumber(numberType) {
-  console.log("numberType: " + numberType);
   if(numberType == "custom") {
     puzzleNumberType = "custom";
     document.getElementById("customButton").style.background = '#80c452';
@@ -69,41 +66,52 @@ function startPuzzle() {
   let puzzleData;
   let ret = false;
   let puzzleNumber = "";
+  let errorText = "";
+  let errorArea = document.getElementById("puzzleSelectError");
+  errorArea.innerHTML = "";
+  errorArea.style.display = "none";
 
   if(puzzleNumberType == "custom") {
     puzzleNumber = document.getElementById("puzzleNumberInput").value;
-    console.log("puzzleNumber: " + puzzleNumber);
   }
   else if(puzzleNumberType == "random") {
     puzzleNumber = getRandomInt(1,50).toString();
   }
 
   if(puzzleDifficulty == "none") {
-    console.log("No difficulty selected!");
+    errorText += "No difficulty selected!<br>";
     ret = true;
   }
-  if(puzzleNumber == "none") {
-    console.log("No puzzle number selected!");
+  if(puzzleNumber == "") {
+    errorText += "No puzzle number selected!<br>";
     ret = true;
   }
-  const regexNumerical = /^[0-9]+$/;
-  if(!regexNumerical.test(puzzleNumber)) {
-    console.log("Puzzle number must only contain numbers!");
-    ret = true;
+  else {
+    const regexNumerical = /^[0-9]+$/;
+    if(!regexNumerical.test(puzzleNumber)) {
+      errorText += "Puzzle number must be numerical!<br>"
+      ret = true;
+    }
+    else if(parseInt(puzzleNumber) > 50 | parseInt(puzzleNumber) < 1) {
+      errorText += "Puzzle number must be between 1 and 50!<br>";
+      ret = true;
+    }
   }
-  if(parseInt(puzzleNumber) > 50 | parseInt(puzzleNumber) < 1) {
-    console.log("Puzzle number must be between 1 and 50!");
-    ret = true;
-  }
+  
 
   if(ret == false) {
-    console.log("proceeding");
+    console.log("proceeding to start puzzle");
     let puzzleData = {
       difficulty: puzzleDifficulty,
       number: puzzleNumber
     };
     localStorage.setItem("puzzle_data", JSON.stringify(puzzleData));
     console.log(JSON.stringify(puzzleData));
+    updatePuzzleData(puzzleData);
+  }
+  else {
+    errorArea.innerHTML = errorText;
+    errorArea.style.display = "flex";
   }
   
 }
@@ -154,6 +162,7 @@ else {
         </div>
 
         <button className="Landing-button" onClick={startPuzzle} style={{width: 'auto', padding: '0px 10px 0px 10px'}}>Start Puzzle!</button>
+        <div id="puzzleSelectError" className="selectPuzzleError" style={{display: 'none'}}></div>
 
       </div>
 
