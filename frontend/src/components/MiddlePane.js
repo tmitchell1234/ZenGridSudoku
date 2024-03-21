@@ -6,7 +6,7 @@ import LandingTitle from './LandingTitle.js';
 
 // create our internal 9x9 sudoku board for the purposes of validation:
 var allCells;
-var board;
+var board = Array.from({ length: 9 }, () => Array(9).fill(0));
 var renderCount2 = 0;
 
 function getRandomInt(min, max) {
@@ -16,8 +16,7 @@ function getRandomInt(min, max) {
 }
 
 function createBoard(difficulty, number) {
-    board = Array.from({ length: 9 }, () => Array(9).fill(0));
-    allCells = 
+    
     // get all sudoku grid cells and update them
     allCells = document.querySelectorAll('td');
 
@@ -87,6 +86,7 @@ function createBoard(difficulty, number) {
 
                     // apply new class to make cell gray and not respond to clicks
                     allCells[i].classList.add('uneditable');
+                    allCells[i].style.backgroundColor = "#aaa"
 
                     // add that cell's number to the internal board for validation purposes.
                     // first, get it's integer coordinates:
@@ -125,11 +125,12 @@ function MiddlePane({ puzzleData }) {
 
     // isFirstRender stops it from running twice on page start but doesnt work right on live server??? idk
     useEffect(() => {
-        /*
+        
         if(isFirstRender1.current) {
             isFirstRender1.current = false;
             return;
-        }*/
+        }
+
         console.log("printing from inside useEffect()");
         createBoard("easy", 0);
         
@@ -208,7 +209,7 @@ function MiddlePane({ puzzleData }) {
 
     function unHighlightAll(number) {
         for (var i = 0; i < 81; i++) {
-            if (allCells[i].textContent == selectedCell.textContent) {
+            if (allCells[i].textContent == number) {
                 var thisCell = allCells[i];
 
                 // if the cell was a number given by the puzzle, it will have the 'uneditable' class tag.
@@ -220,8 +221,14 @@ function MiddlePane({ puzzleData }) {
             }
         }
     }
+
     function resetBoard() {
         //Resets highlighted cells and stuff
+        for (let i = 0; i < 81; i++) {
+            allCells[i].classList.remove('uneditable');
+            allCells[i].textContent = "";
+            allCells[i].style.backgroundColor = "#FFFFFF";
+        }
     }
 
 
@@ -306,20 +313,24 @@ function MiddlePane({ puzzleData }) {
         /*renderCount is weird, seems like it renders once on page start but twice on local machine???*/
         /*Leaving this here for testing*/
 
-        /*
+        
         renderCount2 ++;
         if(renderCount2 <= 2) {
             return;
         }
-        */
+        
 
+        /*
         renderCount2 ++;
         if(renderCount2 <= 1) {
             return;
         }
+        */
+
         console.log("puzzleData updated");
         console.log("createBoard(" + JSON.stringify(puzzleData.difficulty) + ", " + JSON.stringify(puzzleData.number) + ");");
         resetBoard();
+        //unHighlightAll();
         createBoard(puzzleData.difficulty, parseInt(puzzleData.number));
         
     }, [puzzleData]);
