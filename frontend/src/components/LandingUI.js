@@ -4,7 +4,7 @@ import Background from './Background';
 import LeftPane from './LeftPane';
 import MiddlePane from './MiddlePane';
 import RightPane from './RightPane';
-
+import  "../css/leaderboard.css";
 function LandingUI()
 {
     const [puzzleData, setPuzzleData] = useState('');
@@ -16,9 +16,9 @@ function LandingUI()
 	return(
         <div className = "Landing-UI">
             <Background />
-            <LeftPane />
-            <MiddlePane puzzleData={puzzleData}/>
-            <RightPane updatePuzzleData={updatePuzzleData}/>
+            <LeftPane className = "LeftPane"/>
+            <MiddlePane className="MiddlePane" puzzleData={puzzleData}/>
+            <RightPane className= "RightPane" updatePuzzleData={updatePuzzleData}/>
         </div>
     )
 };

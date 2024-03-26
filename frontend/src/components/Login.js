@@ -30,8 +30,6 @@ export default function Login() {
     navigate("/");
   };
 
-  const app_name = "sudokuapp-f0e20225784a";
-
   let request = { email: inputs.email, password: inputs.password };
 
   const doLogin = async (event) => {
