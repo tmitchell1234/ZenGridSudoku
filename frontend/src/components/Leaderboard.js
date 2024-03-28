@@ -1,85 +1,143 @@
 import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
-
+import Table from "react-bootstrap/Table";
 import { useState } from "react";
 
 export default function Leaderboard() {
-
   const [color, setColor] = useState("rgb(24, 88, 0)");
-  const [list, setList] = useState([]);
-  const [level, setLevel] = useState(0);
+  const [buttonList, setButtonList] = useState([]);
+  const [level, setLevel] = useState(1);
   const [difficulty, setDifficulty] = useState("easy");
-  const darkGreen= "rgb(24, 88, 0)";
+  const [leaderboardList, setLeaderboardList] = useState([]);
+  const darkGreen = "rgb(24, 88, 0)";
   const lightGreen = "rgba(55, 138, 25, 0.9)";
   const darkYellow = "#9C8D00"; //sets the medium color
-  const lightYellow ="rgba(220, 204, 54,0.9)";
+  const lightYellow = "rgba(220, 204, 54,0.9)";
   const darkRed = "#660000"; //sets the red color
   const lightRed = "rgba(206, 52, 52,0.9)";
 
   useEffect(() => {
-    const list = [];
+    const buttonList = [];
     for (let number = 1; number <= 50; number++) {
-      list.push(
-        <Button
-          name={number}
-          style={{ backgroundColor: color, borderColor: color }}
-        >
-          {number}
-        </Button>
-      );
+      if (number != level) {
+        buttonList.push(
+          <Button
+            name={number}
+            style={{ backgroundColor: color, borderColor: color }}
+            key={number}
+            onClick={(event) => setLevel(Number(event.target.name))}
+          >
+            {number}
+          </Button>
+        );
+      } else {
+        buttonList.push(
+          <Button
+            name={number}
+            style={{ backgroundColor: color, border: "2px solid white" }}
+            key={number}
+            onClick={(event) => setLevel(Number(event.target.name))}
+          >
+            {number}
+          </Button>
+        );
+      }
     }
-    setList([...list]);
-  }, [color]);
+    setButtonList([...buttonList]);
+  }, [color, level]);
 
   const handleButtonLevel = (event) => {
     const id_name = event.target.id;
     if (id_name === "easy") {
       setColor("rgb(24, 88, 0)");
       setDifficulty("easy");
-      document.documentElement.style.setProperty("--scroll-background-color", lightGreen);
-      document.documentElement.style.setProperty("--scroll-thumb-color", darkGreen);
-
+      document.documentElement.style.setProperty(
+        "--scroll-background-color",
+        lightGreen
+      );
+      document.documentElement.style.setProperty(
+        "--scroll-thumb-color",
+        darkGreen
+      );
     } else if (id_name === "medium") {
       setColor(darkYellow);
-      document.documentElement.style.setProperty("--scroll-background-color", lightYellow);
-      document.documentElement.style.setProperty("--scroll-thumb-color", darkYellow);
+      document.documentElement.style.setProperty(
+        "--scroll-background-color",
+        lightYellow
+      );
+      document.documentElement.style.setProperty(
+        "--scroll-thumb-color",
+        darkYellow
+      );
       setDifficulty("medium");
     } else if (id_name === "hard") {
       setColor(darkRed);
       setDifficulty("hard");
-      document.documentElement.style.setProperty("--scroll-background-color", lightRed);
-      document.documentElement.style.setProperty("--scroll-thumb-color", darkRed);
-      
+      document.documentElement.style.setProperty(
+        "--scroll-background-color",
+        lightRed
+      );
+      document.documentElement.style.setProperty(
+        "--scroll-thumb-color",
+        darkRed
+      );
     }
   };
 
- // api does not return appropriate response
- 
-  // useEffect(()=> async () => {
-  //   const url = `http://localhost:5000/api/getleaderboard_${difficulty}`;
-  //   // `https://sudokuapp-f0e20225784a.herokuapp.com/api/getleaderboard_${difficulty}`
-  //   console.log(url);
-  //   try {
-  //     const response = await fetch(
-  //       url
-  //       ,
-  //       {
-  //         method: "GET",
-  //         mode: "cors"
-  //       }
-  //     );
+  const formatSecondsToHourMinute = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
 
-  //     let res = await response.text();
-   
-  //   }
-  //   catch (e)
-  //   {
-    
-  //     alert(e);
-  //   }
-  
-  // }, [difficulty]);
+    const formattedHours = String(hours).padStart(2, "0");
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(remainingSeconds).padStart(2, "0");
 
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  };
+
+  useEffect(() => {
+    const url = `http://localhost:5000/api/getleaderboard_${difficulty}`;
+    // `https://sudokuapp-f0e20225784a.herokuapp.com/api/getleaderboard_${difficulty}`
+
+    const request = {
+      puzzle_number: level,
+    };
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(request),
+
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.Users) {
+          let array = [];
+          if (difficulty === "easy") {
+            array = res.Users.map((item) => {
+              return { username: item.username, time: item.time_easy };
+            });
+          } else if (difficulty === "medium") {
+            array = res.Users.map((item) => {
+              return { username: item.username, time: item.time_medium };
+            });
+          } else if(difficulty==="hard") {
+            array = res.Users.map((item) => {
+              return { username: item.username, time: item.time_hard };
+            });
+          }
+
+          setLeaderboardList(array);
+        } else {
+          setLeaderboardList([]);
+        }
+      })
+      .catch((error) => alert(error));
+  }, [level, difficulty]);
 
   return (
     <>
@@ -104,7 +162,28 @@ export default function Leaderboard() {
       </div>
 
       <div className="level-section" id="scroll">
-        {list}
+        {buttonList}
+      </div>
+
+      <div className="table-section">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leaderboardList.map((item, i) => {
+              return (
+                <tr>
+                  <td>{item.username}</td>
+                  <td>{formatSecondsToHourMinute(item.time)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
       </div>
     </>
   );

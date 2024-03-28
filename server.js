@@ -219,37 +219,6 @@ app.post("/api/getpuzzle_hard", async (req, res, next) => {
   }
 });
 
-// gets user time of the specific puzzle from the easy set
-app.post("/api/getusertime_easy", async (req, res, next) => {
-    var error = "";
-    const { username, puzzle_number } = req.body;
-  
-    try {
-      const db = client.db("Sudoku");
-
-      const results = await db
-      .collection("user_times_easy")
-      .find({ Username: username, Puzzle_number: puzzle_number})
-      .toArray()
-
-      // check if results is empty, throw error for invalid user/puzzle number with code 501
-      if (results.length == 0) {
-          code = 501;
-          throw new Error("Invalid username/puzzle_number");
-      }
-
-      // otherwise if we find the valid combo of username and puzzle number, return it's usertime
-      var time_easy = results[0].Time_easy;
-
-      var ret = { time_easy: time_easy };
-      res.status(200).json(ret);
-    } catch (e) {
-    // return the error with code 500
-      error = e.toString();
-      var ret = { message: error };
-      res.status(500).json(ret);
-    }
-});
 
 // sets user time of the specific puzzle from the easy set
 // update the leaderboard after the setting is done

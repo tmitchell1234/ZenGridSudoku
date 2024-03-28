@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 :root{
     --scroll-background-color:rgba(55, 138, 25, 0.9);
      --scroll-thumb-color:  #185800;
+     ----bs-body-bg:rgba(255, 255, 255, 0.3);
+     /* table color */
+/
 }
   .level-section::-webkit-scrollbar {
     width: 12px;
@@ -69,6 +73,7 @@
 .btn-section button, .btn-section button:hover{
     width:100%;
     height:100%;
+    transition: border 1s ease-in-out, border-color 0.3s ease-in-out;
 }
 .btn-section{
     display: grid;
@@ -76,4 +81,30 @@
     grid-template-rows: minmax(50px, auto);
     gap:2em;
     margin:25px;
+}
+
+.table-section{
+    width: 100%;
+    max-width: 575px;
+    margin-top:25px;
+}
+
+.highlight{
+    border:2px solid white;
+}
+
+th{
+    text-align: center;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 700;
+    font-variation-settings:"wdth" 100;
+    font-size:2.3vw;
+    background-color: #185800;
+}
+
+
+.table{
+    background-color: #185800 !important;
 }

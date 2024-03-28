@@ -130,7 +130,7 @@ function RightPane({ updatePuzzleData }) {
     return (
       <div
         className="Sidebar"
-        style={{ width: "20%", borderLeft: "1px solid black" }}
+        style={{ borderLeft: "1px solid black" }}
       >
         <div className="selectPuzzles">
           <button className="Landing-button" onClick={selectPuzzle}>
