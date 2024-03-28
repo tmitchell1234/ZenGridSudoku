@@ -165,7 +165,7 @@ function RightPane({ updatePuzzleData }) {
           </div>
 
           <div className="selectPuzzleCategory">
-            <div>Puzzle Number:</div>
+            <div className="puzzle-number-title">Puzzle Number:</div>
             <div className="rowAlign">
               <button
                 className="selectPuzzleDifficulty"

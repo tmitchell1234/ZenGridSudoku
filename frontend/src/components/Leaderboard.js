@@ -103,8 +103,8 @@ export default function Leaderboard() {
   };
 
   useEffect(() => {
-    const url = `http://localhost:5000/api/getleaderboard_${difficulty}`;
-    // `https://sudokuapp-f0e20225784a.herokuapp.com/api/getleaderboard_${difficulty}`
+    // const url = `http://localhost:5000/api/getleaderboard_${difficulty}`;
+    const url = `https://sudokuapp-f0e20225784a.herokuapp.com/api/getleaderboard_${difficulty}`;
 
     const request = {
       puzzle_number: level,
