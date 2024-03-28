@@ -115,7 +115,8 @@ app.post("/api/createuser", async (req, res, next) => {
     mailConfigurations.to = email;
     mailConfigurations.text = "Thank you for registering for ZenGrid Sudoku!" +
                               "Please click the following link to verify your account:\n " +
-                              `http://localhost:3000/verificationpage?token=${token}`;
+                              `https://sudokuapp-f0e20225784a.herokuapp.com/verificationpage?token=${token}`;
+                              // `http://localhost:3000/verificationpage?token=${token}`;
 
     await transporter.sendMail(mailConfigurations, function(error, info) {
         if (error) console.log(error);
@@ -152,15 +153,10 @@ app.post("/api/verifyUser", async( req, res, next) => {
     try 
     {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        // console.log("Inside server, decoded = ");
-        // console.log(decoded);
-
-        // console.log("decoded.userId = ");
-        // console.log(decoded.userId);
 
         const decodedId = new ObjectId(decoded.userId);
-        console.log("decodedId = ");
-        console.log(decodedId);
+        // console.log("decodedId = ");
+        // console.log(decodedId);
 
         // find the user by decoded.userId
         const db = client.db("Sudoku");
@@ -169,11 +165,8 @@ app.post("/api/verifyUser", async( req, res, next) => {
             .collection("Users")
             .findOne({ _id: decodedId });
 
-        //console.log("Found user ID:");
-        //console.log(result._id);
-        console.log("result = ");
-        console.log(result);
-
+        // console.log("result = ");
+        // console.log(result);
 
         // if the user is found and they are not verified, update their verification status
         if (result.Verified === false)

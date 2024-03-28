@@ -5,18 +5,10 @@ import VerificationUI from "../components/VerificationUI.js";
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-// not working for some reason :(
-//import jwt from 'jsonwebtoken';
-
 export default function VerificationPage() {
 
-    // const { token } = useParams();
     var urlParams;
     var token;
-
-
-    // TODO: Come back and fix JWT getting and API call
-
 
     // on page load,
     useEffect(() => {
@@ -28,43 +20,20 @@ export default function VerificationPage() {
         // const decodedPayload = jwt.decode(token);
         // console.log("decodedPayload = " + decodedPayload);
         
-
         // send the token to the verifyUser api for processing:
         
         console.log("TOKEN RECEIVED = " + token);
 
         doVerify();
-
-        // let request = { token: token };
-
-        // const response = fetch(
-        //     "http://localhost:5000/api/verifyUser",
-        //     {
-        //         method: "POST",
-        //         body: JSON.stringify(request),
-
-        //         headers: { "Content-Type": "application/json" },
-        //     }
-        // );
-        
-
-        
-        // ( async() => {
-        //     let res = JSON.parse((await response).text());
-        //     if (res.message) alert(res.message);
-        // })
-        
-        //let res = JSON.parse(await response.text());
-        // if (res.message) alert(res.message);
     
     }, [token]);
-
 
     const doVerify = async () => {
         let request = { token: token };
 
         const response = await fetch(
-            "http://localhost:5000/api/verifyUser",
+            // "http://localhost:5000/api/verifyUser",
+            "https://sudokuapp-f0e20225784a.herokuapp.com/verifyUser",
             {
                 method: "POST",
                 body: JSON.stringify(request),
@@ -77,6 +46,5 @@ export default function VerificationPage() {
         if (res.message) alert(res.message);
     }
     
-
     return <VerificationUI />;
 }
