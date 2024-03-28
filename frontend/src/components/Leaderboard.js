@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import Table from "react-bootstrap/Table";
+
 import { useState } from "react";
 
 export default function Leaderboard() {
@@ -18,6 +18,7 @@ export default function Leaderboard() {
 
   useEffect(() => {
     const buttonList = [];
+
     for (let number = 1; number <= 50; number++) {
       if (number != level) {
         buttonList.push(
@@ -44,11 +45,16 @@ export default function Leaderboard() {
       }
     }
     setButtonList([...buttonList]);
+    scrollColor(difficulty);
   }, [color, level]);
 
   const handleButtonLevel = (event) => {
     const id_name = event.target.id;
-    if (id_name === "easy") {
+    scrollColor(id_name);
+  };
+
+  const scrollColor = (setting) => {
+    if (setting === "easy") {
       setColor("rgb(24, 88, 0)");
       setDifficulty("easy");
       document.documentElement.style.setProperty(
@@ -59,7 +65,7 @@ export default function Leaderboard() {
         "--scroll-thumb-color",
         darkGreen
       );
-    } else if (id_name === "medium") {
+    } else if (setting === "medium") {
       setColor(darkYellow);
       document.documentElement.style.setProperty(
         "--scroll-background-color",
@@ -70,7 +76,7 @@ export default function Leaderboard() {
         darkYellow
       );
       setDifficulty("medium");
-    } else if (id_name === "hard") {
+    } else if (setting === "hard") {
       setColor(darkRed);
       setDifficulty("hard");
       document.documentElement.style.setProperty(
@@ -114,7 +120,6 @@ export default function Leaderboard() {
         return res.json();
       })
       .then((res) => {
-        console.log(res);
         if (res.Users) {
           let array = [];
           if (difficulty === "easy") {
@@ -125,7 +130,7 @@ export default function Leaderboard() {
             array = res.Users.map((item) => {
               return { username: item.username, time: item.time_medium };
             });
-          } else if(difficulty==="hard") {
+          } else if (difficulty === "hard") {
             array = res.Users.map((item) => {
               return { username: item.username, time: item.time_hard };
             });
@@ -166,7 +171,7 @@ export default function Leaderboard() {
       </div>
 
       <div className="table-section">
-        <Table striped bordered hover>
+        <table>
           <thead>
             <tr>
               <th>Username</th>
@@ -183,7 +188,7 @@ export default function Leaderboard() {
               );
             })}
           </tbody>
-        </Table>
+        </table>
       </div>
     </>
   );

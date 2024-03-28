@@ -5,7 +5,7 @@
      --scroll-thumb-color:  #185800;
      ----bs-body-bg:rgba(255, 255, 255, 0.3);
      /* table color */
-/
+
 }
   .level-section::-webkit-scrollbar {
     width: 12px;
@@ -84,8 +84,9 @@
 }
 
 .table-section{
-    width: 100%;
-    max-width: 575px;
+
+    width:100%;
+    max-width:575px;
     margin-top:25px;
 }
 
@@ -102,9 +103,43 @@ th{
     font-variation-settings:"wdth" 100;
     font-size:2.3vw;
     background-color: #185800;
+ 
+}
+
+.table-section tr{
+    font-weight: 600;
+    font-size: 1.2vw;
+    
+}
+
+.table-section thead{
+    color:white;
 }
 
 
-.table{
-    background-color: #185800 !important;
+
+.table-secition tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+ .table-section table {
+
+    width:100%;
+    max-width:575px;
+	
+	text-align: left; 
 }
+.table-section th {
+	font-weight: bold;
+	background-color: var(--scroll-background-color);
+	border-bottom: 1px solid var(--scroll-background-color);
+
+}
+ .table-section tr:nth-child(3n){
+    border-bottom: none;
+ }
+
+ .table-section tr td{
+    padding-top:5%;
+    padding-bottom: 5%;
+ }
