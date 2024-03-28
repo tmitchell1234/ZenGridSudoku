@@ -6,6 +6,7 @@ import React from 'react';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
+import LeaderboardPage from './pages/LeaderboardPage';
 import ScrollToTop from './components/ScrollToTop';
 
 function App()
@@ -18,6 +19,7 @@ function App()
 			<Route path="/" index element={<LandingPage />} />
 			<Route path="/loginpage" index element={<LoginPage/>} />
 			<Route path="/signuppage" index element={<SignUpPage/>} />
+			<Route path="/leaderboardpage" index element={<LeaderboardPage/>} />
 		</Routes>
 		</BrowserRouter>
 	);

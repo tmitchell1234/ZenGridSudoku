@@ -1,0 +1,79 @@
+
+:root{
+    --scroll-background-color:rgba(55, 138, 25, 0.9);
+     --scroll-thumb-color:  #185800;
+}
+  .level-section::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  .level-section::-webkit-scrollbar-track {
+    background: var(--scroll-background-color);
+    border-radius: 100vw;
+  }
+  
+  .level-section::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb-color);
+    border-radius: 20px;
+  }
+
+
+
+.Leaderboard-UI{  
+    display:grid;
+
+    height:100vh;
+    grid-template-columns: 20% 60% 20%;
+ 
+}
+
+.Leaderboard-UI .LeftPane{
+    grid-column: 1/2;
+    grid-row:auto;
+}
+
+.Leaderboard-UI .RightPane{
+    grid-column:3/-1;
+}
+
+.Leaderboard-UI .Leaderboard{
+    grid-column: 2/3;
+}
+
+.level-section{
+
+    display:grid;
+    gap:1em;
+    grid-template-columns: repeat(50,100px);
+    justify-content: space-around;
+    width:100%;
+    max-width:575px;
+    overflow-x: auto;
+    overflow-y:hidden;
+
+  
+}
+
+.level-section button, .level-section button:hover{
+    width:100%;
+    height:38px;
+
+}
+
+/* added this so that the scrollbar can be further away from level-section div */
+.level-section button:last-child{
+    margin-bottom: 10px;
+}
+
+
+.btn-section button, .btn-section button:hover{
+    width:100%;
+    height:100%;
+}
+.btn-section{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: minmax(50px, auto);
+    gap:2em;
+    margin:25px;
+}
