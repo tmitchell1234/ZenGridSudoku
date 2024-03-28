@@ -10,26 +10,60 @@ import { useParams } from 'react-router-dom';
 
 export default function VerificationPage() {
 
-    const { token } = useParams();
+    // const { token } = useParams();
+    var urlParams;
+    var token;
 
 
     // TODO: Come back and fix JWT getting and API call
 
 
-    /*
+    // on page load,
     useEffect(() => {
-        /*
-        const decodedPayload = jwt.decode(token);
-        console.log("decodedPayload = " + decodedPayload);
-        */
+
+        // get the parameters of the URL
+        urlParams = new URLSearchParams(window.location.search);
+        token = urlParams.get('token');
+        
+        // const decodedPayload = jwt.decode(token);
+        // console.log("decodedPayload = " + decodedPayload);
+        
 
         // send the token to the verifyUser api for processing:
-        /*
+        
         console.log("TOKEN RECEIVED = " + token);
 
+        doVerify();
+
+        // let request = { token: token };
+
+        // const response = fetch(
+        //     "http://localhost:5000/api/verifyUser",
+        //     {
+        //         method: "POST",
+        //         body: JSON.stringify(request),
+
+        //         headers: { "Content-Type": "application/json" },
+        //     }
+        // );
+        
+
+        
+        // ( async() => {
+        //     let res = JSON.parse((await response).text());
+        //     if (res.message) alert(res.message);
+        // })
+        
+        //let res = JSON.parse(await response.text());
+        // if (res.message) alert(res.message);
+    
+    }, [token]);
+
+
+    const doVerify = async () => {
         let request = { token: token };
 
-        const response = fetch(
+        const response = await fetch(
             "http://localhost:5000/api/verifyUser",
             {
                 method: "POST",
@@ -38,19 +72,11 @@ export default function VerificationPage() {
                 headers: { "Content-Type": "application/json" },
             }
         );
-        
 
-        /*
-        ( async() => {
-            let res = JSON.parse((await response).text());
-            if (res.message) alert(res.message);
-        })
-        */
-        //let res = JSON.parse(await response.text());
-        // if (res.message) alert(res.message);
-    /*
-    }, [token]);
-    */
+        let res = JSON.parse(await response.text());
+        if (res.message) alert(res.message);
+    }
+    
 
     return <VerificationUI />;
 }

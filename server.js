@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 
 const path = require("path");
+const { ObjectId } = require("mongodb");
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -104,13 +105,17 @@ app.post("/api/createuser", async (req, res, next) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "24h" // give user 24 hours to verify
     });
+
+    console.log("Token is " + token);
+
+    //let verifyLink = 
   
   
     // change the email data to send to the user's entered email address
     mailConfigurations.to = email;
     mailConfigurations.text = "Thank you for registering for ZenGrid Sudoku!" +
                               "Please click the following link to verify your account:\n " +
-                              "http://localhost/verificationpage?token=${token}";
+                              `http://localhost:3000/verificationpage?token=${token}`;
 
     await transporter.sendMail(mailConfigurations, function(error, info) {
         if (error) console.log(error);
@@ -139,34 +144,56 @@ app.post("/api/createuser", async (req, res, next) => {
 
 // NEW: called from verification page. Verifies user which clicked on the link.
 app.post("/api/verifyUser", async( req, res, next) => {
-    const token = req.query.token;
+    // const token = req.query.token;
+    const { token } = req.body;
+
+    // console.log("Inside server: token = " + token);
 
     try 
     {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        // console.log("Inside server, decoded = ");
+        // console.log(decoded);
+
+        // console.log("decoded.userId = ");
+        // console.log(decoded.userId);
+
+        const decodedId = new ObjectId(decoded.userId);
+        console.log("decodedId = ");
+        console.log(decodedId);
 
         // find the user by decoded.userId
         const db = client.db("Sudoku");
 
         const result = await db
             .collection("Users")
-            .find({ _id: decoded.userId });
+            .findOne({ _id: decodedId });
 
-        console.log("Found user ID:");
-        console.log(result._id);
+        //console.log("Found user ID:");
+        //console.log(result._id);
+        console.log("result = ");
+        console.log(result);
 
 
         // if the user is found and they are not verified, update their verification status
-        if (result.verified === false)
+        if (result.Verified === false)
         {
             db.collection("Users").updateOne(
                 { _id: result._id },
-                { $set: { verified: true } }
+                { $set: { Verified: true } }
             );
+
+            var message = "User verified successfully!";
+            var ret = { message: message };
+            res.status(200).json(ret);
         }
         else
         {
             console.log("User already verified!");
+
+            var message = "User already verified!";
+            var ret = { message: message };
+            res.status(200).json(ret);
         }
     }
     catch (e)
