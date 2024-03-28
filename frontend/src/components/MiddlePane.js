@@ -52,6 +52,8 @@ function createBoard(difficulty, number) {
         json4: "devtest"
     };
 
+    // let url = 'http://localhost:5000/api/getpuzzle_devtest';
+    // let url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_easy';
     let url;
     if(difficulty == jsonSample.json1) {
         url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_easy';

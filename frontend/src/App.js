@@ -6,6 +6,10 @@ import React from 'react';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
+
+// new: verification page:
+import VerificationPage from './pages/VerificationPage';
+
 import LeaderboardPage from './pages/LeaderboardPage';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -19,6 +23,7 @@ function App()
 			<Route path="/" index element={<LandingPage />} />
 			<Route path="/loginpage" index element={<LoginPage/>} />
 			<Route path="/signuppage" index element={<SignUpPage/>} />
+			<Route path="/verificationpage" index element={<VerificationPage/>} />
 			<Route path="/leaderboardpage" index element={<LeaderboardPage/>} />
 		</Routes>
 		</BrowserRouter>

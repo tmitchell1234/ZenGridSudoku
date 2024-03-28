@@ -1,20 +1,27 @@
+// require components
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
+
 const path = require("path");
+const { ObjectId } = require("mongodb");
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+require("dotenv").config();
 
 app.set("port", process.env.PORT || 5000);
 
 app.use(cors());
 app.use(bodyParser.json());
 
+
+// connect to MongoDB
 const MongoClient = require("mongodb").MongoClient;
 
-require("dotenv").config();
 const url = process.env.MONGODB_URI;
 
 console.log(url);
@@ -22,19 +29,108 @@ console.log(url);
 const client = new MongoClient(url);
 client.connect();
 
+
+
+// begin section for nodemailer
+
+// test that our environment variables are working
+console.log("process.env.EMAIL_USER = " + process.env.EMAIL_USER);
+console.log("process.env.EMAIL_PASS = " + process.env.EMAIL_PASS);
+
+
+
+var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+});
+
+var mailConfigurations = {
+    from: process.env.EMAIL_USER,
+    to: "",
+    subject: "ZenGrid Sudoku email verification",
+    text: ""
+};
+
+
+
+// temporary testing: just send the email whenever we start up the server.
+/*
+transporter.sendMail(mailConfigurations, function(error, info) {
+    if (error)
+    {
+        console.log("Error!" + error);
+    }
+    console.log("Email sent successfully");
+    console.log(info);
+});
+*/
+
+
+
+
+
+// begin section for APIs
 app.post("/api/createuser", async (req, res, next) => {
   var error = "";
 
   const { username, email, password } = req.body;
 
-  const newUser = { Username: username, Email: email, Password: password };
   // try to push newuser to Users collection
   try {
     const db = client.db("Sudoku");
+
+    // NEW: added verified field, which stores a boolean value.
+    // 'verified' will be false at the start, changes when user verifies the account.
+    const newUser = { Username: username, Email: email, Password: password, Verified: false };
+
     const result = await db.collection("Users").insertOne(newUser);
 
     // return insertedId (or _id) from DB and code 200 if successful
+
+    
     var ret = { username: username, id: result.insertedId };
+
+
+    console.log("\n\nAttempting to send email:");
+
+
+    // EMAIL VERIFICATION:
+    // send out the email verification here to the specified user on successful account create
+    
+    // create a JSON web token to send to the user
+    const payload = {
+        userId: ret.id
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "24h" // give user 24 hours to verify
+    });
+
+    console.log("Token is " + token);
+
+    //let verifyLink = 
+  
+  
+    // change the email data to send to the user's entered email address
+    mailConfigurations.to = email;
+    mailConfigurations.text = "Thank you for registering for ZenGrid Sudoku!" +
+                              "Please click the following link to verify your account:\n " +
+                              `https://sudokuapp-f0e20225784a.herokuapp.com/verificationpage?token=${token}`;
+                              // `http://localhost:3000/verificationpage?token=${token}`;
+
+    await transporter.sendMail(mailConfigurations, function(error, info) {
+        if (error) console.log(error);
+        else 
+        {
+            console.log("Email sent!");
+            console.log(info);
+        }
+    });
+
+
+
+
+
 
     res.status(200).json(ret);
   } catch (e) {
@@ -44,6 +140,67 @@ app.post("/api/createuser", async (req, res, next) => {
     res.status(500).json(ret);
   }
 });
+
+
+
+// NEW: called from verification page. Verifies user which clicked on the link.
+app.post("/api/verifyUser", async( req, res, next) => {
+    // const token = req.query.token;
+    const { token } = req.body;
+
+    // console.log("Inside server: token = " + token);
+
+    try 
+    {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const decodedId = new ObjectId(decoded.userId);
+        // console.log("decodedId = ");
+        // console.log(decodedId);
+
+        // find the user by decoded.userId
+        const db = client.db("Sudoku");
+
+        const result = await db
+            .collection("Users")
+            .findOne({ _id: decodedId });
+
+        // console.log("result = ");
+        // console.log(result);
+
+        // if the user is found and they are not verified, update their verification status
+        if (result.Verified === false)
+        {
+            db.collection("Users").updateOne(
+                { _id: result._id },
+                { $set: { Verified: true } }
+            );
+
+            var message = "User verified successfully!";
+            var ret = { message: message };
+            res.status(200).json(ret);
+        }
+        else
+        {
+            console.log("User already verified!");
+
+            var message = "User already verified!";
+            var ret = { message: message };
+            res.status(200).json(ret);
+        }
+    }
+    catch (e)
+    {
+        console.log("Error:");
+        console.log(e);
+    }
+
+});
+
+
+
+
+
 
 app.post("/api/login", async (req, res, next) => {
   // incoming: login, password
@@ -630,6 +787,13 @@ app.post("/api/getleaderboard_hard", async (req, res, next) => {
   }
 });
 
+
+
+
+
+
+// these were demo APIs from the MERN lab document. deleting in the future
+/*
 app.post("/api/addcard", async (req, res, next) => {
   // incoming: userId, card
   // outgoing: error
@@ -673,6 +837,7 @@ app.post("/api/searchcards", async (req, res, next) => {
   var ret = { results: _ret, error: error };
   res.status(200).json(ret);
 });
+*/
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
