@@ -241,7 +241,7 @@ app.post("/api/getusertime_easy", async (req, res, next) => {
       // otherwise if we find the valid combo of username and puzzle number, return it's usertime
       var time_easy = results[0].Time_easy;
 
-      var ret = { time_easy: time_easy };
+      var ret = { time: time_easy };
       res.status(200).json(ret);
     } catch (e) {
     // return the error with code 500
@@ -301,7 +301,7 @@ app.post("/api/setusertime_easy", async (req, res, next) => {
                 users: {
                   $push: {
                     username: "$Username",
-                    time_easy: "$Time_easy"
+                    time: "$Time_easy"
                   }
                 }
               }
@@ -349,7 +349,7 @@ app.post("/api/getusertime_medium", async (req, res, next) => {
       // otherwise if we find the valid combo of username and puzzle number, return it's usertime
       var time_medium = results[0].Time_medium;
 
-      var ret = { time_medium: time_medium };
+      var ret = { time: time_medium };
       res.status(200).json(ret);
     } catch (e) {
     // return the error with code 500
@@ -409,7 +409,7 @@ app.post("/api/setusertime_medium", async (req, res, next) => {
                 users: {
                   $push: {
                     username: "$Username",
-                    time_medium: "$Time_medium"
+                    time: "$Time_medium"
                   }
                 }
               }
@@ -457,7 +457,7 @@ app.post("/api/getusertime_hard", async (req, res, next) => {
     // otherwise if we find the valid combo of username and puzzle number, return it's usertime
     var time_hard = results[0].Time_hard;
 
-    var ret = { time_hard: time_hard };
+    var ret = { time: time_hard };
     res.status(200).json(ret);
   } catch (e) {
   // return the error with code 500
@@ -517,7 +517,7 @@ app.post("/api/setusertime_hard", async (req, res, next) => {
               users: {
                 $push: {
                   username: "$Username",
-                  time_hard: "$Time_hard"
+                  time: "$Time_hard"
                 }
               }
             }
