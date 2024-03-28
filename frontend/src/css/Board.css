@@ -1,17 +1,12 @@
 #grid
 {
-    position: relative;
-    /*right: 12em;*/
     width: 100%;
-    height: 100%;
+
 }
 
 .uneditable
 {
     background-color: #aaa;
-    /*
-    pointer-events: none;
-    */
 }
 
 /* used to give border to currently selected cell */
@@ -20,12 +15,9 @@
     border: "2px solid red";
 }
 
-
-
 table
 {
     border: 4px solid #000000;
-    margin: 1.5em;
     background-color: #fff;
     border-collapse: collapse;
 }

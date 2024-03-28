@@ -1,18 +1,13 @@
 import React from 'react';
 import '../App.css';
-import { useNavigate } from "react-router-dom";
-function LandingButton({text, set_path})
+function LandingButton({text, do_on_click})
 {
-    let navigate = useNavigate();
-    
-    const routeChange = () => {
-  
-        navigate(set_path);
-
-    };
+    const handleClick = () => {
+        do_on_click();
+    }
 
 	return(
-        <button className="Landing-button" onClick= {routeChange} >
+        <button className="Landing-button" onClick= {handleClick} >
             {text}
         </button>
     )

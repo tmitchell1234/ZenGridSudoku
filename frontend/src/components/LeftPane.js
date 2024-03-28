@@ -1,6 +1,7 @@
 import React from 'react';
 import '../App.css';
 import LandingButton from './LandingButton';
+import { useNavigate } from "react-router-dom";
 
 let user_data;
 let username;
@@ -9,7 +10,7 @@ let id;
 if(localStorage && localStorage.getItem("user_data")) {
     user_data = JSON.parse(localStorage.getItem("user_data"));
     getData();
-    console.log("Data Initialized");
+    console.log("Data Initialized 1");
 }
 
 function clearData() {
@@ -40,6 +41,11 @@ function logOut() {
 
 function LeftPane()
 {
+    let navigate = useNavigate();
+    const routeChange = (path) => {
+        navigate(path);
+    };
+
     if(localStorage && localStorage.getItem("user_data")) {
         return(
             <div className="Sidebar" style={{width: '15%', borderRight: '1px solid black'} }>
@@ -59,17 +65,17 @@ function LeftPane()
     }
     else {
         return(
-            <div className="Sidebar" style={{width: '15%', borderRight: '1px solid black'} }>
+            <div className="Sidebar" >
                 <LandingButton text="🎮 Play" set_path="/" />
-                <LandingButton text="📝 Sign Up" set_path = "/signuppage" />
-                <LandingButton text="🔑 Sign In" set_path= "/loginpage"/>
-                <LandingButton text="📘 About" set_path="/" />
-                <LandingButton text="⚙️ Settings" set_path="/"/>
+                <LandingButton text="📝 Sign Up" do_on_click={() => routeChange("/signuppage")}/>
+                <LandingButton text="🔑 Sign In" do_on_click={() => routeChange("/loginpage")}/>
+                <LandingButton text="📘 About" do_on_click={() => routeChange("/")}/>
+                <LandingButton text="⚙️ Settings" do_on_click={() => routeChange("/")}/>
                 <div style={{marginTop: '30%'}}></div>
 
                 {/*TEST CODE REMOVE LATER*/}
-                <button className="Landing-button" onClick={clearData}>TEST CLR DATA</button>
-                <button className="Landing-button" onClick={setData}>TEST SET DATA</button>
+                <button className="Landing-button" onClick={clearData}>TEST LOGOUT</button>
+                <button className="Landing-button" onClick={setData}>TEST LOGIN</button>
                 <button className="Landing-button" onClick={getData}>TEST GET DATA</button>
 
             </div>

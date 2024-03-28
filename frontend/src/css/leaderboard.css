@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root{
+    --scroll-background-color:rgba(55, 138, 25, 0.9);
+     --scroll-thumb-color:  #185800;
+     ----bs-body-bg:rgba(255, 255, 255, 0.3);
+     /* table color */
+
+}
+  .level-section::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  .level-section::-webkit-scrollbar-track {
+    background: var(--scroll-background-color);
+    border-radius: 100vw;
+  }
+  
+  .level-section::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb-color);
+    border-radius: 20px;
+  }
+
+
+
+.Leaderboard-UI{  
+    display:grid;
+
+    height:100vh;
+    grid-template-columns: 20% 60% 20%;
+ 
+}
+
+.Leaderboard-UI .LeftPane{
+    grid-column: 1/2;
+    grid-row:auto;
+}
+
+.Leaderboard-UI .RightPane{
+    grid-column:3/-1;
+}
+
+.Leaderboard-UI .Leaderboard{
+    grid-column: 2/3;
+}
+
+.level-section{
+
+    display:grid;
+    gap:1em;
+    grid-template-columns: repeat(50,100px);
+    justify-content: space-around;
+    width:100%;
+    max-width:575px;
+    overflow-x: auto;
+    overflow-y:hidden;
+
+  
+}
+
+.level-section button, .level-section button:hover{
+    width:100%;
+    height:38px;
+
+}
+
+/* added this so that the scrollbar can be further away from level-section div */
+.level-section button:last-child{
+    margin-bottom: 10px;
+}
+
+
+.btn-section button, .btn-section button:hover{
+    width:100%;
+    height:100%;
+    transition: border 1s ease-in-out, border-color 0.3s ease-in-out;
+}
+.btn-section{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: minmax(50px, auto);
+    gap:2em;
+    margin:25px;
+}
+
+.table-section{
+
+    width:100%;
+    max-width:575px;
+    margin-top:25px;
+}
+
+.highlight{
+    border:2px solid white;
+}
+
+th{
+    text-align: center;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 700;
+    font-variation-settings:"wdth" 100;
+    font-size:2.3vw;
+    background-color: #185800;
+ 
+}
+
+.table-section tr{
+    font-weight: 600;
+    font-size: 1.2vw;
+    
+}
+
+.table-section thead{
+    color:white;
+}
+
+
+
+.table-secition tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+ .table-section table {
+
+    width:100%;
+    max-width:575px;
+	
+	text-align: left; 
+}
+.table-section th {
+	font-weight: bold;
+	background-color: var(--scroll-background-color);
+	border-bottom: 1px solid var(--scroll-background-color);
+
+}
+ .table-section tr:nth-child(3n){
+    border-bottom: none;
+ }
+
+ .table-section tr td{
+    padding-top:5%;
+    padding-bottom: 5%;
+ }
