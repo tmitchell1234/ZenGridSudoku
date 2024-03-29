@@ -241,6 +241,7 @@ app.post("/api/login", async (req, res, next) => {
 // gets specific number puzzle from the easy set
 app.post("/api/getpuzzle_devtest", async (req, res, next) => {
   var error = "";
+  var code;
   const { puzzlenumber } = req.body;
 
   // check if string is empty. if it is, send error in return.
@@ -258,7 +259,10 @@ app.post("/api/getpuzzle_devtest", async (req, res, next) => {
         .toArray();
 
       // check if results is empty, throw error for user not found with code 501
-      if (results.length == 0) throw new Error("Devtest puzzle not found");
+      if (results.length == 0) {
+        code = 501;
+        throw new Error("Devtest puzzle not found");
+      } 
 
       // otherwise if we find the designated puzzle, return it's puzzle string
       var puzzlestring = results[0].puzzle_string;
@@ -268,8 +272,9 @@ app.post("/api/getpuzzle_devtest", async (req, res, next) => {
     } catch (e) {
       // return the error with code 500
       error = e.toString();
+      if (code != 501) code = 500;
       var ret = { message: error };
-      res.status(500).json(ret);
+      res.status(code).json(ret);
     }
   }
 });
@@ -277,6 +282,7 @@ app.post("/api/getpuzzle_devtest", async (req, res, next) => {
 // gets specific number puzzle from the easy set
 app.post("/api/getpuzzle_easy", async (req, res, next) => {
   var error = "";
+  var code;
   const { puzzle_number } = req.body;
 
   // check if string is empty. if it is, send error in return.
@@ -292,7 +298,10 @@ app.post("/api/getpuzzle_easy", async (req, res, next) => {
         .toArray();
 
       // check if results is empty, throw error for user not found with code 501
-      if (results.length == 0) throw new Error("Easy puzzle not found");
+      if (results.length == 0) {
+        code = 501;
+        throw new Error("Easy puzzle not found");
+      } 
 
       // otherwise if we find the designated puzzle, return it's puzzle string
       var puzzlestring = results[0].puzzle_string;
@@ -302,8 +311,9 @@ app.post("/api/getpuzzle_easy", async (req, res, next) => {
     } catch (e) {
       // return the error with code 500
       error = e.toString();
+      if (code != 501) code = 500;
       var ret = { message: error };
-      res.status(500).json(ret);
+      res.status(code).json(ret);
     }
   }
 });
@@ -311,6 +321,7 @@ app.post("/api/getpuzzle_easy", async (req, res, next) => {
 // gets specific number puzzle from the medium set
 app.post("/api/getpuzzle_medium", async (req, res, next) => {
   var error = "";
+  var code;
   const { puzzle_number } = req.body;
 
   // check if string is empty. if it is, send error in return.
@@ -326,7 +337,10 @@ app.post("/api/getpuzzle_medium", async (req, res, next) => {
         .toArray();
 
       // check if results is empty, throw error for user not found with code 501
-      if (results.length == 0) throw new Error("Medium puzzle not found");
+      if (results.length == 0) {
+        code = 501;
+        throw new Error("Medium puzzle not found");
+      } 
 
       // otherwise if we find the designated puzzle, return it's puzzle string
       var puzzlestring = results[0].puzzle_string;
@@ -336,8 +350,9 @@ app.post("/api/getpuzzle_medium", async (req, res, next) => {
     } catch (e) {
       // return the error with code 500
       error = e.toString();
+      if (code != 501) code = 500;
       var ret = { message: error };
-      res.status(500).json(ret);
+      res.status(code).json(ret);
     }
   }
 });
@@ -345,6 +360,7 @@ app.post("/api/getpuzzle_medium", async (req, res, next) => {
 // gets specific number puzzle from the hard set
 app.post("/api/getpuzzle_hard", async (req, res, next) => {
   var error = "";
+  var code;
   const { puzzle_number } = req.body;
 
   // check if string is empty. if it is, send error in return.
@@ -360,7 +376,10 @@ app.post("/api/getpuzzle_hard", async (req, res, next) => {
         .toArray();
 
       // check if results is empty, throw error for user not found with code 501
-      if (results.length == 0) throw new Error("Hard puzzle not found");
+      if (results.length == 0) {
+        code = 501;
+        throw new Error("Hard puzzle not found");
+      }
 
       // otherwise if we find the designated puzzle, return it's puzzle string
       var puzzlestring = results[0].puzzle_string;
@@ -370,8 +389,9 @@ app.post("/api/getpuzzle_hard", async (req, res, next) => {
     } catch (e) {
       // return the error with code 500
       error = e.toString();
+      if (code != 501) code = 500;
       var ret = { message: error };
-      res.status(500).json(ret);
+      res.status(code).json(ret);
     }
   }
 });
@@ -379,6 +399,7 @@ app.post("/api/getpuzzle_hard", async (req, res, next) => {
 // gets user time of the specific puzzle from the easy set
 app.post("/api/getusertime_easy", async (req, res, next) => {
     var error = "";
+    var code;
     const { username, puzzle_number } = req.body;
   
     try {
@@ -403,8 +424,9 @@ app.post("/api/getusertime_easy", async (req, res, next) => {
     } catch (e) {
     // return the error with code 500
       error = e.toString();
+      if (code != 501) code = 500;
       var ret = { message: error };
-      res.status(500).json(ret);
+      res.status(code).json(ret);
     }
 });
 
@@ -416,7 +438,7 @@ app.post("/api/setusertime_easy", async (req, res, next) => {
 
     if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
       var ret = { message: "Error, invalid easy puzzle number." };
-      res.status(500).json(ret);
+      res.status(501).json(ret);
     } else {
       // check if string is empty. if it is, send error in return.
       try {
@@ -487,6 +509,7 @@ app.post("/api/setusertime_easy", async (req, res, next) => {
 // gets user time of the specific puzzle from the medium set
 app.post("/api/getusertime_medium", async (req, res, next) => {
     var error = "";
+    var code;
     const { username, puzzle_number } = req.body;
   
     try {
@@ -511,8 +534,9 @@ app.post("/api/getusertime_medium", async (req, res, next) => {
     } catch (e) {
     // return the error with code 500
       error = e.toString();
+      if (code != 501) code = 500;
       var ret = { message: error };
-      res.status(500).json(ret);
+      res.status(code).json(ret);
     }
 });
 
@@ -524,7 +548,7 @@ app.post("/api/setusertime_medium", async (req, res, next) => {
 
     if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
       var ret = { message: "Error, invalid medium puzzle number." };
-      res.status(500).json(ret);
+      res.status(501).json(ret);
     } else {
       // check if string is empty. if it is, send error in return.
       try {
@@ -595,6 +619,7 @@ app.post("/api/setusertime_medium", async (req, res, next) => {
 // gets user time of the specific puzzle from the hard set
 app.post("/api/getusertime_hard", async (req, res, next) => {
   var error = "";
+  var code;
   const { username, puzzle_number } = req.body;
 
   try {
@@ -619,8 +644,9 @@ app.post("/api/getusertime_hard", async (req, res, next) => {
   } catch (e) {
   // return the error with code 500
     error = e.toString();
+    if (code != 501) code = 500;
     var ret = { message: error };
-    res.status(500).json(ret);
+    res.status(code).json(ret);
   }
 });
 
@@ -632,7 +658,7 @@ app.post("/api/setusertime_hard", async (req, res, next) => {
 
   if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
     var ret = { message: "Error, invalid hard puzzle number." };
-    res.status(500).json(ret);
+    res.status(501).json(ret);
   } else {
     // check if string is empty. if it is, send error in return.
     try {
@@ -710,7 +736,7 @@ app.post("/api/getleaderboard_easy", async (req, res, next) => {
 
     if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
         var ret = { message: "Error, invalid easy puzzle number." };
-        return res.status(500).json(ret);
+        return res.status(501).json(ret);
     }
 
     // Fetch the leaderboard for the given puzzle number
@@ -739,7 +765,7 @@ app.post("/api/getleaderboard_medium", async (req, res, next) => {
 
     if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
         var ret = { message: "Error, invalid medium puzzle number." };
-        return res.status(500).json(ret);
+        return res.status(501).json(ret);
     }
 
     // Fetch the leaderboard for the given puzzle number
@@ -768,7 +794,7 @@ app.post("/api/getleaderboard_hard", async (req, res, next) => {
 
     if (isNaN(puzzle_number) || puzzle_number < 1 || puzzle_number > 50) {
         var ret = { message: "Error, invalid hard puzzle number." };
-        return res.status(500).json(ret);
+        return res.status(501).json(ret);
     }
 
     // Fetch the leaderboard for the given puzzle number
