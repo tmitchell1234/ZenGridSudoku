@@ -277,10 +277,10 @@ app.post("/api/getpuzzle_devtest", async (req, res, next) => {
 // gets specific number puzzle from the easy set
 app.post("/api/getpuzzle_easy", async (req, res, next) => {
   var error = "";
-  const { puzzlenumber } = req.body;
+  const { puzzle_number } = req.body;
 
   // check if string is empty. if it is, send error in return.
-  if (puzzlenumber.length === 0) {
+  if (puzzle_number.length === 0) {
     var ret = { message: "Error, no puzzle number given in getpuzzle_easy." };
     res.status(500).json(ret);
   } else {
@@ -288,7 +288,7 @@ app.post("/api/getpuzzle_easy", async (req, res, next) => {
       const db = client.db("Sudoku");
       const results = await db
         .collection("puzzles_easy")
-        .find({ puzzle_number: puzzlenumber })
+        .find({ puzzle_number: puzzle_number })
         .toArray();
 
       // check if results is empty, throw error for user not found with code 501
@@ -311,10 +311,10 @@ app.post("/api/getpuzzle_easy", async (req, res, next) => {
 // gets specific number puzzle from the medium set
 app.post("/api/getpuzzle_medium", async (req, res, next) => {
   var error = "";
-  const { puzzlenumber } = req.body;
+  const { puzzle_number } = req.body;
 
   // check if string is empty. if it is, send error in return.
-  if (puzzlenumber.length === 0) {
+  if (puzzle_number.length === 0) {
     var ret = { message: "Error, no puzzle number given in getpuzzle_medium." };
     res.status(500).json(ret);
   } else {
@@ -322,7 +322,7 @@ app.post("/api/getpuzzle_medium", async (req, res, next) => {
       const db = client.db("Sudoku");
       const results = await db
         .collection("puzzles_medium")
-        .find({ puzzle_number: puzzlenumber })
+        .find({ puzzle_number: puzzle_number })
         .toArray();
 
       // check if results is empty, throw error for user not found with code 501
@@ -345,10 +345,10 @@ app.post("/api/getpuzzle_medium", async (req, res, next) => {
 // gets specific number puzzle from the hard set
 app.post("/api/getpuzzle_hard", async (req, res, next) => {
   var error = "";
-  const { puzzlenumber } = req.body;
+  const { puzzle_number } = req.body;
 
   // check if string is empty. if it is, send error in return.
-  if (puzzlenumber.length === 0) {
+  if (puzzle_number.length === 0) {
     var ret = { message: "Error, no puzzle number given in getpuzzle_hard." };
     res.status(500).json(ret);
   } else {
@@ -356,7 +356,7 @@ app.post("/api/getpuzzle_hard", async (req, res, next) => {
       const db = client.db("Sudoku");
       const results = await db
         .collection("puzzles_hard")
-        .find({ puzzle_number: puzzlenumber })
+        .find({ puzzle_number: puzzle_number })
         .toArray();
 
       // check if results is empty, throw error for user not found with code 501
