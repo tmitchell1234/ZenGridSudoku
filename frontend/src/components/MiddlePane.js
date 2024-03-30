@@ -127,12 +127,14 @@ function MiddlePane({ puzzleData }) {
     // isFirstRender stops it from running twice on page start but doesnt work right on live server??? idk
     useEffect(() => {
         
+        //CODE FOR LOCAL SERVER (Comment out when pushing)
         /*
         if(isFirstRender1.current) {
             isFirstRender1.current = false;
             return;
         }
         */
+        
 
         console.log("printing from inside useEffect()");
         createBoard("easy", 0);
@@ -313,17 +315,18 @@ function MiddlePane({ puzzleData }) {
     }
 
     useEffect(() => {
-        /*renderCount is weird, seems like it renders once on page start but twice on local machine???*/
-        /*Leaving this here for testing*/
 
+        //renderCount is weird, seems like it renders once on page start but twice on local machine???
+
+        //CODE FOR LOCAL SERVER (Comment out when pushing)
         /*
         renderCount2 ++;
         if(renderCount2 <= 2) {
             return;
         }
         */
-        
 
+        //CODE FOR LIVE SERVER (Comment out when testing)
         
         renderCount2 ++;
         if(renderCount2 <= 1) {
