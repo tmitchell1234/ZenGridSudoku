@@ -33,7 +33,7 @@ function createBoard(difficulty, number) {
         number = getRandomInt(1,50);
     }
     const data = {
-        puzzlenumber: number
+        puzzle_number: number
     };
     
 
