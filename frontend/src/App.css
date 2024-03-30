@@ -92,8 +92,8 @@
   color: white;
   font-style: normal;
   font-weight: 600;
-  font-size: 8.5vw;
-  /* 64px */
+ font-size: clamp(2rem, 8.5vw, 5rem);
+
 }
 
 .Landing-title button {
