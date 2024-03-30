@@ -48,15 +48,12 @@ function LeftPane()
 
     if(localStorage && localStorage.getItem("user_data")) {
         return(
-            <div className="Sidebar" style={{width: '15%', borderRight: '1px solid black'} }>
+            <div className="Sidebar">
                 <LandingButton text="🎮 Play" set_path="/" />
                 <LandingButton text="📘 About" set_path="/" />
                 <LandingButton text="⚙️ Settings" set_path="/"/>
                 <button className="Landing-button" onClick={logOut}>🔓 Log Out</button>
-                <div style={{marginTop: '30%'}}></div>
-                <button className="Landing-button" onClick={clearData}>TEST CLR DATA</button>
-                <button className="Landing-button" onClick={setData}>TEST SET DATA</button>
-                <button className="Landing-button" onClick={getData}>TEST GET DATA</button>
+
                 <div className="Landing-Name-Display">
                     Welcome back, {username}!
                 </div>
