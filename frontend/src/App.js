@@ -12,6 +12,7 @@ import VerificationPage from './pages/VerificationPage';
 
 import LeaderboardPage from './pages/LeaderboardPage';
 import ScrollToTop from './components/ScrollToTop';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
 function App()
 {
@@ -25,6 +26,7 @@ function App()
 			<Route path="/signuppage" index element={<SignUpPage/>} />
 			<Route path="/verificationpage" index element={<VerificationPage/>} />
 			<Route path="/leaderboardpage" index element={<LeaderboardPage/>} />
+			<Route path="/forgotpasswordpage" index element={<ForgotPasswordPage/>} />
 		</Routes>
 		</BrowserRouter>
 	);

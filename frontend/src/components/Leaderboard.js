@@ -122,20 +122,11 @@ export default function Leaderboard() {
       .then((res) => {
         if (res.Users) {
           let array = [];
-          if (difficulty === "easy") {
-            array = res.Users.map((item) => {
-              return { username: item.username, time: item.time_easy };
-            });
-          } else if (difficulty === "medium") {
-            array = res.Users.map((item) => {
-              return { username: item.username, time: item.time_medium };
-            });
-          } else if (difficulty === "hard") {
-            array = res.Users.map((item) => {
-              return { username: item.username, time: item.time_hard };
-            });
-          }
+       
 
+          array = res.Users.map((item) => {
+            return { username: item.username, time: item.time };
+          });
           setLeaderboardList(array);
         } else {
           setLeaderboardList([]);

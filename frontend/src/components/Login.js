@@ -58,7 +58,7 @@ export default function Login() {
         console.log("Inside Login.js: user.username = " + user.username + ", user.id = " + user.id);
 
         localStorage.setItem("user_data", JSON.stringify(user));
-        {goHome()}
+        goHome()
         window.location.reload();
       }
       // navigate("/");
@@ -105,7 +105,7 @@ export default function Login() {
             />
           </Form.Group>
 
-          <Link className="forgot-pass-link">Forgot password?</Link>
+          <Link className="forgot-pass-link" to="/forgotpasswordpage">Forgot password?</Link>
 
           {show && (
             <Alert variant="danger" onClose={() => setShow(false)} dismissible>
