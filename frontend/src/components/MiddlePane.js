@@ -141,13 +141,15 @@ function MiddlePane({ puzzleData }) {
             createBoard("easy", 0);
         }
         */
+        
 
 
         //CODE FOR LIVE SERVER (Comment out when running locally)
-
+        
         console.log("useEffect 1: " + isFirstRender1.current);
         renderCount2 = 0; 
         createBoard("easy", 0);
+        
 
         
         
@@ -341,6 +343,7 @@ function MiddlePane({ puzzleData }) {
         */
         
         
+        
 
         //CODE FOR LIVE SERVER (Comment out when testing)
         
@@ -348,6 +351,7 @@ function MiddlePane({ puzzleData }) {
         if(renderCount2 <= 1) {
             return;
         }
+        
         
         
         

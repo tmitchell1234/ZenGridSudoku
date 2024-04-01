@@ -30,19 +30,31 @@ function RightPane({ updatePuzzleData }) {
       document.getElementById("easyButton").style.background = "#80c452";
       document.getElementById("mediumButton").style.background = "#ABE188";
       document.getElementById("hardButton").style.background = "#ABE188";
+      document.getElementById("devtestButton").style.background = "#ABE188";
     } else if (difficulty == "medium") {
       puzzleDifficulty = "medium";
       document.getElementById("easyButton").style.background = "#ABE188";
       document.getElementById("mediumButton").style.background = "#80c452";
       document.getElementById("hardButton").style.background = "#ABE188";
+      document.getElementById("devtestButton").style.background = "#ABE188";
     } else if (difficulty == "hard") {
       puzzleDifficulty = "hard";
       document.getElementById("easyButton").style.background = "#ABE188";
       document.getElementById("mediumButton").style.background = "#ABE188";
       document.getElementById("hardButton").style.background = "#80c452";
-    } else {
+      document.getElementById("devtestButton").style.background = "#ABE188";
+    } 
+    else if (difficulty == "devtest") {
+    puzzleDifficulty = "devtest";
+    document.getElementById("easyButton").style.background = "#ABE188";
+    document.getElementById("mediumButton").style.background = "#ABE188";
+    document.getElementById("hardButton").style.background = "#ABE188";
+    document.getElementById("devtestButton").style.background = "#80c452";
+    }
+    else {
       console.log("invalid difficulty (how did we get here?)");
     }
+
   }
 
   function setPuzzleNumber(numberType) {
@@ -160,6 +172,13 @@ function RightPane({ updatePuzzleData }) {
                 onClick={() => setDifficulty("hard")}
               >
                 Hard
+              </button>
+              <button
+                id="devtestButton"
+                className="selectPuzzleDifficulty"
+                onClick={() => setDifficulty("devtest")}
+              >
+                devtest
               </button>
             </div>
           </div>
