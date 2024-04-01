@@ -63,7 +63,7 @@ function LeftPane()
     else {
         return(
             <div className="Sidebar" >
-                <LandingButton text="🎮 Play" set_path="/" />
+                <LandingButton text="🎮 Play" do_on_click={() => routeChange("/")}/>
                 <LandingButton text="📝 Sign Up" do_on_click={() => routeChange("/signuppage")}/>
                 <LandingButton text="🔑 Sign In" do_on_click={() => routeChange("/loginpage")}/>
                 <LandingButton text="📘 About" do_on_click={() => routeChange("/")}/>

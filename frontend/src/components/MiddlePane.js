@@ -129,15 +129,27 @@ function MiddlePane({ puzzleData }) {
         
         //CODE FOR LOCAL SERVER (Comment out when pushing)
         /*
+        console.log("useEffect 1: " + isFirstRender1.current);
         if(isFirstRender1.current) {
             isFirstRender1.current = false;
+            //This resets renderCount2 every time the page is loaded
+            //Fixes issue with page redirection causing a api crash or something idk this code is confusing
+            renderCount2 = 0; 
             return;
         }
+        else {
+            createBoard("easy", 0);
+        }
         */
-        
 
-        console.log("printing from inside useEffect()");
+
+        //CODE FOR LIVE SERVER (Comment out when running locally)
+
+        console.log("useEffect 1: " + isFirstRender1.current);
+        renderCount2 = 0; 
         createBoard("easy", 0);
+
+        
         
     }, []); // empty dependency array
 
@@ -315,16 +327,20 @@ function MiddlePane({ puzzleData }) {
     }
 
     useEffect(() => {
+        
 
         //renderCount is weird, seems like it renders once on page start but twice on local machine???
 
         //CODE FOR LOCAL SERVER (Comment out when pushing)
         /*
         renderCount2 ++;
+        console.log("useEffect 2: " + renderCount2);
         if(renderCount2 <= 2) {
             return;
         }
         */
+        
+        
 
         //CODE FOR LIVE SERVER (Comment out when testing)
         
@@ -332,6 +348,8 @@ function MiddlePane({ puzzleData }) {
         if(renderCount2 <= 1) {
             return;
         }
+        
+        
         
 
         console.log("puzzleData updated");
