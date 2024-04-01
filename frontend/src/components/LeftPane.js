@@ -10,7 +10,6 @@ let id;
 if(localStorage && localStorage.getItem("user_data")) {
     user_data = JSON.parse(localStorage.getItem("user_data"));
     getData();
-    console.log("Data Initialized 1");
 }
 
 function clearData() {
@@ -30,7 +29,6 @@ function getData() {
     if(user_data) {
         username = user_data.username;
         id = user_data.id;
-        console.log("U: " + username + ",id: " + id);
     }
 }
 
@@ -49,9 +47,9 @@ function LeftPane()
     if(localStorage && localStorage.getItem("user_data")) {
         return(
             <div className="Sidebar">
-                <LandingButton text="🎮 Play" set_path="/" />
-                <LandingButton text="📘 About" set_path="/" />
-                <LandingButton text="⚙️ Settings" set_path="/"/>
+                <LandingButton text="🎮 Play" do_on_click={() => routeChange("/")}/>
+                <LandingButton text="📘 About" do_on_click={() => routeChange("/")}/>
+                <LandingButton text="⚙️ Settings" do_on_click={() => routeChange("/")}/>
                 <button className="Landing-button" onClick={logOut}>🔓 Log Out</button>
 
                 <div className="Landing-Name-Display">

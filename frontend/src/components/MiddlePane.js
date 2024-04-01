@@ -1,8 +1,10 @@
-import React, { useRef, useEffect, cloneElement } from 'react';
+import React, { useRef, useEffect, cloneElement, useState } from 'react';
 import '../App.css';
 import SudokuBoard from './SudokuBoard.js';
 import SudokuMenu from './SudokuMenu.js';
 import LandingTitle from './LandingTitle.js';
+import WinScreen from './WinScreen.js';
+import clock from '../images/clock.png';
 
 // create our internal 9x9 sudoku board for the purposes of validation:
 var allCells;
@@ -15,7 +17,51 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+let timeMS = 0; // Variable to store time in milliseconds
+let intervalId; // Variable to store interval ID
+let timeString = "";
+
+function timeMStoString(timeMS) {
+    let timeSec = Math.floor(timeMS / 1000);
+    timeMS -= 1000 * timeSec;
+    let timeMin = Math.floor(timeSec / 60);
+    timeSec -= timeMin * 60;
+    let timeHour = Math.floor(timeMin / 60);
+    timeMin -= timeHour * 60;
+    if(timeHour > 0) {
+        return String(timeHour) + ":" + String(timeMin).padStart(2, '0') + ":" + String(timeSec).padStart(2, '0') + "." + String(timeMS).slice(0,2);
+    }
+    else if(timeMin > 0) {
+        return String(timeMin) + ":" + String(timeSec).padStart(2, '0') + "." + String(timeMS).slice(0,2);
+    }
+    else if(timeSec > 0) {
+        return String(timeSec) + "." + String(timeMS).charAt(0);
+    }
+    else {
+        return "0." + String(timeMS).charAt(0);
+    }
+    
+}
+
+// Function to start the timer
+function startTimer() {
+    timeMS = 0;
+  intervalId = setInterval(() => {
+    timeMS += 100; // Increment time by 100 milliseconds
+    timeString = timeMStoString(timeMS);
+    document.getElementById("clockText").innerHTML = timeString;
+  }, 100); // Update every 100 milliseconds
+}
+
+// Function to stop the timer
+function endTimer() {
+  clearInterval(intervalId);
+}
+
+
 function createBoard(difficulty, number) {
+    endTimer();
+    startTimer();
     
     // get all sudoku grid cells and update them
     allCells = document.querySelectorAll('td');
@@ -28,7 +74,6 @@ function createBoard(difficulty, number) {
         inside this useEffect() block.
     */
 
-    // send request to API to get easy puzzle 1:
     if(number == 0) {
         number = getRandomInt(1,50);
     }
@@ -78,7 +123,7 @@ function createBoard(difficulty, number) {
         .then(response => response.json())
         .then(json => {
             puzzleString = json.puzzlestring;
-            console.log("puzzleString = " + puzzleString);
+            //console.log("puzzleString = " + puzzleString);
 
             // now that we have puzzleString, populate the table with given data
             for (var i = 0; i < 81; i++) {
@@ -111,8 +156,17 @@ function createBoard(difficulty, number) {
         });
 }
 
+
+
 function MiddlePane({ puzzleData }) {
     const isFirstRender1 = useRef(true);
+    let logged_in;
+    if(localStorage && localStorage.getItem("user_data")) {
+        logged_in = true;
+    }
+    else {
+        logged_in = false;
+    }
     
     // EXPERIMENTAL - getting puzzle data and populating table.
     // Put this somewhere else when we refine this functionality.
@@ -129,7 +183,6 @@ function MiddlePane({ puzzleData }) {
         
         //CODE FOR LOCAL SERVER (Comment out when pushing)
         /*
-        console.log("useEffect 1: " + isFirstRender1.current);
         if(isFirstRender1.current) {
             isFirstRender1.current = false;
             //This resets renderCount2 every time the page is loaded
@@ -142,18 +195,102 @@ function MiddlePane({ puzzleData }) {
         }
         */
         
+        
 
 
         //CODE FOR LIVE SERVER (Comment out when running locally)
         
-        console.log("useEffect 1: " + isFirstRender1.current);
         renderCount2 = 0; 
         createBoard("easy", 0);
+        
         
 
         
         
     }, []); // empty dependency array
+
+    const [puzzleCompleted, setPuzzleCompleted] = useState(false);
+
+    const logTime = async (inputData, inputURL) => {
+        //console.log("logTime: \nURL: " + inputURL + "\nData: " + JSON.stringify(inputData));
+        try {
+            const response = await fetch(
+                inputURL,
+                {
+                method: "POST",
+                body: JSON.stringify(inputData),
+                headers: { "Content-Type": "application/json" },
+                }
+            );
+            let res = JSON.parse(await response.text());
+            if (res.message) 
+                alert(res.message);
+        }
+        catch (e) {
+            alert("Logging time failed! Check console.");
+            console.log(e);
+        }
+    }
+
+    function winEffects() {
+        endTimer();
+        setPuzzleCompleted(true);
+
+        if(localStorage && localStorage.getItem("user_data")) {
+            let difficulty = puzzleData.difficulty;
+            let jsonDifficulties = {
+                t1: "easy",
+                t2: "medium",
+                t3: "hard",
+                t4: "devtest"
+            }
+            let url;
+            let data;
+            if(difficulty == jsonDifficulties.t1) {
+                url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/setusertime_easy';
+                data = {
+                    //username: localStorage.getItem("user_data").username,
+                    username: JSON.parse(localStorage.getItem("user_data")).username,
+                    puzzle_number: puzzleData.number,
+                    time_easy: timeMS
+                };
+            }
+            else if(difficulty == jsonDifficulties.t2) {
+                url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/setusertime_medium';
+                data = {
+                    //username: localStorage.getItem("user_data").username,
+                    username: JSON.parse(localStorage.getItem("user_data")).username,
+                    puzzle_number: puzzleData.number,
+                    time_medium: timeMS
+                };
+            }
+            else if(difficulty == jsonDifficulties.t3) {
+                url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/setusertime_hard';
+                data = {
+                    //username: localStorage.getItem("user_data").username,
+                    username: JSON.parse(localStorage.getItem("user_data")).username,
+                    puzzle_number: puzzleData.number,
+                    time_hard: timeMS
+                };
+            }
+            else if(difficulty == jsonDifficulties.t4) {
+                url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/setusertime_medium';
+                data = {
+                    //username: localStorage.getItem("user_data").username,
+                    username: JSON.parse(localStorage.getItem("user_data")).username,
+                    puzzle_number: puzzleData.number,
+                    time_medium: timeMS
+                };
+            }
+            else {
+                console.log("Invalid difficulty (something is wrong)");
+            }
+            logTime(data, url);
+        }
+    }
+
+    useEffect(() => {
+    }, [puzzleCompleted]);
 
 
 
@@ -192,17 +329,21 @@ function MiddlePane({ puzzleData }) {
 
                     // make call to validation function whenever number is inserted:
                     if (isValidSudoku()) {
-                        console.log("Board is valid!");
+                        //console.log("Board is valid!");
 
                         // now check if board is filled.
                         // in which case, notify user they solved the board.
 
-                        if (boardIsFilled())
-                            alert("Congrats, you solved the puzzle!");
+                        if (boardIsFilled()) {
+                            //console.log("Congrats, you solved the puzzle!");
+                            winEffects();
+                        }
+                           
                     }
 
-                    else
-                        console.log("Board has mistakes!");
+                    else {
+                        //console.log("Board has mistakes!");
+                    }
                 }
 
             }
@@ -336,11 +477,11 @@ function MiddlePane({ puzzleData }) {
         //CODE FOR LOCAL SERVER (Comment out when pushing)
         /*
         renderCount2 ++;
-        console.log("useEffect 2: " + renderCount2);
         if(renderCount2 <= 2) {
             return;
         }
         */
+        
         
         
         
@@ -355,9 +496,9 @@ function MiddlePane({ puzzleData }) {
         
         
         
+        
 
-        console.log("puzzleData updated");
-        console.log("createBoard(" + JSON.stringify(puzzleData.difficulty) + ", " + JSON.stringify(puzzleData.number) + ");");
+        //console.log("createBoard(" + JSON.stringify(puzzleData.difficulty) + ", " + JSON.stringify(puzzleData.number) + ");");
         resetBoard();
         //unHighlightAll();
         createBoard(puzzleData.difficulty, parseInt(puzzleData.number));
@@ -367,13 +508,19 @@ function MiddlePane({ puzzleData }) {
     //HTML STUFF HERE
     return (
         <div className="Middle-pane">
+            {puzzleCompleted === true ? <WinScreen time_taken={timeString} logged_in={logged_in}/> : null}
             <LandingTitle />
+            <div className="clockContainer">
+                <img src={clock}></img>
+                <div className="clockText" id="clockText">0:00.0</div>
+            </div>
             <div className="SudokuBoard">
                 <SudokuBoard handleCellClick={selectCell} />
                 <SudokuMenu onButtonClick={insertNumber} />
             </div>
         </div>
     )
+    
 };
 
 

@@ -103,13 +103,12 @@ function RightPane({ updatePuzzleData }) {
     }
 
     if (ret == false) {
-      console.log("proceeding to start puzzle");
       let puzzleData = {
         difficulty: puzzleDifficulty,
         number: puzzleNumber,
       };
       localStorage.setItem("puzzle_data", JSON.stringify(puzzleData));
-      console.log(JSON.stringify(puzzleData));
+      //console.log(JSON.stringify(puzzleData));
       updatePuzzleData(puzzleData);
     } else {
       errorArea.innerHTML = errorText;
