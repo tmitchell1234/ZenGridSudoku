@@ -242,10 +242,10 @@ app.post("/api/login", async (req, res, next) => {
 app.post("/api/getpuzzle_devtest", async (req, res, next) => {
   var error = "";
   var code;
-  const { puzzlenumber } = req.body;
+  const { puzzle_number } = req.body;
 
   // check if string is empty. if it is, send error in return.
-  if (puzzlenumber.length === 0) {
+  if (puzzle_number.length === 0) {
     var ret = {
       message: "Error, no puzzle number given in getpuzzle_devtest.",
     };
@@ -255,7 +255,7 @@ app.post("/api/getpuzzle_devtest", async (req, res, next) => {
       const db = client.db("Sudoku");
       const results = await db
         .collection("devtestpuzzle")
-        .find({ puzzle_number: puzzlenumber })
+        .find({ puzzle_number: puzzle_number })
         .toArray();
 
       // check if results is empty, throw error for user not found with code 501
