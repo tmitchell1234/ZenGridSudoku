@@ -196,6 +196,7 @@ function MiddlePane({ puzzleData }) {
         */
         
         
+        
 
 
         //CODE FOR LIVE SERVER (Comment out when running locally)
@@ -252,7 +253,7 @@ function MiddlePane({ puzzleData }) {
                     //username: localStorage.getItem("user_data").username,
                     username: JSON.parse(localStorage.getItem("user_data")).username,
                     puzzle_number: puzzleData.number,
-                    time_easy: timeMS
+                    time_easy: (Math.floor(timeMS / 1000))
                 };
             }
             else if(difficulty == jsonDifficulties.t2) {
@@ -261,7 +262,7 @@ function MiddlePane({ puzzleData }) {
                     //username: localStorage.getItem("user_data").username,
                     username: JSON.parse(localStorage.getItem("user_data")).username,
                     puzzle_number: puzzleData.number,
-                    time_medium: timeMS
+                    time_medium: (Math.floor(timeMS / 1000))
                 };
             }
             else if(difficulty == jsonDifficulties.t3) {
@@ -270,7 +271,7 @@ function MiddlePane({ puzzleData }) {
                     //username: localStorage.getItem("user_data").username,
                     username: JSON.parse(localStorage.getItem("user_data")).username,
                     puzzle_number: puzzleData.number,
-                    time_hard: timeMS
+                    time_hard: (Math.floor(timeMS / 1000))
                 };
             }
             else if(difficulty == jsonDifficulties.t4) {
@@ -279,7 +280,7 @@ function MiddlePane({ puzzleData }) {
                     //username: localStorage.getItem("user_data").username,
                     username: JSON.parse(localStorage.getItem("user_data")).username,
                     puzzle_number: puzzleData.number,
-                    time_medium: timeMS
+                    time_medium: (Math.floor(timeMS / 1000))
                 };
             }
             else {
@@ -492,6 +493,7 @@ function MiddlePane({ puzzleData }) {
         if(renderCount2 <= 1) {
             return;
         }
+        
         
         
         
