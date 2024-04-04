@@ -94,22 +94,6 @@ var mailConfigurations = {
 
 
 
-// temporary testing: just send the email whenever we start up the server.
-/*
-transporter.sendMail(mailConfigurations, function(error, info) {
-    if (error)
-    {
-        console.log("Error!" + error);
-    }
-    console.log("Email sent successfully");
-    console.log(info);
-});
-*/
-
-
-
-
-
 // begin section for APIs
 app.post("/api/createuser", async (req, res, next) => {
   var error = "";
@@ -148,9 +132,6 @@ app.post("/api/createuser", async (req, res, next) => {
     });
 
     console.log("Token is " + token);
-
-    //let verifyLink = 
-  
   
     // change the email data to send to the user's entered email address
     mailConfigurations.to = email;
@@ -167,10 +148,6 @@ app.post("/api/createuser", async (req, res, next) => {
             console.log(info);
         }
     });
-
-
-
-
 
 
     res.status(200).json(ret);
@@ -854,57 +831,6 @@ app.post("/api/getleaderboard_hard", async (req, res, next) => {
   }
 });
 
-
-
-
-
-
-// these were demo APIs from the MERN lab document. deleting in the future
-/*
-app.post("/api/addcard", async (req, res, next) => {
-  // incoming: userId, card
-  // outgoing: error
-
-  const { userId, card } = req.body;
-
-  const newCard = { Card: card, UserId: userId };
-  var error = "";
-
-  try {
-    const db = client.db("Sudoku");
-    const result = db.collection("cards").insertOne(newCard);
-  } catch (e) {
-    error = e.toString();
-  }
-
-  var ret = { error: error };
-  res.status(200).json(ret);
-});
-
-app.post("/api/searchcards", async (req, res, next) => {
-  // incoming: userId, search
-  // outgoing: results[], error
-  var error = "";
-
-  const { userId, search } = req.body;
-
-  var _search = search.trim();
-
-  const db = client.db("Sudoku");
-  const results = await db
-    .collection("cards")
-    .find({ Card: { $regex: _search + ".*", $options: "i" } })
-    .toArray();
-
-  var _ret = [];
-  for (var i = 0; i < results.length; i++) {
-    _ret.push(results[i].Card);
-  }
-
-  var ret = { results: _ret, error: error };
-  res.status(200).json(ret);
-});
-*/
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
