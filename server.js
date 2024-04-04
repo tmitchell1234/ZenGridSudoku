@@ -6,6 +6,13 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 
+
+// NEW in OAuth2 verification: using Google APIs:
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+
+
+
 const path = require("path");
 const { ObjectId } = require("mongodb");
 const PORT = process.env.PORT || 5000;
@@ -39,10 +46,44 @@ console.log("process.env.EMAIL_PASS = " + process.env.EMAIL_PASS);
 
 
 
+
+
+
+const oauth2Client = new OAuth2(
+    process.env.OAUTH_CLIENTID, // ClientID
+    process.env.OAUTH_CLIENTSECRET, // client secret
+    "https://developers.google.com/oauthplayground" // redirect URL
+)
+
+oauth2Client.setCredentials({
+  refresh_token: process.env.OAUTH_REFRESH_TOKEN
+});
+
+const accessToken = oauth2Client.getAccessToken();
+
+
+
+
 var transporter = nodemailer.createTransport({
     service: "gmail",
-    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-});
+    //auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+
+      // NEW
+      auth: {
+          type: "OAuth2",
+          user: process.env.EMAIL_USER,
+          clientId: process.env.OAUTH_CLIENTID,
+          clientSecret: process.env.OAUTH_CLIENTSECRET,
+          refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+          accessToken: accessToken
+      }
+
+
+      // according to article, we /may/ need the following line:
+      // tls: {
+      //    rejectUnauthorized: false
+      // }
+  });
 
 var mailConfigurations = {
     from: process.env.EMAIL_USER,
@@ -116,7 +157,7 @@ app.post("/api/createuser", async (req, res, next) => {
     mailConfigurations.text = "Thank you for registering for ZenGrid Sudoku!" +
                               "Please click the following link to verify your account:\n " +
                               `https://sudokuapp-f0e20225784a.herokuapp.com/verificationpage?token=${token}`;
-                              // `http://localhost:3000/verificationpage?token=${token}`;
+                               //`http://localhost:3000/verificationpage?token=${token}`;
 
     await transporter.sendMail(mailConfigurations, function(error, info) {
         if (error) console.log(error);
