@@ -135,8 +135,8 @@ app.post("/api/createuser", async (req, res, next) => {
   
     // change the email data to send to the user's entered email address
     mailConfigurations.to = email;
-    mailConfigurations.text = "Thank you for registering for ZenGrid Sudoku!" +
-                              "Please click the following link to verify your account:\n " +
+    mailConfigurations.text = "Thank you for registering for ZenGrid Sudoku!\n" +
+                              "Please click the following link to verify your account:\n" +
                               `https://sudokuapp-f0e20225784a.herokuapp.com/verificationpage?token=${token}`;
                                //`http://localhost:3000/verificationpage?token=${token}`;
 
