@@ -33,7 +33,7 @@ export default function VerificationPage() {
 
         const response = await fetch(
             //"http://localhost:5000/api/verifyUser",
-            "https://sudokuapp-f0e20225784a.herokuapp.com/verifyUser",
+            "https://sudokuapp-f0e20225784a.herokuapp.com/api/verifyUser",
             {
                 method: "POST",
                 body: JSON.stringify(request),
