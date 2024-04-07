@@ -217,6 +217,13 @@ app.post("/api/verifyUser", async( req, res, next) => {
 
 
 
+app.post("api/checkVerified", async (req, res, next) => {
+
+    // this method should 
+});
+
+
+
 
 
 
@@ -244,10 +251,17 @@ app.post("/api/login", async (req, res, next) => {
     var id = results[0]._id;
     var username = results[0].Username;
 
-    // return id, firstname, and lastname if successful
-    var ret = { id: id, Username: username };
+
+    // NEW: Return verified status
+    var Verified = results[0].Verified;
+
+
+    // return id, username, and verified status
+    var ret = { id: id, Username: username, Verified: Verified };
     res.status(200).json(ret);
-  } catch (e) {
+  }
+  catch (e)
+  {
     error = e.toString();
 
     if (code != 501) code = 500;

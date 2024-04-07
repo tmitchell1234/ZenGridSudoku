@@ -17,7 +17,6 @@ export default function Verify()
         navigate("/");
     };
 
-
     return (
         <div className="verified_text_panel">
             <Form className="form">
