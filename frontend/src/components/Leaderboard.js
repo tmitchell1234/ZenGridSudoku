@@ -178,6 +178,11 @@ export default function Leaderboard() {
                 </tr>
               );
             })}
+
+            {leaderboardList.length ==0 &&  <td colSpan={2} rowSpan={1} className="empty-message">
+            <div className="text">Set a new record today! </div>
+            </td>
+            }
           </tbody>
         </table>
       </div>

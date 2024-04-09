@@ -143,3 +143,32 @@ th{
     padding-top:5%;
     padding-bottom: 5%;
  }
+
+ .empty-message{
+    
+    height:auto;
+    font-weight: 700;
+    font-size: clamp(2em, 2.5em,3em);
+
+ }
+
+
+ .empty-message .text{
+    min-height: 150px;
+    margin-top: 75px;
+    line-height: 45px;
+    
+ }
+
+ @media screen and (max-width:500px){
+    .Leaderboard-UI .btn-section{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        
+    }
+    .Leaderboard-UI .btn-section button{
+        margin:0px;
+        
+    }
+ }

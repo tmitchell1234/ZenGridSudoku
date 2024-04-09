@@ -1,0 +1,147 @@
+@import "./_variables.scss";
+.Profile-UI {
+  display: grid;
+
+  height: 100vh;
+  grid-template-columns: 20% 60% 20%;
+
+}
+
+
+.profile-message{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    background-color: white;
+    padding:.5em;
+    display: flex;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 5/1;
+    font-size: $title-length;
+    margin-top:15vh;
+
+}
+
+.profile-board {
+  width: 80%;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  .username-title {
+    font-size: $title-length-two;
+    width: 100%;
+    height: auto;
+    color: black;
+    @include setFont("2");
+    text-align: center;
+  }
+  .delete-btn {
+    position: absolute;
+    bottom: 50px;
+  }
+
+  @media screen and (max-width: $breakpoint-tablet) {
+    justify-content: space-between;
+    height: auto;
+    min-height: 80vh;
+    .username-title {
+      word-break: break-word;
+      font-size: $title-length-three;
+    }
+    .delete-btn {
+      position: static;
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+  }
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  align-items: center;
+  justify-items: center;
+  grid-auto-rows: 200px;
+
+  width: 100%;
+
+  column-gap: 0.7em;
+  .profile-card {
+    background-color: grey;
+    text-align: center;
+    align-content: center;
+    // box-shadow: rgba(50, 93, 59, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    width: $length-two;
+    height: $length-two;
+    aspect-ratio: 1 / 1;
+    // box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+
+    max-width: 100%;
+    border-radius: 100%;
+  }
+
+  @media screen and (max-width: $breakpoint-tablet) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .profile-card {
+      margin-bottom: 20px;
+      //   width: $length-three;
+      //   height: $length-three;
+      align-content: center;
+    }
+  }
+}
+
+.profile-card {
+  color: darken(#f0f0f0, 5%);
+  .title {
+    font-size: 1.25em;
+    @include setFont("1");
+  }
+  .body {
+    font-size: 1.1em;
+    @include setFont("3");
+  }
+}
+
+.profile-card {
+  &.easy {
+    @include setColor(lighten(#185800, 10%));
+  }
+  &.medium {
+    @include setColor(lighten(#9c8d00, 10%));
+  }
+  &.hard {
+    @include setColor(lighten(#660000, 20%));
+  }
+}
+
+.delete-btn {
+  button {
+    background-color: rgb(214, 31, 44);
+    border: 2px solid darken(rgb(214, 31, 44), 20%);
+    color: white;
+    width: 150px;
+    height: 50px;
+    transition: background-color 2s;
+
+    &:hover {
+      color: white;
+      border: 2px solid darken(rgb(214, 31, 44), 20%);
+      background-color: darken(rgb(214, 31, 44), 20%);
+    }
+
+    &:focus,
+    &:active {
+      color: white;
+      border: 2px solid darken(rgb(214, 31, 44), 20%);
+      background-color: darken(rgb(214, 31, 44), 20%);
+      transition: none;
+    }
+  }
+}

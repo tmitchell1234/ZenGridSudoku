@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+.Profile-UI {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 20% 60% 20%;
+}
+
+.profile-message {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: white;
+  padding: 0.5em;
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 5/1;
+  font-size: 2em;
+  margin-top: 15vh;
+}
+
+.profile-board {
+  width: 80%;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.profile-board .username-title {
+  font-size: 2.7em;
+  width: 100%;
+  height: auto;
+  color: black;
+  font-family: "Kanit", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  text-align: center;
+}
+.profile-board .delete-btn {
+  position: absolute;
+  bottom: 50px;
+}
+@media screen and (max-width: 948px) {
+  .profile-board {
+    justify-content: space-between;
+    height: auto;
+    min-height: 80vh;
+  }
+  .profile-board .username-title {
+    word-break: break-word;
+    font-size: 2.5em;
+  }
+  .profile-board .delete-btn {
+    position: static;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  align-items: center;
+  justify-items: center;
+  grid-auto-rows: 200px;
+  width: 100%;
+  -moz-column-gap: 0.7em;
+       column-gap: 0.7em;
+}
+.profile-grid .profile-card {
+  background-color: grey;
+  text-align: center;
+  align-content: center;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  width: 10em;
+  height: 10em;
+  aspect-ratio: 1/1;
+  max-width: 100%;
+  border-radius: 100%;
+}
+@media screen and (max-width: 948px) {
+  .profile-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .profile-grid .profile-card {
+    margin-bottom: 20px;
+    align-content: center;
+  }
+}
+
+.profile-card {
+  color: #e3e3e3;
+}
+.profile-card .title {
+  font-size: 1.25em;
+  font-family: "Kanit", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+.profile-card .body {
+  font-size: 1.1em;
+  font-family: "Kanit", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.profile-card.easy {
+  background-color: #268b00;
+}
+.profile-card.medium {
+  background-color: #cfbb00;
+}
+.profile-card.hard {
+  background-color: #cc0000;
+}
+
+.delete-btn button {
+  background-color: rgb(214, 31, 44);
+  border: 2px solid #7d121a;
+  color: white;
+  width: 150px;
+  height: 50px;
+  transition: background-color 2s;
+}
+.delete-btn button:hover {
+  color: white;
+  border: 2px solid #7d121a;
+  background-color: #7d121a;
+}
+.delete-btn button:focus, .delete-btn button:active {
+  color: white;
+  border: 2px solid #7d121a;
+  background-color: #7d121a;
+  transition: none;
+}/*# sourceMappingURL=profile.css.map */

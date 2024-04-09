@@ -47,9 +47,9 @@ function LeftPane()
     if(localStorage && localStorage.getItem("user_data")) {
         return(
             <div className="Sidebar">
-                <LandingButton text="🎮 Play" do_on_click={() => routeChange("/")}/>
-                <LandingButton text="📘 About" do_on_click={() => routeChange("/")}/>
-                <LandingButton text="⚙️ Settings" do_on_click={() => routeChange("/")}/>
+                <LandingButton text="🎮 Play" set_path="/" />
+                <LandingButton text="📘 About" set_path="/" />
+                <LandingButton text="⚙️ Profile" set_path="/profilepage" do_on_click={() => routeChange("/profilepage")}/>
                 <button className="Landing-button" onClick={logOut}>🔓 Log Out</button>
 
                 <div className="Landing-Name-Display">
@@ -65,7 +65,7 @@ function LeftPane()
                 <LandingButton text="📝 Sign Up" do_on_click={() => routeChange("/signuppage")}/>
                 <LandingButton text="🔑 Sign In" do_on_click={() => routeChange("/loginpage")}/>
                 <LandingButton text="📘 About" do_on_click={() => routeChange("/")}/>
-                <LandingButton text="⚙️ Settings" do_on_click={() => routeChange("/")}/>
+                <LandingButton text="👤 Profile" do_on_click={() => routeChange("/profilepage")}/>
                 <div style={{marginTop: '30%'}}></div>
 
                 {/*TEST CODE REMOVE LATER*/}
