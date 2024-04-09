@@ -104,6 +104,14 @@ app.post("/api/createuser", async (req, res, next) => {
   try {
     const db = client.db("Sudoku");
 
+    // Check if the email already exists in the database
+    const emailExists = await db.collection("Users").findOne({ Email: email });
+
+    // If the email exists, return an error message
+    if (emailExists) {
+      return res.status(400).json({ message: "Email already exists." });
+    }
+
     // NEW: added verified field, which stores a boolean value.
     // 'verified' will be false at the start, changes when user verifies the account.
     const newUser = { Username: username, Email: email, Password: password, Verified: false };
