@@ -48,7 +48,7 @@ console.log("process.env.EMAIL_PASS = " + process.env.EMAIL_PASS);
 
 
 
-
+/*
 const oauth2Client = new OAuth2(
     process.env.OAUTH_CLIENTID, // ClientID
     process.env.OAUTH_CLIENTSECRET, // client secret
@@ -61,9 +61,10 @@ oauth2Client.setCredentials({
 
 const accessToken = oauth2Client.getAccessToken();
 
+*/
 
 
-
+/*
 var transporter = nodemailer.createTransport({
     service: "gmail",
     //auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
@@ -91,6 +92,7 @@ var mailConfigurations = {
     subject: "ZenGrid Sudoku email verification",
     text: ""
 };
+*/
 
 
 
@@ -148,6 +150,9 @@ app.post("/api/createuser", async (req, res, next) => {
                               `https://sudokuapp-f0e20225784a.herokuapp.com/verificationpage?token=${token}`;
                                //`http://localhost:3000/verificationpage?token=${token}`;
 
+
+
+    /*
     await transporter.sendMail(mailConfigurations, function(error, info) {
         if (error) console.log(error);
         else 
@@ -156,6 +161,7 @@ app.post("/api/createuser", async (req, res, next) => {
             console.log(info);
         }
     });
+    */
 
 
     res.status(200).json(ret);
