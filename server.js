@@ -231,16 +231,6 @@ app.post("/api/verifyUser", async( req, res, next) => {
 
 
 
-app.post("api/checkVerified", async (req, res, next) => {
-
-    // this method should 
-});
-
-
-
-
-
-
 app.post("/api/login", async (req, res, next) => {
   // incoming: login, password
   // outgoing: id, firstName, lastName, error
