@@ -12,7 +12,6 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 
 
-
 const path = require("path");
 const { ObjectId } = require("mongodb");
 const PORT = process.env.PORT || 5000;
@@ -37,54 +36,20 @@ const client = new MongoClient(url);
 client.connect();
 
 
-
 // begin section for nodemailer
+// SENDGRID TESTING:
 
-// test that our environment variables are working
-console.log("process.env.EMAIL_USER = " + process.env.EMAIL_USER);
-console.log("process.env.EMAIL_PASS = " + process.env.EMAIL_PASS);
+console.log("process.env.SENDGRID_API_KEY = " + process.env.SENDGRID_API_KEY);
+console.log("process.env.SENDGRID_PASS = " + process.env.SENDGRID_PASS);
 
-
-
-
-
-/*
-const oauth2Client = new OAuth2(
-    process.env.OAUTH_CLIENTID, // ClientID
-    process.env.OAUTH_CLIENTSECRET, // client secret
-    "https://developers.google.com/oauthplayground" // redirect URL
-)
-
-oauth2Client.setCredentials({
-  refresh_token: process.env.OAUTH_REFRESH_TOKEN
+let transporter = nodemailer.createTransport({
+    host: 'smtp.sendgrid.net',
+    port: 587,
+    auth: {
+      user: "apikey",
+      pass: process.env.SENDGRID_PASS
+    }
 });
-
-const accessToken = oauth2Client.getAccessToken();
-
-*/
-
-
-/*
-var transporter = nodemailer.createTransport({
-    service: "gmail",
-    //auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-
-      // NEW
-      auth: {
-          type: "OAuth2",
-          user: process.env.EMAIL_USER,
-          clientId: process.env.OAUTH_CLIENTID,
-          clientSecret: process.env.OAUTH_CLIENTSECRET,
-          refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-          accessToken: accessToken
-      }
-
-
-      // according to article, we /may/ need the following line:
-      // tls: {
-      //    rejectUnauthorized: false
-      // }
-  });
 
 var mailConfigurations = {
     from: process.env.EMAIL_USER,
@@ -92,7 +57,6 @@ var mailConfigurations = {
     subject: "ZenGrid Sudoku email verification",
     text: ""
 };
-*/
 
 
 
@@ -150,9 +114,6 @@ app.post("/api/createuser", async (req, res, next) => {
                               `https://sudokuapp-f0e20225784a.herokuapp.com/verificationpage?token=${token}`;
                                //`http://localhost:3000/verificationpage?token=${token}`;
 
-
-
-    /*
     await transporter.sendMail(mailConfigurations, function(error, info) {
         if (error) console.log(error);
         else 
@@ -161,9 +122,7 @@ app.post("/api/createuser", async (req, res, next) => {
             console.log(info);
         }
     });
-    */
-
-
+    
     res.status(200).json(ret);
   } catch (e) {
     // return error and code 500 if failed
