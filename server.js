@@ -3,13 +3,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const nodemailer = require("nodemailer");
-const jwt = require("jsonwebtoken");
+// const nodemailer = require("nodemailer");
+// const jwt = require("jsonwebtoken");
 
 
-// NEW in OAuth2 verification: using Google APIs:
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
+// // NEW in OAuth2 verification: using Google APIs:
+// const { google } = require("googleapis");
+// const OAuth2 = google.auth.OAuth2;
 
 
 const path = require("path");
@@ -39,24 +39,24 @@ client.connect();
 // begin section for nodemailer
 // SENDGRID TESTING:
 
-console.log("process.env.SENDGRID_API_KEY = " + process.env.SENDGRID_API_KEY);
-console.log("process.env.SENDGRID_PASS = " + process.env.SENDGRID_PASS);
+// console.log("process.env.SENDGRID_API_KEY = " + process.env.SENDGRID_API_KEY);
+// console.log("process.env.SENDGRID_PASS = " + process.env.SENDGRID_PASS);
 
-let transporter = nodemailer.createTransport({
-    host: 'smtp.sendgrid.net',
-    port: 587,
-    auth: {
-      user: "apikey",
-      pass: process.env.SENDGRID_PASS
-    }
-});
+// let transporter = nodemailer.createTransport({
+//     host: 'smtp.sendgrid.net',
+//     port: 587,
+//     auth: {
+//       user: "apikey",
+//       pass: process.env.SENDGRID_PASS
+//     }
+// });
 
-var mailConfigurations = {
-    from: process.env.EMAIL_USER,
-    to: "",
-    subject: "ZenGrid Sudoku email verification",
-    text: ""
-};
+// var mailConfigurations = {
+//     from: process.env.EMAIL_USER,
+//     to: "",
+//     subject: "ZenGrid Sudoku email verification",
+//     text: ""
+// };
 
 
 
@@ -188,6 +188,27 @@ app.post("/api/verifyUser", async( req, res, next) => {
 
 });
 
+app.delete("/api/deleteuser", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const db = client.db("Sudoku");
+
+    // Delete the user with the specified email
+    const result = await db.collection("Users").deleteOne({ Email: email });
+
+    if (result.deletedCount === 0) {
+      // No user found with the provided email, or no deletion occurred
+      return res.status(404).json({ message: "User not found or already deleted." });
+    }
+
+    // User was found and deleted
+    res.status(200).json({ message: "User deleted successfully." });
+  } catch (e) {
+    console.error('Error deleting user:', e);
+    res.status(500).json({ message: "An error occurred while deleting the user." });
+  }
+});
 
 
 app.post("/api/login", async (req, res, next) => {
