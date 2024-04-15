@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/login.css";
 import Alert from "react-bootstrap/Alert";
@@ -14,6 +14,14 @@ export default function Login() {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    const user = localStorage.getItem("loginDetail");
+
+    if (user) {
+      setInputs(user);
+    }
+  }, []);
 
   const handleEmail = (e) => {
     setInputs({ ...inputs, email: e.target.value });
@@ -47,24 +55,25 @@ export default function Login() {
       let res = JSON.parse(await response.text());
       if (res.message && res.message === "Error: Invalid email/password")
         setShow(true);
-
-      else
-      {
+      else {
         let user = {
           username: res.Username,
-          id: res.id
+          id: res.id,
+          verified: res.Verified,
         };
 
-        console.log("Inside Login.js: user.username = " + user.username + ", user.id = " + user.id);
+        if (user.verified === false) {
+          setShow(true);
+          return;
+        }
+        localStorage.setItem("loginDetail", null);
 
         localStorage.setItem("user_data", JSON.stringify(user));
-        goHome()
+        goHome();
         window.location.reload();
       }
       // navigate("/");
-    }
-    catch (e)
-    {
+    } catch (e) {
       setShow(true);
       alert(e);
     }
@@ -83,7 +92,7 @@ export default function Login() {
           Go Home
         </Button>
         */}
-        
+
         <div className="login-title">Login</div>
 
         <Form className="form">
@@ -105,12 +114,14 @@ export default function Login() {
             />
           </Form.Group>
 
-          <Link className="forgot-pass-link" to="/forgotpasswordpage">Forgot password?</Link>
+          <Link className="forgot-pass-link" to="/forgotpasswordpage">
+            Forgot password?
+          </Link>
 
           {show && (
             <Alert variant="danger" onClose={() => setShow(false)} dismissible>
               <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-              <p>Error: Invalid username/password</p>
+              <p>Error: Account has not yet been verified</p>
             </Alert>
           )}
           <div className="login-page-btn" id="submit-btn">
@@ -147,42 +158,3 @@ export default function Login() {
     </>
   );
 }
-
-// var loginName;
-// var loginPassword;
-
-// const [message,setMessage] = useState('');
-
-// const doLogin = async event =>
-// {
-// 	event.preventDefault();
-
-// 	var obj = {login:loginName.value,password:loginPassword.value};
-// 	var js = JSON.stringify(obj);
-
-// };
-
-// fetch("http://sudokuapp-f0e20225784a.herokuapp.com/api/login", {
-//   method: "POST"
-//   mode: "cors"
-
-//   headers: {
-//     "Content-Type": "application/json",
-
-//   },
-//   body: JSON.stringify({
-//     "login": inputs.email,
-//     "password": inputs.password
-//   }), // body data type must match "Content-Type" header
-// });
-
-// return(
-// 	<div id="loginDiv">
-// 		<form onSubmit={doLogin}>
-// 		<span id="inner title">PLEASE LOG IN</span><br />
-// 		<input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c} /><br />
-// 		<input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
-// 		<input type="submit" id="loginButton" class="buttons" value = "DoIt" onClick={doLogin} />
-// 		</form>
-// 		<span id="loginResult">{message}</span>
-// 	</div>)

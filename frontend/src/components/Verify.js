@@ -14,14 +14,14 @@ export default function Verify()
     let navigate = useNavigate();
 
     const goHome = () => {
-        navigate("/");
+        navigate("/loginpage");
     };
 
     return (
         <div className="verified_text_panel">
             <Form className="form">
                 <p>Your email has been verified! You are now logged in.</p>
-                <Button onClick={goHome}>RETURN TO MAIN PAGE</Button>
+                <Button onClick={goHome}>RETURN TO LOGIN PAGE</Button>
             </Form>
         </div>
     );

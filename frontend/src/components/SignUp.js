@@ -9,15 +9,10 @@ import Popover from "react-bootstrap/Popover";
 import Alert from "react-bootstrap/Alert";
 
 export default function SignUp() {
-  
   let navigate = useNavigate();
 
   const routeChange = () => {
     navigate("/loginpage");
-  };
-
-  const goHome = () => {
-    navigate("/");
   };
 
   const inputRef = useRef(null);
@@ -37,7 +32,6 @@ export default function SignUp() {
 
   // empty class-level request to store and submit new account info
   var request;
-
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickListener);
@@ -79,32 +73,29 @@ export default function SignUp() {
   const handleSubmitBtnClick = (e) => {
     e.preventDefault();
 
-    if (!validPassword)
-    {
+    if (!validPassword) {
       setAlertMessage("Password does not meet security requirements.");
       setShow(true);
-    }
-    else if (inputs.password !== inputs.passwordCheck) {
+    } else if (inputs.password !== inputs.passwordCheck) {
       setAlertMessage("Passwords do not match.");
       setShow(true);
-    }
-    else if(inputs.email === "" || inputs.userName === "")
-    {
+    } else if (inputs.email === "" || inputs.userName === "") {
       setAlertMessage("Input fields required!");
       setShow(true);
-    }
-    else
-    {
+    } else {
       //Fetch API
-      request = { username: inputs.userName, email: inputs.email, password: inputs.password };
-    
+      request = {
+        username: inputs.userName,
+        email: inputs.email,
+        password: inputs.password,
+      };
+
       doCreateAccount();
     }
   };
 
   const doCreateAccount = async () => {
-    try
-    {
+    try {
       const response = await fetch(
         "https://sudokuapp-f0e20225784a.herokuapp.com/api/createuser",
         //"http://localhost:5000/api/createuser",
@@ -121,21 +112,18 @@ export default function SignUp() {
 
       let user = {
         username: res.username,
-        id: res.id
+        id: res.id,
       };
-      
-      console.log("Inside Signup.js: user.username = " + user.username + ", user.id = " + user.id);
-      localStorage.setItem("user_data", JSON.stringify(user));
-      {goHome()}
-      window.location.reload();
 
-    }
-    catch (e)
-    {
+      localStorage.setItem("loginDetail", {email:inputs.email, password: inputs.password});
+      navigate("/loginpage");
+
+      window.location.reload();
+    } catch (e) {
       alert("Account create failed! Check console log");
       console.log(e);
     }
-  }
+  };
 
   return (
     <>
@@ -145,7 +133,7 @@ export default function SignUp() {
             <div className="popover-body">
               <p>Password requirements:</p>
               <ul>
-                {inputs.password.length <= 8 ? (
+                {inputs.password.length < 8 ? (
                   <li>Password should be 8 characters long.</li>
                 ) : (
                   <li style={{ textDecoration: "line-through" }}>
