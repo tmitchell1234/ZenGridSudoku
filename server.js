@@ -54,7 +54,7 @@ let transporter = nodemailer.createTransport({
 var mailConfigurations = {
     from: process.env.EMAIL_USER,
     to: "",
-    subject: "ZenGrid Sudoku email verification",
+    subject: "",
     text: ""
 };
 
@@ -76,6 +76,7 @@ app.post("/api/createuser", async (req, res, next) => {
     // If the email exists, return an error message
     if (emailExists) {
       return res.status(400).json({ message: "Email already exists." });
+      return;
     }
 
     // NEW: added verified field, which stores a boolean value.
@@ -118,6 +119,7 @@ app.post("/api/createuser", async (req, res, next) => {
     console.log("Token is " + token);
   
     // change the email data to send to the user's entered email address
+    mailConfigurations.subject = "ZenGrid Sudoku email verification";
     mailConfigurations.to = email;
     mailConfigurations.text = "Thank you for registering for ZenGrid Sudoku!\n" +
                               "Please click the following link to verify your account:\n" +
@@ -140,6 +142,99 @@ app.post("/api/createuser", async (req, res, next) => {
     var ret = { message: error };
     res.status(500).json(ret);
   }
+});
+
+
+// NEW: Forgot password API: send email with JWT to given email address
+app.post("/api/forgotEmail", async( req, res, next ) => {
+
+    const { email } = req.body;
+
+    try
+    {
+        const db = client.db("Sudoku");
+
+        // first, ensure that the user exists in the Users table
+        const emailExists = await db.collection("Users").findOne({ Email: email });
+
+        if (!emailExists)
+        {
+            res.status(400).json({ message: "Email not in use" });
+            return;
+        }
+
+        // create a JSON web token to send to the user
+        const payload = { email: email };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+          expiresIn: "24h" // give user 24 hours to reset their password
+        });
+
+
+        console.log("Token is: " + token);
+
+        mailConfigurations.subject = "ZenGrid sudoku password reset";
+        mailConfigurations.to = email;
+        mailConfigurations.text = "To reset your password, please visit the following link:\n\n" +
+                                  // `https://sudokuapp-f0e20225784a.herokuapp.com/passwordreset?token=${token}`;
+                                  `http://localhost:5000/passwordreset?token=${token}`;
+
+        // send the email with the JWT
+        await transporter.sendMail(mailConfigurations, function(error, info) {
+          if (error) console.log(error);
+          else 
+          {
+              console.log("Email sent!");
+              console.log(info);
+          }
+      });
+      
+      res.status(200).json({ message: "Forgot password email sent successfully!"});
+    }
+    catch (e)
+    {
+        console.log(e);
+        res.status(500).json({ message: "There was an error sending the forgot password email "});
+    }
+});
+
+
+
+// NEW: Update password: ONLY to be called from passwordreset page, requires signed and verified JWT
+app.post("/api/passwordreset", async( req, res, next) => {
+
+    const { token, newpassword } = req.body;
+
+    try
+    {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        console.log("Decoded is:");
+        console.log(decoded);
+
+        console.log("decoded.email is:");
+        console.log(decoded.email);
+
+        console.log("newpassword is:");
+        console.log(newpassword);
+
+        // find the user in the Users collection
+        const db = client.db("Sudoku");
+
+
+        db.collection("Users").updateOne(
+            { Email: decoded.email },
+            { $set: { Password: newpassword } }
+        );
+
+        res.status(200).json({ message: "Password updated successfully!"});
+    }
+    catch (e)
+    {
+        console.log(e);
+        res.status(500).json({ message: "There was an error resetting the password." });
+    }
+
 });
 
 
