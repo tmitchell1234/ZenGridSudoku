@@ -10,12 +10,57 @@ export default function Profile() {
   useEffect(() => {
     if(localStorage && localStorage.getItem("user_data"))
     {
-      console.log(localStorage.getItem("user_data"));
+      //console.log(localStorage.getItem("user_data"));
+
+      // retrieve localStorage (cookie) data, and parse the email field from it
+      const localStorageData = localStorage.getItem("user_data");
+      const parsedData = JSON.parse(localStorageData);
+      const storedEmail = parsedData.email;
+
+      //console.log("Saved local storage email:");
+      //console.log(storedEmail);
+
+      // now, call the function to do the API call
+      getUserData(storedEmail);
     }
   }, []);
 
-  const getUserData = async () => {
-    // let request = { email: email };
+  const getUserData = async (storedEmail) => {
+    let request = { email: storedEmail };
+    // console.log("inside getUserData, storedEmail = " + storedEmail);
+
+    try
+    {
+      const response = await fetch(
+        "https://sudokuapp-f0e20225784a.herokuapp.com/api/getUserCompletion",
+        {
+          method: "POST",
+          body: JSON.stringify(request),
+  
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      let res = JSON.parse(await response.text());
+
+      console.log(res);
+
+      // update local variables according to response
+      setEasy(res.easy);
+      setMedium(res.medium);
+      setHard(res.hard);
+
+      console.log("After set functions:");
+      console.log("easy = " + easy);
+      console.log("medium = " + medium);
+      console.log("hard = " + hard);
+    }
+    catch (e)
+    {
+      console.log(e);
+    }
+    
+
   };
 
   return (
