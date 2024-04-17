@@ -13,6 +13,7 @@ import VerificationPage from './pages/VerificationPage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import ScrollToTop from './components/ScrollToTop';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import PasswordResetPage from './pages/PasswordResetPage';
 import ProfilePage from './pages/ProfilePage';
 
 function App()
@@ -28,6 +29,7 @@ function App()
 			<Route path="/verificationpage" index element={<VerificationPage/>} />
 			<Route path="/leaderboardpage" index element={<LeaderboardPage/>} />
 			<Route path="/forgotpasswordpage" index element={<ForgotPasswordPage/>} />
+			<Route path="/passwordreset" index element={<PasswordResetPage/>} />
 			<Route path="/profilepage" index element={<ProfilePage/>} />
 		</Routes>
 		</BrowserRouter>

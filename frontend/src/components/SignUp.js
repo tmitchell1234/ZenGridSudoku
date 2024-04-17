@@ -120,7 +120,7 @@ export default function SignUp() {
 
       window.location.reload();
     } catch (e) {
-      alert("Account create failed! Check console log");
+      //alert("Account create failed! Check console log");
       console.log(e);
     }
   };

@@ -176,8 +176,8 @@ app.post("/api/forgotEmail", async( req, res, next ) => {
         mailConfigurations.subject = "ZenGrid sudoku password reset";
         mailConfigurations.to = email;
         mailConfigurations.text = "To reset your password, please visit the following link:\n\n" +
-                                  // `https://sudokuapp-f0e20225784a.herokuapp.com/passwordreset?token=${token}`;
-                                  `http://localhost:5000/passwordreset?token=${token}`;
+                                  `https://sudokuapp-f0e20225784a.herokuapp.com/passwordreset?token=${token}`;
+                                  //`http://localhost:5000/passwordreset?token=${token}`;
 
         // send the email with the JWT
         await transporter.sendMail(mailConfigurations, function(error, info) {
