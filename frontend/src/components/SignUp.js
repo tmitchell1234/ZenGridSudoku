@@ -108,7 +108,7 @@ export default function SignUp() {
       );
 
       let res = JSON.parse(await response.text());
-      if (res.message) alert(res.message);
+      // if (res.message) alert(res.message);
 
       let user = {
         username: res.username,

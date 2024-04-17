@@ -3,13 +3,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-// const nodemailer = require("nodemailer");
-// const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
 
 
 // // NEW in OAuth2 verification: using Google APIs:
-// const { google } = require("googleapis");
-// const OAuth2 = google.auth.OAuth2;
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 
 
 const path = require("path");
@@ -39,24 +39,24 @@ client.connect();
 // begin section for nodemailer
 // SENDGRID TESTING:
 
-// console.log("process.env.SENDGRID_API_KEY = " + process.env.SENDGRID_API_KEY);
-// console.log("process.env.SENDGRID_PASS = " + process.env.SENDGRID_PASS);
+console.log("process.env.SENDGRID_API_KEY = " + process.env.SENDGRID_API_KEY);
+console.log("process.env.SENDGRID_PASS = " + process.env.SENDGRID_PASS);
 
-// let transporter = nodemailer.createTransport({
-//     host: 'smtp.sendgrid.net',
-//     port: 587,
-//     auth: {
-//       user: "apikey",
-//       pass: process.env.SENDGRID_PASS
-//     }
-// });
+let transporter = nodemailer.createTransport({
+    host: 'smtp.sendgrid.net',
+    port: 587,
+    auth: {
+      user: "apikey",
+      pass: process.env.SENDGRID_PASS
+    }
+});
 
-// var mailConfigurations = {
-//     from: process.env.EMAIL_USER,
-//     to: "",
-//     subject: "ZenGrid Sudoku email verification",
-//     text: ""
-// };
+var mailConfigurations = {
+    from: process.env.EMAIL_USER,
+    to: "",
+    subject: "ZenGrid Sudoku email verification",
+    text: ""
+};
 
 
 
@@ -86,12 +86,22 @@ app.post("/api/createuser", async (req, res, next) => {
 
     // return insertedId (or _id) from DB and code 200 if successful
 
-    
     var ret = { username: username, id: result.insertedId };
 
 
-    console.log("\n\nAttempting to send email:");
 
+
+
+    // create an entry in the user_completion table for the new user
+
+    var completion_entry = { email: email, easy: 0, medium: 0, hard: 0};
+
+    const completion_result = await db.collection("user_completion").insertOne(completion_entry);
+
+
+
+
+    //console.log("\n\nAttempting to send email:");
 
     // EMAIL VERIFICATION:
     // send out the email verification here to the specified user on successful account create
@@ -134,7 +144,63 @@ app.post("/api/createuser", async (req, res, next) => {
 
 
 
-// NEW: called from verification page. Verifies user which clicked on the link.
+
+// NEW: Completion API: given user email, update stats in the user_completion table.
+app.post("/api/updateCompletion", async( req, res, next) => {
+
+    const { email, easy, medium, hard } = req.body;
+
+    try
+    {
+        // connect to user_completion table in the DB
+        // find the user by email
+        const db = client.db("Sudoku");
+
+        const result = await db
+            .collection("user_completion")
+            .findOne({ email: email });
+
+        // increment records based on the field passed in
+        if (easy === 1)
+        {
+            console.log("Updating easy");
+
+            db.collection("user_completion").updateOne(
+              { email: email },
+              { $set: { easy: result.easy + 1 } }
+            );
+        }
+        else if (medium === 1)
+        {
+            console.log("Updating medium");
+
+            db.collection("user_completion").updateOne(
+              { email: email },
+              { $set: { medium: result.medium + 1 } }
+            );
+        }
+        else if (hard === 1)
+        {
+            console.log("Updating hard");
+
+            db.collection("user_completion").updateOne(
+              { email: email },
+              { $set: { hard: result.hard + 1 } }
+            );
+        }
+
+        res.status(200).json({ message: "Updated successfully"});
+    }
+    catch (e)
+    {
+        console.log(e);
+        res.status(500).json({ message: "An error occurred while updating user's completion records."});
+    }
+});
+
+
+
+// called from verification page. verifies user which clicked on the link.
 app.post("/api/verifyUser", async( req, res, next) => {
     // const token = req.query.token;
     const { token } = req.body;
@@ -184,6 +250,7 @@ app.post("/api/verifyUser", async( req, res, next) => {
     {
         console.log("Error:");
         console.log(e);
+        res.status(500).json({ message: "An error occurred while verifying the user."});
     }
 
 });

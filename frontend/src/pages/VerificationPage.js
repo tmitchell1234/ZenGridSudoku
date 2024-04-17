@@ -43,7 +43,7 @@ export default function VerificationPage() {
         );
 
         let res = JSON.parse(await response.text());
-        if (res.message) alert(res.message);
+        //if (res.message) alert(res.message);
     }
     
     return <VerificationUI />;
