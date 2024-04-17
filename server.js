@@ -199,6 +199,40 @@ app.post("/api/updateCompletion", async( req, res, next) => {
 });
 
 
+// given email, return table entry for user completion records
+app.post("/api/getUserCompletion", async( req, res, next) => {
+
+    const { email } = req.body;
+
+    try
+    {
+        // connect to user_completion table in the DB
+        // find the user by email
+        const db = client.db("Sudoku");
+
+        const result = await db
+            .collection("user_completion")
+            .findOne({ email: email });
+
+        console.log("Result = ");
+        console.log(result);
+
+        var easy = result.easy;
+        var medium = result.medium;
+        var hard = result.hard;
+
+        var ret = { easy: easy, medium: medium, hard: hard };
+
+        res.status(200).json(ret);
+    }
+    catch (e)
+    {
+        console.log(e);
+        res.status(500).json({ message: "An error occurred while getting user_completion records"});
+    }
+});
+
+
 
 // called from verification page. verifies user which clicked on the link.
 app.post("/api/verifyUser", async( req, res, next) => {
