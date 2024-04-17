@@ -20,7 +20,7 @@ export default function Verify()
     return (
         <div className="verified_text_panel">
             <Form className="form">
-                <p>Your email has been verified! You are now logged in.</p>
+                <p>Your email has been verified! You can now log in.</p>
                 <Button onClick={goHome}>RETURN TO LOGIN PAGE</Button>
             </Form>
         </div>
