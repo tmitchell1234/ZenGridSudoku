@@ -430,6 +430,7 @@ app.post("/api/login", async (req, res, next) => {
     // if login succeeds and user with login/passwrord is found, return the _id, username of user
     var id = results[0]._id;
     var username = results[0].Username;
+    var Email = results[0].Email;
 
 
     // NEW: Return verified status
@@ -437,7 +438,7 @@ app.post("/api/login", async (req, res, next) => {
 
 
     // return id, username, and verified status
-    var ret = { id: id, Username: username, Verified: Verified };
+    var ret = { Email: Email, id: id, Username: username, Verified: Verified };
     res.status(200).json(ret);
   }
   catch (e)

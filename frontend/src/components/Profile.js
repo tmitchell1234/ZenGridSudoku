@@ -1,9 +1,22 @@
 import React, { useReducer } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 export default function Profile() {
   const [easy, setEasy] = useState(0);
   const [medium, setMedium] = useState(0);
   const [hard, setHard] = useState(0);
+
+  // when the page loads, call the completion records API and set the values.
+
+  useEffect(() => {
+    if(localStorage && localStorage.getItem("user_data"))
+    {
+      console.log(localStorage.getItem("user_data"));
+    }
+  }, []);
+
+  const getUserData = async () => {
+    // let request = { email: email };
+  };
 
   return (
     <>

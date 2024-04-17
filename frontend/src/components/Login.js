@@ -56,7 +56,10 @@ export default function Login() {
       if (res.message && res.message === "Error: Invalid email/password")
         setShow(true);
       else {
+
+        // new: save user email for use in profile page
         let user = {
+          email: res.Email,
           username: res.Username,
           id: res.id,
           verified: res.Verified,
