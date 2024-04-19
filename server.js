@@ -1053,8 +1053,8 @@ if (process.env.NODE_ENV === "production") {
 
 // app.listen(5000); // start Node + Express server on port 5000
 
-// app.listen(PORT, () => {
-//   console.log("Server listening on port " + PORT);
-// });
+app.listen(PORT, () => {
+  console.log("Server listening on port " + PORT);
+});
 
 module.exports = app;
