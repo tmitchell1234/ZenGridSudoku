@@ -65,38 +65,15 @@ const boardIsValid = (board) => {
   return isValidConfig(arr, 9);
 };
 
-
 const functions = {
-  boardIsValid: async(number, level) =>{
-    const url = `http://localhost:5000/api/getpuzzle_${level}`;
+  boardIsValid:  (puzzle_string) => {
     let isValid = false;
-    let request = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        puzzle_number: number,
-      }),
-    };
-    await fetch(url, request)
-      .then((response) => response.json())
-      .then((json) => {
-        puzzleString = json.puzzlestring;
-        return puzzleString;
-      }).then((puzzleString)=>{
-      
-        isValid = boardIsValid(puzzleString);
-       
-      });
 
-      return isValid;
+    isValid =  boardIsValid(puzzle_string);
 
-     
-
+    return isValid;
   },
-
-
 };
+
 
 module.exports = functions;

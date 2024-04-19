@@ -30,7 +30,7 @@ const MongoClient = require("mongodb").MongoClient;
 
 const url = process.env.MONGODB_URI;
 
-console.log(url);
+// console.log(url);
 
 const client = new MongoClient(url);
 client.connect();
@@ -39,8 +39,8 @@ client.connect();
 // begin section for nodemailer
 // SENDGRID TESTING:
 
-console.log("process.env.SENDGRID_API_KEY = " + process.env.SENDGRID_API_KEY);
-console.log("process.env.SENDGRID_PASS = " + process.env.SENDGRID_PASS);
+// console.log("process.env.SENDGRID_API_KEY = " + process.env.SENDGRID_API_KEY);
+// console.log("process.env.SENDGRID_PASS = " + process.env.SENDGRID_PASS);
 
 let transporter = nodemailer.createTransport({
     host: 'smtp.sendgrid.net',
@@ -521,6 +521,7 @@ app.post("/api/getpuzzle_easy", async (req, res, next) => {
 
       var ret = { puzzlestring: puzzlestring };
       res.status(200).json(ret);
+   
     } catch (e) {
       // return the error with code 500
       error = e.toString();
@@ -1052,6 +1053,8 @@ if (process.env.NODE_ENV === "production") {
 
 // app.listen(5000); // start Node + Express server on port 5000
 
-app.listen(PORT, () => {
-  console.log("Server listening on port " + PORT);
-});
+// app.listen(PORT, () => {
+//   console.log("Server listening on port " + PORT);
+// });
+
+module.exports = app;
