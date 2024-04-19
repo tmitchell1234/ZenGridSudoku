@@ -15,9 +15,12 @@ import ScrollToTop from './components/ScrollToTop';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import PasswordResetPage from './pages/PasswordResetPage';
 import ProfilePage from './pages/ProfilePage';
-
+import { useEffect } from 'react';
 function App()
-{
+{	useEffect(() => {
+	document.title = "Sudoku App"
+ }, []);
+ 
 	return (
 		<BrowserRouter>
 			<ScrollToTop/>
