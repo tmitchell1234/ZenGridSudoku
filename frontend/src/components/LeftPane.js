@@ -64,7 +64,7 @@ function LeftPane()
                 <LandingButton text="🎮 Play" do_on_click={() => routeChange("/")}/>
                 <LandingButton text="📝 Sign Up" do_on_click={() => routeChange("/signuppage")}/>
                 <LandingButton text="🔑 Sign In" do_on_click={() => routeChange("/loginpage")}/>
-                <LandingButton text="📘 About" do_on_click={() => routeChange("/")}/>
+                <LandingButton text="📘 About" do_on_click={() => routeChange("/about-us")}/>
                 <LandingButton text="👤 Profile" do_on_click={() => routeChange("/profilepage")}/>
                 <div style={{marginTop: '30%'}}></div>
 

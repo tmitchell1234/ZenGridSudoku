@@ -1,0 +1,90 @@
+@import "./_variables.scss";
+
+.AboutUs-UI {
+  display: grid;
+
+  height: 100vh;
+  grid-template-columns: 20% 60% 20%;
+}
+
+
+.title{
+  font-size:clamp(2rem,2.3rem,2.5rem);
+  margin-bottom:15px;
+  @include setFont("1");
+  color: black;
+}
+
+.about-us-section {
+  display: grid;
+  width: 80%;
+  grid-template-columns: repeat(2, minmax(12rem, 1fr));
+  column-gap: 10px;
+
+  @media screen and (max-width: $breakpoint-tablet) {
+    display: flex;
+    flex-direction: column;
+  }
+  .about-card {
+    border: 5px solid white;
+    background-color: rgba(55, 138, 25, 0.9);
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 25px;
+    margin-bottom: 25px;
+
+    div[class^="sub"] {
+      color: white;
+      text-align: center;
+    }
+
+    .sub-title {
+      font-weight: 600;
+      font-size: clamp(1rem, 1.2rem, 1.7rem);
+    }
+
+    .sub-text {
+      font-size: clamp(0.8rem, 1rem, 1.5rem);
+    }
+
+    img {
+      aspect-ratio: 1/1;
+      width: clamp(5rem, 6.5rem, 7rem);
+
+      border-radius: 50%;
+    }
+
+    &:first-child,
+    &:last-child {
+      grid-column-start: 1;
+      grid-column-end: -1;
+    }
+  }
+}
+
+/* .Landing-UI{  
+     display:grid;
+  
+    height:100vh;
+    grid-template-columns: 20% 60% 20%;
+  
+  
+  }
+  
+  .Landing-UI .LeftPane{
+     grid-column: 1/2;
+     grid-row:auto;
+   }
+  
+.Landing-UI .RightPane{
+     grid-column:3/-1;
+   }
+  
+   .Landing-UI .Leaderboard{
+    grid-column: 2/3;
+  }
+   */

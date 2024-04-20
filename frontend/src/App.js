@@ -15,6 +15,7 @@ import ScrollToTop from './components/ScrollToTop';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import PasswordResetPage from './pages/PasswordResetPage';
 import ProfilePage from './pages/ProfilePage';
+import AboutUsPage from './pages/AboutUsPage';
 import { useEffect } from 'react';
 function App()
 {	useEffect(() => {
@@ -34,6 +35,8 @@ function App()
 			<Route path="/forgotpasswordpage" index element={<ForgotPasswordPage/>} />
 			<Route path="/passwordreset" index element={<PasswordResetPage/>} />
 			<Route path="/profilepage" index element={<ProfilePage/>} />
+			<Route path="/about-us" index element={<AboutUsPage/>} />
+
 		</Routes>
 		</BrowserRouter>
 	);

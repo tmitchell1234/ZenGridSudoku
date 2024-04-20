@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+.AboutUs-UI {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 20% 60% 20%;
+}
+
+.title {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+  font-family: "Kanit", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  color: black;
+}
+
+.about-us-section {
+  display: grid;
+  width: 80%;
+  grid-template-columns: repeat(2, minmax(12rem, 1fr));
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+@media screen and (max-width: 948px) {
+  .about-us-section {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.about-us-section .about-card {
+  border: 5px solid white;
+  background-color: rgba(55, 138, 25, 0.9);
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border-radius: 25px;
+  margin-bottom: 25px;
+}
+.about-us-section .about-card div[class^=sub] {
+  color: white;
+  text-align: center;
+}
+.about-us-section .about-card .sub-title {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+.about-us-section .about-card .sub-text {
+  font-size: 1rem;
+}
+.about-us-section .about-card img {
+  aspect-ratio: 1/1;
+  width: 6.5rem;
+  border-radius: 50%;
+}
+.about-us-section .about-card:first-child, .about-us-section .about-card:last-child {
+  grid-column-start: 1;
+  grid-column-end: -1;
+}
+
+/* .Landing-UI{  
+     display:grid;
+
+    height:100vh;
+    grid-template-columns: 20% 60% 20%;
+
+
+  }
+
+  .Landing-UI .LeftPane{
+     grid-column: 1/2;
+     grid-row:auto;
+   }
+
+.Landing-UI .RightPane{
+     grid-column:3/-1;
+   }
+
+   .Landing-UI .Leaderboard{
+    grid-column: 2/3;
+  }
+   *//*# sourceMappingURL=about-us.css.map */
