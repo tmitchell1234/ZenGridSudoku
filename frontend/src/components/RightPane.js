@@ -22,6 +22,7 @@ function RightPane({ updatePuzzleData }) {
 
   function selectPuzzle() {
     setIsSelectPuzzleClicked((prevValue) => !prevValue);
+    routeChange("/");
   }
 
   function setDifficulty(difficulty) {
@@ -123,14 +124,6 @@ function RightPane({ updatePuzzleData }) {
         
       >
         <LandingButton text="🧩 Select Puzzle" do_on_click={selectPuzzle} />
-        <LandingButton
-          text="📅 Daily Puzzle"
-          do_on_click={() => routeChange("/")}
-        />
-        <LandingButton
-          text="🏆 Tournaments"
-          do_on_click={() => routeChange("/")}
-        />
         <LandingButton
           text="🥇 Leaderboard"
           do_on_click={() => routeChange("/leaderboardpage")}

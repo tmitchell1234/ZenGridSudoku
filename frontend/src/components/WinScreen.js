@@ -15,16 +15,13 @@ function WinScreen(props) {
 
     return (
         <div className="outerContainer">
-            <img src={smile} alt="Smiley face" />
 
             <div className="innerContainer">
                 <h2>You Win!</h2>
-                {time_taken.length > 2 ? <h2>Your time: {time_taken}s</h2> : <h2>Your time: {time_taken}</h2>}
-                {logged_in ? <h2>Time saved to profile</h2> : <h2>Log in to save your times</h2>}
+                {time_taken.length > 2 ? <h3>Your time: {time_taken}s</h3> : <h3>Your time: {time_taken}</h3>}
+                {logged_in ? <h3>Time saved to profile</h3> : <h3>Log in to save your times</h3>}
                 <button onClick={handleReload}>Solve Another!</button>
             </div>
-
-            <img src={happyKids} alt="Happy kids" />
 
         </div>
     );

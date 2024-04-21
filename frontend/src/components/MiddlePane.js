@@ -28,187 +28,212 @@ function timeMStoString(timeMS) {
     timeSec -= timeMin * 60;
     let timeHour = Math.floor(timeMin / 60);
     timeMin -= timeHour * 60;
-    if(timeHour > 0) {
-        return String(timeHour) + ":" + String(timeMin).padStart(2, '0') + ":" + String(timeSec).padStart(2, '0') + "." + String(timeMS).slice(0,2);
+    if (timeHour > 0) {
+        return String(timeHour) + ":" + String(timeMin).padStart(2, '0') + ":" + String(timeSec).padStart(2, '0') + "." + String(timeMS).slice(0, 2);
     }
-    else if(timeMin > 0) {
-        return String(timeMin) + ":" + String(timeSec).padStart(2, '0') + "." + String(timeMS).slice(0,2);
+    else if (timeMin > 0) {
+        return String(timeMin) + ":" + String(timeSec).padStart(2, '0') + "." + String(timeMS).slice(0, 2);
     }
-    else if(timeSec > 0) {
+    else if (timeSec > 0) {
         return String(timeSec) + "." + String(timeMS).charAt(0);
     }
     else {
         return "0." + String(timeMS).charAt(0);
     }
-    
-}
 
-// Function to start the timer
-function startTimer() {
-    timeMS = 0;
-  intervalId = setInterval(() => {
-    timeMS += 100; // Increment time by 100 milliseconds
-    timeString = timeMStoString(timeMS);
-    document.getElementById("clockText").innerHTML = timeString;
-  }, 100); // Update every 100 milliseconds
-}
-
-// Function to stop the timer
-function endTimer() {
-  clearInterval(intervalId);
 }
 
 
-function createBoard(difficulty, number) {
-    endTimer();
-    startTimer();
-    
-    // get all sudoku grid cells and update them
-    allCells = document.querySelectorAll('td');
 
-    /*
-        Note to self:
-        We need to make the API request inside here. When I had it separated,
-        this script was running the code in useEffect() first and then sending the API
-        request, meaning puzzleString was undefined when trying to access it
-        inside this useEffect() block.
-    */
 
-    if(number == 0) {
-        number = getRandomInt(1,50);
-    }
-    const data = {
-        puzzle_number: number
-    };
-    
-
-    let request = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    };
-
-    let jsonSample = {
-        json1: "easy",
-        json2: "medium",
-        json3: "hard",
-        json4: "devtest"
-    };
-
-    // let url = 'http://localhost:5000/api/getpuzzle_devtest';
-    // let url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_easy';
-    let url;
-    if(difficulty == jsonSample.json1) {
-        url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_easy';
-    }
-    else if(difficulty == jsonSample.json2) {
-        url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_medium';
-    }
-    else if(difficulty == jsonSample.json3) {
-        url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_hard';
-    }
-    else if(difficulty == jsonSample.json4) {
-        url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_devtest';
-    }
-    else {
-        url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_easy';
-    }
-    
-
-    var puzzleString;
-
-    fetch(url, request)
-        .then(response => response.json())
-        .then(json => {
-            puzzleString = json.puzzlestring;
-            //console.log("puzzleString = " + puzzleString);
-
-            // now that we have puzzleString, populate the table with given data
-            for (var i = 0; i < 81; i++) {
-                if (puzzleString.charAt(i) != "0") {
-                    allCells[i].textContent = puzzleString.charAt(i);
-
-                    // apply new class to make cell gray and not respond to clicks
-                    allCells[i].classList.add('uneditable');
-                    allCells[i].style.backgroundColor = "#aaa"
-
-                    // add that cell's number to the internal board for validation purposes.
-                    // first, get it's integer coordinates:
-                    var y_index = allCells[i].dataset.cellId[0];
-                    var x_index = allCells[i].dataset.cellId[1];
-
-                    var givenNum = parseInt(puzzleString.charAt(i));
-
-                    //console.log("Saving given number " + givenNum + " at coordinates [" + y_index + "][" + x_index + "]" );
-                    board[y_index][x_index] = givenNum;
-                }
-                else {
-                    allCells[i].textContent = "";
-                    allCells[i].classList.remove('uneditable');
-                    var y_index = allCells[i].dataset.cellId[0];
-                    var x_index = allCells[i].dataset.cellId[1];
-                    var givenNum = 0;
-                    board[y_index][x_index] = givenNum;
-                }
-            }
-        });
-}
 
 
 
 function MiddlePane({ puzzleData }) {
     const isFirstRender1 = useRef(true);
+    const [timerHidden, setTimerHidden] = useState(false);
+
     let logged_in;
-    if(localStorage && localStorage.getItem("user_data")) {
+    if (localStorage && localStorage.getItem("user_data")) {
         logged_in = true;
     }
     else {
         logged_in = false;
     }
-    
+
+    let timeMS = 0;
+
+    // Function to start the timer
+    function startTimer() {
+        clearInterval(intervalId); // Clear any existing interval
+        intervalId = setInterval(() => {
+            timeMS += 100; // Increment time by the interval duration
+            timeString = timeMStoString(timeMS)
+            document.getElementById("clockText").innerHTML = timeString;
+        }, 100);
+    }
+
+    // Function to end the timer
+    function endTimer() {
+        clearInterval(intervalId); // Clear the interval to stop the timer
+    }
+
+    function hideTimer() {
+        setTimerHidden(true);
+    }
+
+    function unhideTimer() {
+        setTimerHidden(false);
+    }
+
+
+    function createBoard(difficulty, number) {
+        endTimer();
+        startTimer();
+
+        // get all sudoku grid cells and update them
+        allCells = document.querySelectorAll('td');
+
+        /*
+            Note to self:
+            We need to make the API request inside here. When I had it separated,
+            this script was running the code in useEffect() first and then sending the API
+            request, meaning puzzleString was undefined when trying to access it
+            inside this useEffect() block.
+        */
+
+        if (number == 0) {
+            number = getRandomInt(1, 50);
+        }
+        const data = {
+            puzzle_number: number
+        };
+
+
+        let request = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+
+        let jsonSample = {
+            json1: "easy",
+            json2: "medium",
+            json3: "hard",
+            json4: "devtest"
+        };
+
+        // let url = 'http://localhost:5000/api/getpuzzle_devtest';
+        // let url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_easy';
+        let url;
+        if (difficulty == jsonSample.json1) {
+            url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_easy';
+        }
+        else if (difficulty == jsonSample.json2) {
+            url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_medium';
+        }
+        else if (difficulty == jsonSample.json3) {
+            url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_hard';
+        }
+        else if (difficulty == jsonSample.json4) {
+            url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_devtest';
+        }
+        else {
+            url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/getpuzzle_easy';
+        }
+
+
+        var puzzleString;
+
+        fetch(url, request)
+            .then(response => response.json())
+            .then(json => {
+                puzzleString = json.puzzlestring;
+                //console.log("puzzleString = " + puzzleString);
+
+                // now that we have puzzleString, populate the table with given data
+                for (var i = 0; i < 81; i++) {
+                    if (puzzleString.charAt(i) != "0") {
+                        allCells[i].textContent = puzzleString.charAt(i);
+
+                        // apply new class to make cell gray and not respond to clicks
+                        allCells[i].classList.add('uneditable');
+                        allCells[i].style.backgroundColor = "#aaa"
+
+                        // add that cell's number to the internal board for validation purposes.
+                        // first, get it's integer coordinates:
+                        var y_index = allCells[i].dataset.cellId[0];
+                        var x_index = allCells[i].dataset.cellId[1];
+
+                        var givenNum = parseInt(puzzleString.charAt(i));
+
+                        //console.log("Saving given number " + givenNum + " at coordinates [" + y_index + "][" + x_index + "]" );
+                        board[y_index][x_index] = givenNum;
+                    }
+                    else {
+                        allCells[i].textContent = "";
+                        allCells[i].classList.remove('uneditable');
+                        var y_index = allCells[i].dataset.cellId[0];
+                        var x_index = allCells[i].dataset.cellId[1];
+                        var givenNum = 0;
+                        board[y_index][x_index] = givenNum;
+                    }
+                }
+            });
+    }
+
     // EXPERIMENTAL - getting puzzle data and populating table.
     // Put this somewhere else when we refine this functionality.
 
     // the string of the puzzle is stored in puzzleString.
     // loop through each cell of the grid and populate it with puzzle data.
 
-    
+
 
     // useEffect() instructs React to run this code after it has rendered all objects in the DOM
 
     // isFirstRender stops it from running twice on page start but doesnt work right on live server??? idk
     useEffect(() => {
-        
+
         //CODE FOR LOCAL SERVER (Comment out when pushing)
-        /*
-        if(isFirstRender1.current) {
+
+        if (isFirstRender1.current) {
             isFirstRender1.current = false;
             //This resets renderCount2 every time the page is loaded
             //Fixes issue with page redirection causing a api crash or something idk this code is confusing
-            renderCount2 = 0; 
+            renderCount2 = 0;
             return;
         }
         else {
             createBoard("easy", 0);
         }
-        */
-        
-        
-        
+
+
+
+
 
 
         //CODE FOR LIVE SERVER (Comment out when running locally)
-        
+        /*
         renderCount2 = 0; 
         createBoard("easy", 0);
-        
-        
+        */
 
-        
-        
+
+
+
     }, []); // empty dependency array
+
+
+    useEffect(() => {
+
+        return () => {
+            endTimer();
+        }
+    }, []);
+
 
     const [puzzleCompleted, setPuzzleCompleted] = useState(false);
 
@@ -218,13 +243,13 @@ function MiddlePane({ puzzleData }) {
             const response = await fetch(
                 inputURL,
                 {
-                method: "POST",
-                body: JSON.stringify(inputData),
-                headers: { "Content-Type": "application/json" },
+                    method: "POST",
+                    body: JSON.stringify(inputData),
+                    headers: { "Content-Type": "application/json" },
                 }
             );
             let res = JSON.parse(await response.text());
-            if (res.message) 
+            if (res.message)
                 alert(res.message);
         }
         catch (e) {
@@ -237,7 +262,7 @@ function MiddlePane({ puzzleData }) {
         endTimer();
         setPuzzleCompleted(true);
 
-        if(localStorage && localStorage.getItem("user_data")) {
+        if (localStorage && localStorage.getItem("user_data")) {
             let difficulty = puzzleData.difficulty;
             let jsonDifficulties = {
                 t1: "easy",
@@ -247,7 +272,7 @@ function MiddlePane({ puzzleData }) {
             }
             let url;
             let data;
-            if(difficulty == jsonDifficulties.t1) {
+            if (difficulty == jsonDifficulties.t1) {
                 url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/setusertime_easy';
                 data = {
                     //username: localStorage.getItem("user_data").username,
@@ -256,7 +281,7 @@ function MiddlePane({ puzzleData }) {
                     time_easy: (Math.floor(timeMS / 1000))
                 };
             }
-            else if(difficulty == jsonDifficulties.t2) {
+            else if (difficulty == jsonDifficulties.t2) {
                 url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/setusertime_medium';
                 data = {
                     //username: localStorage.getItem("user_data").username,
@@ -265,7 +290,7 @@ function MiddlePane({ puzzleData }) {
                     time_medium: (Math.floor(timeMS / 1000))
                 };
             }
-            else if(difficulty == jsonDifficulties.t3) {
+            else if (difficulty == jsonDifficulties.t3) {
                 url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/setusertime_hard';
                 data = {
                     //username: localStorage.getItem("user_data").username,
@@ -274,7 +299,7 @@ function MiddlePane({ puzzleData }) {
                     time_hard: (Math.floor(timeMS / 1000))
                 };
             }
-            else if(difficulty == jsonDifficulties.t4) {
+            else if (difficulty == jsonDifficulties.t4) {
                 url = 'https://sudokuapp-f0e20225784a.herokuapp.com/api/setusertime_medium';
                 data = {
                     //username: localStorage.getItem("user_data").username,
@@ -297,7 +322,7 @@ function MiddlePane({ puzzleData }) {
 
     // handle sudoku board logic and updating numbers
     var selectedCell;
-    
+
     // called when clicking on the number menu buttons
     const insertNumber = (number) => {
         // check if there is a selectedCell
@@ -339,7 +364,7 @@ function MiddlePane({ puzzleData }) {
                             //console.log("Congrats, you solved the puzzle!");
                             winEffects();
                         }
-                           
+
                     }
 
                     else {
@@ -349,9 +374,20 @@ function MiddlePane({ puzzleData }) {
 
             }
         }
-        else
-            alert("No currently selected cell!");
     };
+
+
+    function handleKeyPress(event) {
+        const keyCode = event.keyCode || event.which;
+
+        if (keyCode >= 48 && keyCode <= 57) {
+            const numberPressed = keyCode - 48;
+            insertNumber(numberPressed);
+        }
+    }
+
+    // Add an event listener to the window object for the keydown event
+    window.addEventListener("keydown", handleKeyPress);
 
     function highlightAll(number) {
         for (var i = 0; i < 81; i++)
@@ -471,58 +507,66 @@ function MiddlePane({ puzzleData }) {
     }
 
     useEffect(() => {
-        
+
 
         //renderCount is weird, seems like it renders once on page start but twice on local machine???
 
         //CODE FOR LOCAL SERVER (Comment out when pushing)
-        /*
-        renderCount2 ++;
-        if(renderCount2 <= 2) {
+
+        renderCount2++;
+        if (renderCount2 <= 2) {
             return;
         }
-        */
-        
-        
-        
-        
+
+
+
+
+
 
         //CODE FOR LIVE SERVER (Comment out when testing)
-        
+        /*
         renderCount2 ++;
         if(renderCount2 <= 1) {
             return;
         }
-        
-        
-        
-        
-        
-        
+        */
+
+
+
+
+
+
 
         //console.log("createBoard(" + JSON.stringify(puzzleData.difficulty) + ", " + JSON.stringify(puzzleData.number) + ");");
         resetBoard();
         //unHighlightAll();
         createBoard(puzzleData.difficulty, parseInt(puzzleData.number));
-        
+
     }, [puzzleData]);
 
     //HTML STUFF HERE
     return (
         <div className="Middle-pane">
-            {puzzleCompleted === true ? <WinScreen time_taken={timeString} logged_in={logged_in}/> : null}
+            {puzzleCompleted === true && <WinScreen time_taken={timeString} logged_in={logged_in} />}
             <LandingTitle />
-            <div className="clockContainer">
-                <img src={clock}></img>
-                <div className="clockText" id="clockText">0:00.0</div>
-            </div>
+            {!timerHidden ?
+                <div className="clockContainer">
+                    <div className="clockText" id="clockText">0:00.0</div>
+                    <button className="clockButton" onClick={hideTimer}>Hide Timer</button>
+                </div>
+                :
+                <div className="clockContainer">
+                    <div className="clockText" id="clockText" style={{ display: "none" }} >0:00.0</div>
+                    <button className="clockButton" onClick={unhideTimer}>Show Timer</button>
+                </div>
+            }
             <div className="SudokuBoard">
                 <SudokuBoard handleCellClick={selectCell} />
                 <SudokuMenu onButtonClick={insertNumber} />
             </div>
         </div>
     )
-    
+
 };
 
 
