@@ -44,7 +44,7 @@ function RightPane({ updatePuzzleData }) {
       document.getElementById("mediumButton").style.background = "#ABE188";
       document.getElementById("hardButton").style.background = "#80c452";
       document.getElementById("devtestButton").style.background = "#ABE188";
-    } 
+    }
     else if (difficulty == "devtest") {
     puzzleDifficulty = "devtest";
     document.getElementById("easyButton").style.background = "#ABE188";
@@ -121,7 +121,7 @@ function RightPane({ updatePuzzleData }) {
     return (
       <div
         className="Sidebar"
-        
+
       >
         <LandingButton text="🧩 Select Puzzle" do_on_click={selectPuzzle} />
         <LandingButton
