@@ -123,14 +123,14 @@ function RightPane({ updatePuzzleData }) {
         
       >
         <LandingButton text="🧩 Select Puzzle" do_on_click={selectPuzzle} />
-        <LandingButton
+        {/* <LandingButton
           text="📅 Daily Puzzle"
           do_on_click={() => routeChange("/")}
-        />
-        <LandingButton
+        /> */}
+        {/* <LandingButton
           text="🏆 Tournaments"
           do_on_click={() => routeChange("/")}
-        />
+        /> */}
         <LandingButton
           text="🥇 Leaderboard"
           do_on_click={() => routeChange("/leaderboardpage")}
