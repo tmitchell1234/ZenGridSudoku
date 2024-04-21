@@ -198,7 +198,7 @@ function MiddlePane({ puzzleData }) {
     useEffect(() => {
 
         //CODE FOR LOCAL SERVER (Comment out when pushing)
-
+        /*
         if (isFirstRender1.current) {
             isFirstRender1.current = false;
             //This resets renderCount2 every time the page is loaded
@@ -209,6 +209,7 @@ function MiddlePane({ puzzleData }) {
         else {
             createBoard("easy", 0);
         }
+        */
 
 
 
@@ -216,10 +217,10 @@ function MiddlePane({ puzzleData }) {
 
 
         //CODE FOR LIVE SERVER (Comment out when running locally)
-        /*
+        
         renderCount2 = 0; 
         createBoard("easy", 0);
-        */
+        
 
 
 
@@ -512,11 +513,12 @@ function MiddlePane({ puzzleData }) {
         //renderCount is weird, seems like it renders once on page start but twice on local machine???
 
         //CODE FOR LOCAL SERVER (Comment out when pushing)
-
+        /*
         renderCount2++;
         if (renderCount2 <= 2) {
             return;
         }
+        */
 
 
 
@@ -524,12 +526,12 @@ function MiddlePane({ puzzleData }) {
 
 
         //CODE FOR LIVE SERVER (Comment out when testing)
-        /*
+        
         renderCount2 ++;
         if(renderCount2 <= 1) {
             return;
         }
-        */
+        
 
 
 
