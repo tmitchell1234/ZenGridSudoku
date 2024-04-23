@@ -165,13 +165,7 @@ function RightPane({ updatePuzzleData }) {
               >
                 Hard
               </button>
-              <button
-                id="devtestButton"
-                className="selectPuzzleDifficulty"
-                onClick={() => setDifficulty("devtest")}
-              >
-                devtest
-              </button>
+
             </div>
           </div>
 
@@ -184,7 +178,7 @@ function RightPane({ updatePuzzleData }) {
                 onClick={() => setPuzzleNumber("custom")}
               >
                 Custom:
-                <input
+                <input placeholder="1-50"
                   type="text"
                   id="puzzleNumberInput"
                   className="puzzleNumberInput"
