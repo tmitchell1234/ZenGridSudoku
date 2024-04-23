@@ -134,4 +134,13 @@
   border: 2px solid #7d121a;
   background-color: #7d121a;
   transition: none;
+}
+
+.alert .btn-section {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.alert .btn-section button:hover, .alert .btn-section button:active {
+  background-color: #bd2130;
+  border-color: #bd2130;
 }/*# sourceMappingURL=profile.css.map */

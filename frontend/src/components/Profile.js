@@ -1,10 +1,12 @@
 import React, { useReducer } from "react";
 import { useState, useEffect } from "react";
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
 export default function Profile() {
   const [easy, setEasy] = useState(0);
   const [medium, setMedium] = useState(0);
   const [hard, setHard] = useState(0);
-
+  const [show, setShow] = useState(false);
   // when the page loads, call the completion records API and set the values.
 
   useEffect(() => {
@@ -63,6 +65,10 @@ export default function Profile() {
 
   };
 
+  const deleteAccount = ()=>{
+    
+
+  }
   return (
     <>
       {localStorage.getItem("user_data") == null ? (
@@ -90,10 +96,31 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="delete-btn">
-              <button>Delete Account</button>
+           {!show && <div className="delete-btn"  onClick={() => setShow(true)}>
+              <button onClick={deleteAccount}>Delete Account</button>
             </div>
+}
           </div>
+  
+
+          <Alert show={show} variant="danger">
+        <Alert.Heading>Delete Account</Alert.Heading>
+        <p>
+            Are you sure you want to delete this accoount?
+        </p>
+        <hr />
+        <div className="d-flex justify-content-end btn-section">
+        <Button onClick={deleteAccount} variant="danger">
+            Delete
+          </Button>
+          <Button onClick={() => setShow(false)} variant="danger">
+            Close me
+          </Button>
+
+        </div>
+      </Alert>
+
+     
         </>
       )}
     </>

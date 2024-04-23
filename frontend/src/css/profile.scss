@@ -145,3 +145,20 @@
     }
   }
 }
+
+
+.alert{
+  .btn-section{
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    button{
+      &:hover, &:active{
+        background-color: darken(#dc3545, 10%);
+        border-color: darken(#dc3545, 10%);
+
+      }
+    }
+
+  }
+}

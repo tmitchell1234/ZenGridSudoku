@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   let navigate = useNavigate();
   const [show, setShow] = useState(false);
-
+  const[message, setMessage] = useState("");
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
@@ -47,8 +47,11 @@ export default function Login() {
       );
 
       let res = JSON.parse(await response.text());
-      if (res.message && res.message === "Error: Invalid email/password")
+      if (res.message && res.message === "Error: Invalid email/password"){
+
+        setMessage("Error: Invalid email/password");
         setShow(true);
+      }
       else {
 
         // new: save user email for use in profile page
@@ -60,6 +63,7 @@ export default function Login() {
         };
 
         if (user.verified === false) {
+          setMessage("Error: Account has not yet been verified")
           setShow(true);
           return;
         }
@@ -72,7 +76,7 @@ export default function Login() {
       // navigate("/");
     } catch (e) {
       setShow(true);
-      alert(e);
+
     }
   };
 
@@ -118,7 +122,7 @@ export default function Login() {
           {show && (
             <Alert variant="danger" onClose={() => setShow(false)} dismissible>
               <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-              <p>Error: Account has not yet been verified</p>
+              <p>{message}</p>
             </Alert>
           )}
           <div className="login-page-btn" id="submit-btn">
