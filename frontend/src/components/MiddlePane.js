@@ -278,7 +278,7 @@ function MiddlePane({ puzzleData }) {
                 data = {
                     //username: localStorage.getItem("user_data").username,
                     username: JSON.parse(localStorage.getItem("user_data")).username,
-                    puzzle_number: puzzleData.number,
+                    puzzle_number: Number(puzzleData.number),
                     time_easy: (Math.floor(timeMS / 1000))
                 };
             }
@@ -287,7 +287,7 @@ function MiddlePane({ puzzleData }) {
                 data = {
                     //username: localStorage.getItem("user_data").username,
                     username: JSON.parse(localStorage.getItem("user_data")).username,
-                    puzzle_number: puzzleData.number,
+                    puzzle_number:  Number(puzzleData.number),
                     time_medium: (Math.floor(timeMS / 1000))
                 };
             }
@@ -296,7 +296,7 @@ function MiddlePane({ puzzleData }) {
                 data = {
                     //username: localStorage.getItem("user_data").username,
                     username: JSON.parse(localStorage.getItem("user_data")).username,
-                    puzzle_number: puzzleData.number,
+                    puzzle_number: Number(puzzleData.number),
                     time_hard: (Math.floor(timeMS / 1000))
                 };
             }
@@ -305,7 +305,7 @@ function MiddlePane({ puzzleData }) {
                 data = {
                     //username: localStorage.getItem("user_data").username,
                     username: JSON.parse(localStorage.getItem("user_data")).username,
-                    puzzle_number: puzzleData.number,
+                    puzzle_number:  Number(puzzleData.number),
                     time_medium: (Math.floor(timeMS / 1000))
                 };
             }
