@@ -21,6 +21,7 @@ export default function SignUp() {
   const [show, setShow] = useState(false);
 
   const [validPassword, setValidPassword] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
   const [inputs, setInputs] = useState({
@@ -114,11 +115,8 @@ export default function SignUp() {
         username: res.username,
         id: res.id,
       };
+      setShowSuccess(true);
 
-      localStorage.setItem("loginDetail", {email:inputs.email, password: inputs.password});
-      navigate("/loginpage");
-
-      window.location.reload();
     } catch (e) {
       //alert("Account create failed! Check console log");
       console.log(e);
@@ -202,6 +200,12 @@ export default function SignUp() {
             <Alert variant="danger" onClose={() => setShow(false)} dismissible>
               <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
               <p>{alertMessage}</p>
+            </Alert>
+          )}
+          {showSuccess && (
+            <Alert variant="danger" onClose={() => setShowSuccess(false)} dismissible>
+              <Alert.Heading>Email Sent</Alert.Heading>
+              <p>Thank you for signing up! We've sent a confirmation email</p>
             </Alert>
           )}
           <div className="sign-up-btn" id="submit-btn">

@@ -10,161 +10,144 @@ import Popover from "react-bootstrap/Popover";
 import Alert from "react-bootstrap/Alert";
 
 export default function PasswordReset() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const inputRef = useRef(null);
 
-    const inputRef = useRef(null);
+  const [popOver, setPopOver] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [show, setShow] = useState(false);
 
-    const [popOver, setPopOver] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [show, setShow] = useState(false);
+  const [validPassword, setValidPassword] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
-    const [validPassword, setValidPassword] = useState(false);
-    const [alertMessage, setAlertMessage] = useState("");
+  // Testing: setting token = URLparams... inside useEffect doesn't save token data to "token" class variable.
+  // Maybe doing this similar method here will actually save the info?
 
+  const [tokenInput, setToken] = useState("");
 
-    // Testing: setting token = URLparams... inside useEffect doesn't save token data to "token" class variable.
-    // Maybe doing this similar method here will actually save the info?
+  const [inputs, setInputs] = useState({
+    password: "",
+    passwordCheck: "",
+  });
 
-    const [tokenInput, setToken] = useState("");
+  // empty class-level request to store and submit new password info
+  var request;
 
+  var urlParams;
+  //var token;
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickListener);
 
-    const [inputs, setInputs] = useState({
-        password: "",
-        passwordCheck: "",
-    });
+    // on page load, get parse the JWT from the URL parameters
 
-    // empty class-level request to store and submit new password info
-    var request;
+    // get the parameters of the URL
+    urlParams = new URLSearchParams(window.location.search);
+    //token = urlParams.get('token');
 
-    var urlParams;
-    //var token;
+    console.log("urlParams.get('token') = ");
+    console.log(urlParams.get("token"));
 
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickListener);
+    const tokenFromURL = urlParams.get("token");
 
-        // on page load, get parse the JWT from the URL parameters
+    setToken(tokenFromURL);
 
-        // get the parameters of the URL
-        urlParams = new URLSearchParams(window.location.search);
-        //token = urlParams.get('token');
-
-        console.log("urlParams.get('token') = ");
-        console.log(urlParams.get('token'));
-
-        const tokenFromURL = urlParams.get('token');
-
-        setToken( tokenFromURL );
-        
-        return () => {
-            document.removeEventListener("mousedown", handleClickListener);
-        };
-    }, []);
-    
-    // Checks if the password is valid
-    useEffect(() => {
-        if (
-            inputs.password.length >= 8 &&
-            inputs.password !== inputs.password.toLowerCase() &&
-            inputs.password.match(/[|()\\/~^:,;#?!&%$@*+]/) !== null
-        )
-            setValidPassword(true);
-
-        else setValidPassword(false);
-    }, [inputs.password]);
-
-    const handleClickListener = (event) => {
-        let clickedInside = inputRef && inputRef.current.contains(event.target);
-        setPopOver(clickedInside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickListener);
     };
+  }, []);
 
-    const handlePassword = (e) => {
-        setInputs({ ...inputs, password: e.target.value });
-    };
-    
-    const handlePasswordChecker = (e) => {
-        setInputs({ ...inputs, passwordCheck: e.target.value });
-    };
+  // Checks if the password is valid
+  useEffect(() => {
+    if (
+      inputs.password.length >= 8 &&
+      inputs.password !== inputs.password.toLowerCase() &&
+      inputs.password.match(/[|()\\/~^:,;#?!&%$@*+]/) !== null
+    )
+      setValidPassword(true);
+    else setValidPassword(false);
+  }, [inputs.password]);
 
+  const handleClickListener = (event) => {
+    let clickedInside = inputRef && inputRef.current.contains(event.target);
+    setPopOver(clickedInside);
+  };
 
-    const handlePasswordReset = (e) => {
-        e.preventDefault();
+  const handlePassword = (e) => {
+    setInputs({ ...inputs, password: e.target.value });
+  };
 
-        //console.log("Got inside handlePasswordReset");
+  const handlePasswordChecker = (e) => {
+    setInputs({ ...inputs, passwordCheck: e.target.value });
+  };
 
-        if (!validPassword) {
-            console.log("Failed inside !validPassword");
+  const handlePasswordReset = (e) => {
+    e.preventDefault();
 
+    //console.log("Got inside handlePasswordReset");
 
-            setAlertMessage("Password does not meet security requirements.");
-            setShow(true);
-        }
-        else if (inputs.password !== inputs.passwordCheck) {
+    if (!validPassword) {
+      console.log("Failed inside !validPassword");
 
-            console.log("Failed inside 2nd condition");
+      setAlertMessage("Password does not meet security requirements.");
+      setShow(true);
+    } else if (inputs.password !== inputs.passwordCheck) {
+      console.log("Failed inside 2nd condition");
 
-            setAlertMessage("Passwords do not match.");
-            setShow(true);
-        }
-        else if (inputs.password === "" || inputs.passwordCheck === "") {
+      setAlertMessage("Passwords do not match.");
+      setShow(true);
+    } else if (inputs.password === "" || inputs.passwordCheck === "") {
+      console.log("Failed inside 3rd condition");
 
-            console.log("Failed inside 3rd condition");
+      setAlertMessage("Input fields required!");
+      setShow(true);
+    } else {
+      console.log("Got to fetch API part");
+      console.log("tokenInput = " + tokenInput);
 
-            setAlertMessage("Input fields required!");
-            setShow(true);
-        }
-        else {
-            console.log("Got to fetch API part");
-            console.log("tokenInput = " + tokenInput);
+      //Fetch API
+      request = {
+        token: tokenInput,
+        newpassword: inputs.password,
+      };
 
-            //Fetch API
-            request = {
-                token: tokenInput,
-                newpassword: inputs.password,
-            };
+      doPasswordReset();
+    }
+  };
 
-            doPasswordReset();
-        }
-    };
+  const doPasswordReset = async () => {
+    try {
+      //console.log("DEBUGGING: request = ");
+      //console.log(request);
 
-    const doPasswordReset = async() => {
-        try
+      const response = await fetch(
+        "https://sudokuapp-f0e20225784a.herokuapp.com/api/passwordreset",
+        //"http://localhost:5000/api/passwordreset",
         {
-            //console.log("DEBUGGING: request = ");
-            //console.log(request);
+          method: "POST",
+          body: JSON.stringify(request),
 
-            const response = await fetch(
-                "https://sudokuapp-f0e20225784a.herokuapp.com/api/passwordreset",
-                //"http://localhost:5000/api/passwordreset",
-                {
-                  method: "POST",
-                  body: JSON.stringify(request),
-        
-                  headers: { "Content-Type": "application/json" },
-                }
-            );
-
-            let res = JSON.parse(await response.text());
-
-            if (res.message = "Password updated successfully!")
-            {
-                console.log("Verified successful password update!");
-
-                setShowSuccess(true);
-            }
+          headers: { "Content-Type": "application/json" },
         }
-        catch (e)
-        {
-            console.log(e);
-        }
-    };
+      );
 
-    return(
+      let res = JSON.parse(await response.text());
 
-        // borrowing the password requirements overlay from SignUp
-        <>
-        <Overlay placement="left" target={inputRef} show={popOver}>
+      if ((res.message = "Password updated successfully!")) {
+        console.log("Verified successful password update!");
+
+        setShowSuccess(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  return (
+    // borrowing the password requirements overlay from SignUp
+    <>
+      <Overlay placement="left" target={inputRef} show={popOver}>
         <Popover>
           <Popover.Body>
             <div className="popover-body">
@@ -197,50 +180,62 @@ export default function PasswordReset() {
         </Popover>
       </Overlay>
 
-
-        <div className="forget-pass-section">
+      <div className="forget-pass-section">
         <div className="title">Password Reset Form</div>
-        <div className="subtitle">
-            Enter the new password for your account.
-        </div>
-        <Form>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>New Password</Form.Label>
-                <Form.Control type="password"
-                              ref={inputRef}
-                              onChange={handlePassword}
-                              placeholder="New password" />
-            </Form.Group>
+        <div className="subtitle">Enter the new password for your account.</div>
 
-            <Form.Group className="mb-3">
-                <Form.Label>Confirm New Password</Form.Label>
+        <Form className="reset-form">
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>New Password</Form.Label>
+            <Form.Control
+              type="password"
+              ref={inputRef}
+              onChange={handlePassword}
+              placeholder="New password"
+            />
+          </Form.Group>
 
-                <Form.Control
-                    type="password"
-                    onChange={handlePasswordChecker}
-                    placeholder="Confirm password"
-                    
-                />
-            </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Confirm New Password</Form.Label>
+
+            <Form.Control
+              type="password"
+              onChange={handlePasswordChecker}
+              placeholder="Confirm password"
+            />
+          </Form.Group>
         </Form>
 
         {showSuccess && (
-            <Alert variant="success" onClose={() => setShow(false)} dismissible>
-                <Alert.Heading>Password reset successfully!</Alert.Heading>
-                <p>You can now log in with your new password</p>
-            </Alert>
+          <Alert
+            variant="success"
+            onClose={() => setShowSuccess(false)}
+            dismissible
+          >
+            <Alert.Heading>Password reset successfully!</Alert.Heading>
+            <p>You can now log in with your new password</p>
+          </Alert>
         )}
 
         {show && (
-            <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                <p>{alertMessage}</p>
-            </Alert>
+          <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+            <p>{alertMessage}</p>
+          </Alert>
         )}
-      <Button onClick={handlePasswordReset} >Reset Password</Button>
-      <Button onClick = {()=>navigate("/loginpage")}>Back to Log In</Button>
-      <Button onClick={()=>navigate("/")}>Home</Button>
-    </div>
+        <Button onClick={handlePasswordReset} className="navigation-btn">
+          Reset Password
+        </Button>
+        <Button
+          onClick={() => navigate("/loginpage")}
+          className="navigation-btn"
+        >
+          Back to Log In
+        </Button>
+        <Button onClick={() => navigate("/")} className="navigation-btn">
+          Home
+        </Button>
+      </div>
     </>
-    );
+  );
 }

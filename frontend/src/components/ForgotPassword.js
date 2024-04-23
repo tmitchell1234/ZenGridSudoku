@@ -101,9 +101,9 @@ export default function ForgotPassword() {
         </Alert>
       )}
 
-      <Button onClick = {handleSubmit}>Send</Button>
-      <Button onClick = {()=>navigate("/loginpage")}>Back to Log In</Button>
-      <Button onClick = {()=>navigate("/")}>Home</Button>
+      <Button className="navigation-btn" onClick = {handleSubmit}>Send</Button>
+      <Button className="navigation-btn" onClick = {()=>navigate("/loginpage")}>Back to Log In</Button>
+      <Button className="navigation-btn" onClick = {()=>navigate("/")}>Home</Button>
     </div>
   );
 }

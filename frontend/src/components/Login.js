@@ -15,13 +15,7 @@ export default function Login() {
     password: "",
   });
 
-  useEffect(() => {
-    const user = localStorage.getItem("loginDetail");
 
-    if (user) {
-      setInputs(user);
-    }
-  }, []);
 
   const handleEmail = (e) => {
     setInputs({ ...inputs, email: e.target.value });
@@ -69,7 +63,7 @@ export default function Login() {
           setShow(true);
           return;
         }
-        localStorage.setItem("loginDetail", null);
+
 
         localStorage.setItem("user_data", JSON.stringify(user));
         goHome();
