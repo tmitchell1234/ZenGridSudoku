@@ -250,11 +250,35 @@ function MiddlePane({ puzzleData }) {
                 }
             );
             let res = JSON.parse(await response.text());
-            if (res.message)
-                alert(res.message);
+      
         }
         catch (e) {
-            alert("Logging time failed! Check console.");
+            
+            console.log(e);
+        }
+
+        const req = {
+            email: JSON.parse(localStorage.getItem("user_data"))?.email,
+            easy: inputData.time_easy? 1: 0,
+            medium: inputData.time_medium? 1: 0,
+            hard: inputData.time_hard? 1: 0
+        }
+
+        try {
+            const response = await fetch(
+                "https://sudokuapp-f0e20225784a.herokuapp.com/api/updateCompletion",
+                {
+                    method: "POST",
+                    body: JSON.stringify(req),
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+            let res = JSON.parse(await response.text());
+   
+      
+        }
+        catch (e) {
+            
             console.log(e);
         }
     }
