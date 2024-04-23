@@ -1,7 +1,9 @@
 import React, { useReducer } from "react";
 import { useState, useEffect } from "react";
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
+
 export default function Profile() {
   const [easy, setEasy] = useState(0);
   const [medium, setMedium] = useState(0);
@@ -10,8 +12,7 @@ export default function Profile() {
   // when the page loads, call the completion records API and set the values.
 
   useEffect(() => {
-    if(localStorage && localStorage.getItem("user_data"))
-    {
+    if (localStorage && localStorage.getItem("user_data")) {
       //console.log(localStorage.getItem("user_data"));
 
       // retrieve localStorage (cookie) data, and parse the email field from it
@@ -27,18 +28,19 @@ export default function Profile() {
     }
   }, []);
 
+  let navigate = useNavigate();
+
   const getUserData = async (storedEmail) => {
     let request = { email: storedEmail };
     // console.log("inside getUserData, storedEmail = " + storedEmail);
 
-    try
-    {
+    try {
       const response = await fetch(
         "https://sudokuapp-f0e20225784a.herokuapp.com/api/getUserCompletion",
         {
           method: "POST",
           body: JSON.stringify(request),
-  
+
           headers: { "Content-Type": "application/json" },
         }
       );
@@ -56,31 +58,44 @@ export default function Profile() {
       console.log("easy = " + easy);
       console.log("medium = " + medium);
       console.log("hard = " + hard);
-    }
-    catch (e)
-    {
+    } catch (e) {
       console.log(e);
     }
-    
-
   };
 
-  const deleteAccount = ()=>{
-    
+  const deleteAccount = async () => {
+    const request = {
+      email: JSON.parse(localStorage.getItem("user_data"))?.email,
+    };
+    try {
+      const response = await fetch(
+        // "http://localhost:5000/api/deleteuser",
 
-  }
+        "https://sudokuapp-f0e20225784a.herokuapp.com/api/deleteuser",
+        {
+          method: "DELETE",
+          body: JSON.stringify(request),
+
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      localStorage.clear();
+      navigate("/");
+
+      window.location.reload();
+    } catch (e) {}
+  };
   return (
     <>
       {localStorage.getItem("user_data") == null ? (
         <div className="profile-message">Please log in to view this page.</div>
       ) : (
         <>
-
-
           <div className="profile-board">
-          <div className="username-title">
-            {JSON.parse(localStorage.getItem("user_data")).username}'s Profile
-          </div>
+            <div className="username-title">
+              {JSON.parse(localStorage.getItem("user_data")).username}'s Profile
+            </div>
             <div className="profile-grid">
               <div className="profile-card easy">
                 <div className="title">Easy</div>
@@ -96,31 +111,26 @@ export default function Profile() {
               </div>
             </div>
 
-           {!show && <div className="delete-btn"  onClick={() => setShow(true)}>
-              <button onClick={deleteAccount}>Delete Account</button>
-            </div>
-}
+            {!show && (
+              <div className="delete-btn" onClick={() => setShow(true)}>
+                <button>Delete Account</button>
+              </div>
+            )}
           </div>
-  
 
           <Alert show={show} variant="danger">
-        <Alert.Heading>Delete Account</Alert.Heading>
-        <p>
-            Are you sure you want to delete this accoount?
-        </p>
-        <hr />
-        <div className="d-flex justify-content-end btn-section">
-        <Button onClick={deleteAccount} variant="danger">
-            Delete
-          </Button>
-          <Button onClick={() => setShow(false)} variant="danger">
-            Close me
-          </Button>
-
-        </div>
-      </Alert>
-
-     
+            <Alert.Heading>Delete Account</Alert.Heading>
+            <p>Are you sure you want to delete this accoount?</p>
+            <hr />
+            <div className="d-flex justify-content-end btn-section">
+              <Button onClick={deleteAccount} variant="danger">
+                Delete
+              </Button>
+              <Button onClick={() => setShow(false)} variant="danger">
+                Close me
+              </Button>
+            </div>
+          </Alert>
         </>
       )}
     </>
