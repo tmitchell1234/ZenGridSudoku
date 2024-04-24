@@ -5,6 +5,7 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
+import { sha256 } from 'js-sha256';
 
 export default function Login() {
   let navigate = useNavigate();
@@ -32,7 +33,7 @@ export default function Login() {
     navigate("/");
   };
 
-  let request = { email: inputs.email, password: inputs.password };
+  let request = { email: inputs.email, password: sha256(inputs.password) };
 
   const doLogin = async (event) => {
     try {
@@ -53,6 +54,7 @@ export default function Login() {
         setShow(true);
       }
       else {
+        
 
         // new: save user email for use in profile page
         let user = {
