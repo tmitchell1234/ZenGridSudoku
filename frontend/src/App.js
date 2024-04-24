@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './images/logo.png';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -19,7 +19,7 @@ import AboutUsPage from './pages/AboutUsPage';
 import { useEffect } from 'react';
 function App()
 {	useEffect(() => {
-	document.title = "Sudoku App"
+	document.title = "Zengrid Sudoku App"
  }, []);
  
 	return (
