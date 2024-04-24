@@ -20,6 +20,7 @@ import { useEffect } from 'react';
 function App()
 {	useEffect(() => {
 	document.title = "Zengrid Sudoku App"
+	document.logo = logo;
  }, []);
  
 	return (
