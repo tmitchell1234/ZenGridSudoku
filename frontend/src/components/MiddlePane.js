@@ -370,7 +370,12 @@ function MiddlePane({ puzzleData }) {
 
     if (keyCode >= 48 && keyCode <= 57) {
       const numberPressed = keyCode - 48;
-      insertNumber(numberPressed);
+      if(numberPressed === 0) {
+        insertNumber(10);
+      }
+      else {
+        insertNumber(numberPressed);
+      }
     }
   }
 
