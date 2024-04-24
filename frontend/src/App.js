@@ -19,8 +19,7 @@ import AboutUsPage from './pages/AboutUsPage';
 import { useEffect } from 'react';
 function App()
 {	useEffect(() => {
-	document.title = "Zengrid Sudoku App"
-	document.logo = logo;
+	document.title = "Zengrid Sudoku"
  }, []);
  
 	return (

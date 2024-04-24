@@ -202,12 +202,14 @@ function MiddlePane({ puzzleData }) {
         else {
             createBoard("easy", 0);
         }
-        */
+    */
+        
 
     //CODE FOR LIVE SERVER (Comment out when running locally)
-
+    
     renderCount2 = 0;
     createBoard("easy", 0);
+    
   }, []); // empty dependency array
 
   useEffect(() => {
@@ -215,6 +217,7 @@ function MiddlePane({ puzzleData }) {
       endTimer();
     };
   }, []);
+  
 
   const [puzzleCompleted, setPuzzleCompleted] = useState(false);
 
@@ -492,19 +495,22 @@ function MiddlePane({ puzzleData }) {
             return;
         }
         */
+        
 
     //CODE FOR LIVE SERVER (Comment out when testing)
-
+    
     renderCount2++;
     if (renderCount2 <= 1) {
       return;
     }
+    
 
     //console.log("createBoard(" + JSON.stringify(puzzleData.difficulty) + ", " + JSON.stringify(puzzleData.number) + ");");
     resetBoard();
     //unHighlightAll();
     createBoard(puzzleData.difficulty, parseInt(puzzleData.number));
   }, [puzzleData]);
+  
 
   //HTML STUFF HERE
   return (
