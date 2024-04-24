@@ -7,9 +7,8 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 
 
-// // NEW in OAuth2 verification: using Google APIs:
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
+// new: use crypto library for sha256 password hashing
+const { createHash } = require('crypto');
 
 
 const path = require("path");
@@ -79,9 +78,15 @@ app.post("/api/createuser", async (req, res, next) => {
       return;
     }
 
-    // NEW: added verified field, which stores a boolean value.
+
+
+    // hash the password with sha256, store as hexadecimal encoding
+    var hashpassword = createHash('sha256').update(password).digest('hex');
+
+
+    
     // 'verified' will be false at the start, changes when user verifies the account.
-    const newUser = { Username: username, Email: email, Password: password, Verified: false };
+    const newUser = { Username: username, Email: email, Password: hashpassword, Verified: false };
 
     const result = await db.collection("Users").insertOne(newUser);
 
@@ -90,19 +95,12 @@ app.post("/api/createuser", async (req, res, next) => {
     var ret = { username: username, id: result.insertedId };
 
 
-
-
-
     // create an entry in the user_completion table for the new user
 
     var completion_entry = { email: email, easy: 0, medium: 0, hard: 0};
 
     const completion_result = await db.collection("user_completion").insertOne(completion_entry);
 
-
-
-
-    //console.log("\n\nAttempting to send email:");
 
     // EMAIL VERIFICATION:
     // send out the email verification here to the specified user on successful account create
@@ -218,13 +216,18 @@ app.post("/api/passwordreset", async( req, res, next) => {
         console.log("newpassword is:");
         console.log(newpassword);
 
+
+        // hash the password with sha256, store as hexadecimal encoding
+        newpasswordhash = createHash('sha256').update(newpassword).digest('hex');
+
+
         // find the user in the Users collection
         const db = client.db("Sudoku");
 
 
         db.collection("Users").updateOne(
             { Email: decoded.email },
-            { $set: { Password: newpassword } }
+            { $set: { Password: newpasswordhash } }
         );
 
         res.status(200).json({ message: "Password updated successfully!"});
@@ -416,9 +419,14 @@ app.post("/api/login", async (req, res, next) => {
 
   try {
     const db = client.db("Sudoku");
+
+    // hash the password with sha256, store as hexadecimal encoding
+    passwordhash = createHash('sha256').update(password).digest('hex');
+
+
     const results = await db
       .collection("Users")
-      .find({ Email: email, Password: password })
+      .find({ Email: email, Password: passwordhash })
       .toArray();
 
     // check if results is empty, throw error for user not found with code 501

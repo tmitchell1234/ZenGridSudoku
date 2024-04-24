@@ -5,7 +5,6 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
-import { sha256 } from 'js-sha256';
 
 export default function Login() {
   let navigate = useNavigate();
@@ -33,7 +32,7 @@ export default function Login() {
     navigate("/");
   };
 
-  let request = { email: inputs.email, password: sha256(inputs.password) };
+  let request = { email: inputs.email, password: inputs.password };
 
   const doLogin = async (event) => {
     try {

@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import Overlay from "react-bootstrap/Overlay";
 import Popover from "react-bootstrap/Popover";
 import Alert from "react-bootstrap/Alert";
-import { sha256 } from 'js-sha256';
 
 export default function SignUp() {
   let navigate = useNavigate();
@@ -89,7 +88,7 @@ export default function SignUp() {
       request = {
         username: inputs.userName,
         email: inputs.email,
-        password: sha256(inputs.password),
+        password: inputs.password,
       };
 
       doCreateAccount();
