@@ -444,9 +444,17 @@ app.post("/api/login", async (req, res, next) => {
     // NEW: Return verified status
     var Verified = results[0].Verified;
 
+    var tokenContents = { Email: Email, id: id, Username: username, Verified: Verified };
+
+
+    const token = jwt.sign(tokenContents, process.env.JWT_SECRET, {
+      expiresIn: "168h" // give user 24 hours to verify
+    });
+
 
     // return id, username, and verified status
-    var ret = { Email: Email, id: id, Username: username, Verified: Verified };
+    var ret = { token: token, Email: Email, id: id, Username: username, Verified: Verified };
+
     res.status(200).json(ret);
   }
   catch (e)
