@@ -116,7 +116,6 @@ export default function SignUp() {
         id: res.id,
       };
       setShowSuccess(true);
-
     } catch (e) {
       //alert("Account create failed! Check console log");
       console.log(e);
@@ -146,7 +145,7 @@ export default function SignUp() {
                   </li>
                 )}
                 {inputs.password.match(/[|()\\/~^:,;#?!&%$@*+]/) === null ? (
-                  <li>Have at leaste one symbol</li>
+                  <li>Have at least one symbol</li>
                 ) : (
                   <li style={{ textDecoration: "line-through" }}>
                     Have at leaste one symbol.
@@ -203,7 +202,11 @@ export default function SignUp() {
             </Alert>
           )}
           {showSuccess && (
-            <Alert variant="danger" onClose={() => setShowSuccess(false)} dismissible>
+            <Alert
+              variant="danger"
+              onClose={() => setShowSuccess(false)}
+              dismissible
+            >
               <Alert.Heading>Email Sent</Alert.Heading>
               <p>Thank you for signing up! We've sent a confirmation email</p>
             </Alert>
